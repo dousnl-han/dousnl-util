@@ -1,6 +1,6 @@
-package com.dousnl.execl;
+package com.dousnl.utils.execl;
 
-import com.dousnl.execl.freemud.DateUtils;
+import com.dousnl.utils.date.DateUtil;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.util.HSSFColor;
@@ -18,7 +18,6 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -1352,7 +1351,7 @@ public class ExportUtils {
         	sheet.setDefaultColumnWidth((short) 15);
         	// 生成一个样式
         	CellStyle style = workbook.createCellStyle();
-        	
+
         	/**如有特殊样式和字体，可在这里新增或扩展**/
         	// 设置这些样式
         	style.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
@@ -1362,7 +1361,7 @@ public class ExportUtils {
         	style.setBorderRight(HSSFCellStyle.BORDER_THIN);
         	style.setBorderTop(HSSFCellStyle.BORDER_THIN);
         	style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-        	
+
         	// 生成一个字体
         	Font font = workbook.createFont();
         	font.setColor(HSSFColor.BLACK.index);
@@ -1370,7 +1369,7 @@ public class ExportUtils {
         	font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
         	// 把字体应用到当前的样式
         	style.setFont(font);
-        	
+
         	//设置excel第一行头信息显示
         	Row row = sheet.createRow(0);
         	List<String> headerList =headerMap.get(k);
@@ -1380,13 +1379,13 @@ public class ExportUtils {
         		XSSFRichTextString text = new XSSFRichTextString(headerList.get(i));
         		cell.setCellValue(text);
         	}
-        	
+
         	//冻结第一行
         	sheet.createFreezePane(0, 1, 0, 1);
         	CellStyle decimalStyle = workbook.createCellStyle();
         	DataFormat dataFormat = workbook.createDataFormat();
         	decimalStyle.setDataFormat(dataFormat.getFormat("#,##0.00"));
-        	
+
         	List<String> fieldList = fieldMap.get(k);
         	//遍历集合数据，产生数据行
         	Iterator<?> it = v.iterator();

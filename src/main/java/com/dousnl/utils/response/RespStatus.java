@@ -1,4 +1,4 @@
-package com.dousnl.execl.response;
+package com.dousnl.utils.response;
 
 public class RespStatus {
 

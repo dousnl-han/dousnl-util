@@ -1,4 +1,4 @@
-package com.dousnl.execl.freemud;
+package com.dousnl.utils.freemud;
 
 import org.springframework.util.StringUtils;
 
