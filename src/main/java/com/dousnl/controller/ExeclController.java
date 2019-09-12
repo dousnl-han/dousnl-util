@@ -2,11 +2,21 @@ package com.dousnl.controller;
 
 import com.dousnl.domain.User;
 import com.dousnl.execl.ExportUtils;
+import com.dousnl.execl.ImportUtils;
+import com.dousnl.execl.enums.FileType;
 import com.dousnl.execl.freemud.ExcelView;
+import com.dousnl.execl.response.Resp;
 import com.google.common.collect.Lists;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,10 +60,12 @@ public class ExeclController {
     }
 
     /**
+     * 浏览器导出execl
      * public static void exportExcelFlush(String[] headers, Collection<?> contents, String[] fieldsName,
      * boolean hiddenFirst, String exportName, HttpServletRequest request, HttpServletResponse response) throws Exception {
-     *         exportExcelFlush(headers, contents, fieldsName, hiddenFirst, null, exportName, request, response);
-     *     }
+     * exportExcelFlush(headers, contents, fieldsName, hiddenFirst, null, exportName, request, response);
+     * }
+     *
      * @param request
      * @param response
      * @throws Exception
@@ -71,7 +83,64 @@ public class ExeclController {
         User u1 = new User("李四", 20, "上海");
         List<User> list = new ArrayList<User>();
         list.add(u);
-        list.add(u1);String[] filds = {"name", "age", "address"};
+        list.add(u1);
+        String[] filds = {"name", "age", "address"};
         ExportUtils.exportExcelFlush(headers.toArray(new String[headers.size()]), list, filds, false, "测试execl", request, response);
+    }
+
+    /**
+     * 导入execl
+     * @param excelFile
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/imp")
+    public Resp imp(@RequestParam(value = "execlFile") MultipartFile excelFile) throws Exception {
+        try {
+            boolean fileTypeError = FileType.checkExcelType(excelFile);
+            if (!fileTypeError) {
+                return Resp.failed("上传的文件不是Excel");
+            }
+            Workbook book = WorkbookFactory.create(excelFile.getInputStream());
+            Sheet sheet = book.getSheetAt(0);
+            int rowCount = sheet.getLastRowNum();
+            System.out.println("*************导入的excel一共----" + rowCount + "----行记录******");
+            //校验传入文件格式，判断第一行第一列是否名称是否为"房源"
+            String column1 = ImportUtils.getCellValue(sheet.getRow(0).getCell(0));
+            String column2 = ImportUtils.getCellValue(sheet.getRow(0).getCell(1));
+            String column3 = ImportUtils.getCellValue(sheet.getRow(0).getCell(2));
+            String column4 = ImportUtils.getCellValue(sheet.getRow(0).getCell(3));
+            String column5 = ImportUtils.getCellValue(sheet.getRow(0).getCell(4));
+            if (!column1.equals("产品名称(系统中)") || !column2.equals("房号(系统中)")
+                    || !column3.equals("工号") || !column4.equals("姓名")
+                    || !column5.equals("应发奖金(元)")) {
+                return Resp.failed("excel格式不正确！");
+            }
+            if (rowCount < 1) {
+                return Resp.failed("excel没有数据");
+            }
+            importExecl(sheet, rowCount);
+            //return bonusTemplatePointService.importTemplatePoint(sheet);
+            return null;
+
+        } catch (Exception e) {
+            System.out.println("上传异常：" + e);
+            return Resp.failed("上传失败");
+        }
+    }
+
+    private void importExecl(Sheet sheet, int rowCount) {
+        for (int i = 1; i <= rowCount; i++) {
+            Row row = sheet.getRow(i);
+            if (null == row) {
+                continue;
+            }
+            String cellValue = ImportUtils.getCellValue(row.getCell(0));
+            String cellValue1 = ImportUtils.getCellValue(row.getCell(1));
+            String cellValue2 = ImportUtils.getCellValue(row.getCell(2));
+            /**
+             * 以下获取到cell内容实现具体业务
+             */
+        }
     }
 }
