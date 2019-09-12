@@ -1,5 +1,6 @@
 package com.dousnl.execl;
 
+import com.dousnl.execl.freemud.DateUtils;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.util.HSSFColor;
@@ -8,10 +9,14 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.*;
 import org.springframework.util.StringUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -239,6 +244,131 @@ public class ExportUtils {
 
     public static String exportExcel(String[] headers, Collection<?> contents, String[] fieldsName, boolean hiddenFirst, String exportName) throws Exception {
         return exportExcel(headers, contents, fieldsName, hiddenFirst, null, exportName);
+    }
+
+    public static void exportExcelFlush(String[] headers, Collection<?> contents, String[] fieldsName, boolean hiddenFirst, String exportName, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        exportExcelFlush(headers, contents, fieldsName, hiddenFirst, null, exportName, request, response);
+    }
+
+    private static void exportExcelFlush(String[] headers, Collection<?> contents, String[] fieldsName, boolean hiddenFirst, String exportType, String exportName, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String export = null;
+        if (exportType != null) {
+            export = exportType + "_" + exportName;
+        } else {
+            export = exportName;
+        }
+
+        //生成文件名
+        String fileName = export + "_" + DateUtil.formatTime(System.currentTimeMillis(), "yyyyMMddHHmmssSSS") + ".xlsx";
+
+        // 声明一个工作薄
+        //XSSFWorkbook workbook = new XSSFWorkbook();
+        Workbook workbook = null != contents && contents.size() > ROWS ? new SXSSFWorkbook(READROWS) : new XSSFWorkbook();
+        // 生成一个表格
+        Sheet sheet  = workbook.createSheet(export);
+        // 设置表格默认列宽度为15个字节
+        sheet.setDefaultColumnWidth((short) 15);
+
+        //判断是否隐藏第一列
+        if (hiddenFirst) {
+            sheet.setColumnHidden(0, true);
+        }
+        // 生成一个样式
+        CellStyle style = workbook.createCellStyle();
+
+        /**如有特殊样式和字体，可在这里新增或扩展**/
+        // 设置这些样式
+        style.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+        style.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+        style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        style.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        style.setBorderTop(HSSFCellStyle.BORDER_THIN);
+        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+
+        // 生成一个字体
+        Font font = workbook.createFont();
+        font.setColor(HSSFColor.BLACK.index);
+        font.setFontHeightInPoints((short) 12);
+        font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+        // 把字体应用到当前的样式
+        style.setFont(font);
+
+        //设置excel第一行头信息显示
+        Row row = sheet.createRow(0);
+        for (short i = 0; i < headers.length; i++) {
+            Cell cell = row.createCell(i);
+            cell.setCellStyle(style);
+            XSSFRichTextString text = new XSSFRichTextString(headers[i]);
+            cell.setCellValue(text);
+        }
+
+        //冻结第一行
+        sheet.createFreezePane(0, 1, 0, 1);
+        //Font dataFont = workbook.createFont();
+        //dataFont.setFontName("微软雅黑");
+        //dataFont.setFontHeightInPoints((short) 10);
+        //字符串样式
+        CellStyle stringStyle = workbook.createCellStyle();
+        stringStyle.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+        //数字格式化样式
+        CellStyle decimalStyle = workbook.createCellStyle();
+        DataFormat dataFormat = workbook.createDataFormat();
+        decimalStyle.setDataFormat(dataFormat.getFormat("#,##0.00"));
+        decimalStyle.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+        //时间格式化样式
+        CellStyle styleB = workbook.createCellStyle();
+        styleB.setDataFormat(workbook.createDataFormat().getFormat("m/d/yy"));
+        styleB.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+
+
+        //遍历集合数据，产生数据行
+        Iterator<?> it = contents.iterator();
+        int index = 0;
+        while (it.hasNext()) {
+            index++;
+            row = sheet.createRow(index);
+            Object obj = it.next();
+            for (int i = 0; i < fieldsName.length; i++) {
+                Cell cell = row.createCell(i);
+                String getMethodName = "get"
+                        + fieldsName[i].substring(0, 1).toUpperCase()
+                        + fieldsName[i].substring(1);
+                Class<?> tCls = obj.getClass();
+                Method getMethod = tCls.getMethod(getMethodName, new Class[]{});
+                Object value = getMethod.invoke(obj, new Object[]{});
+                /**如获取值比较特殊，可在这里扩展值的转换方法**/
+                if (value == null) {
+                    value = new String("");
+                }
+                if (value instanceof Integer) {
+                    cell.setCellStyle(stringStyle);
+                    cell.setCellValue((Integer) value);
+                } else if (value instanceof BigDecimal) {
+                    if (null != value || value != BigDecimal.ZERO) {
+                        cell.setCellStyle(decimalStyle);
+                        cell.setCellValue(((BigDecimal) value).doubleValue());
+                    } else {
+                        cell.setCellStyle(stringStyle);
+                        cell.setCellValue(0);
+                    }
+                } else if (value instanceof Date) {
+                    cell.setCellStyle(styleB);
+                    cell.setCellValue((Date) value);
+                } else {
+                    XSSFRichTextString richString = new XSSFRichTextString(value.toString());
+                    cell.setCellStyle(stringStyle);
+                    cell.setCellValue(richString);
+                }
+            }
+        }
+        //生成文件夹路径
+        response.setContentType("application/octet-stream; charset=utf-8");
+        response.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(fileName, "UTF-8"));
+        OutputStream ouputStream = response.getOutputStream();
+        workbook.write(ouputStream);
+        ouputStream.flush();
+        ouputStream.close();
     }
 
     /**
