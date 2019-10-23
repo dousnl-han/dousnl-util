@@ -11,6 +11,10 @@ public class User {
     private String name;
     private Integer age;
     private String address;
+    private Object address1;
+
+    public User() {
+    }
 
     public String getName() {
         return name;
@@ -18,6 +22,14 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Object getAddress1() {
+        return address1;
+    }
+
+    public void setAddress1(Object address1) {
+        this.address1 = address1;
     }
 
     public Integer getAge() {
