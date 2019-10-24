@@ -39,4 +39,36 @@ public class RespStatus {
 		this.code = code;
 		this.msg = msg;
 	}
+
+	public static long getCodeSuccessful() {
+		return CODE_SUCCESSFUL;
+	}
+
+	public static String getMsgSuccessful() {
+		return MSG_SUCCESSFUL;
+	}
+
+	public static long getCodeFailed() {
+		return CODE_FAILED;
+	}
+
+	public static String getMsgFailed() {
+		return MSG_FAILED;
+	}
+
+	public static RespStatus getSUCCESSFUL() {
+		return SUCCESSFUL;
+	}
+
+	public static RespStatus getFAILED() {
+		return FAILED;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
 }
