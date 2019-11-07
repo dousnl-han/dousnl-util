@@ -7,10 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -32,6 +29,28 @@ public class ValidController {
     @ApiOperation(value = "车主取消订单接口", notes = "车主取消订单接口")
     @PostMapping(value = "/cancel")
     public Resp tmsPush(@Valid @Validated @RequestBody AdviceCanel canel, BindingResult bindingResult) {
+        Resp resp = Resp.success();
+        if (bindingResult.hasErrors()) {
+            FieldError fieldError = bindingResult.getFieldError();
+            return Resp.failed(fieldError.getField() + ":" + fieldError.getDefaultMessage());
+        }
+//        try{
+//            //JsonMsgBean msgBean = _adviceService.carOwnerCancelAdviceNo(canel);
+//            if (!msgBean.getSuccess()) {
+//                return Resp.failed((String) msgBean.getData());
+//            }
+//        } catch (PushException e) {
+//            logger.error(e.getMessage(), e);
+//            return Resp.failed(e.getMessage());
+//        } catch (Exception e) {
+//            logger.error("维修订单终止失败...", e);
+//            return Resp.failed("维修订单终止失败...");
+//        }
+        return resp;
+    }
+    @ApiOperation(value = "车主取消订单接口", notes = "车主取消订单接口")
+    @GetMapping(value = "/cancel1")
+    public Resp tmsPushCancel(AdviceCanel canel, BindingResult bindingResult) {
         Resp resp = Resp.success();
         if (bindingResult.hasErrors()) {
             FieldError fieldError = bindingResult.getFieldError();

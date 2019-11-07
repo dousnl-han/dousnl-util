@@ -1,6 +1,8 @@
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.dousnl.utils.response.Resp;
 import com.dousnl.utils.response.RespStatus;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -11,7 +13,9 @@ import java.util.concurrent.CountDownLatch;
  * @version 1.0
  * @date 2019/10/23 15:42
  */
+@Slf4j
 public class CountDownTest {
+
 
     private static final CountDownLatch ctl=new CountDownLatch(10);
 
@@ -35,5 +39,9 @@ public class CountDownTest {
         System.out.println("resp:" + JSON.toJSONString(resp));
         Resp r = JSON.parseObject(JSON.toJSONString(resp), Resp.class);
         System.out.println("R:" + JSON.toJSONString(r));
+        JSONObject postData = new JSONObject();
+        postData.put("id", "1111");//TMS订单号
+        postData.put("id2", "21111");//TMS订单号
+        log.info(">>>>>>postData:{}", postData);
     }
 }
