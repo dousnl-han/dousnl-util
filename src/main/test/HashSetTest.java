@@ -1,8 +1,7 @@
 import com.alibaba.fastjson.JSON;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * TODO
@@ -13,28 +12,50 @@ import java.util.Set;
  */
 public class HashSetTest {
 
+     static class ContractEntity{
+        private Date beginDate;
+        private Date endDate;
+
+        public Date getBeginDate() {
+            return beginDate;
+        }
+
+        public void setBeginDate(Date beginDate) {
+            this.beginDate = beginDate;
+        }
+
+        public Date getEndDate() {
+            return endDate;
+        }
+
+        public void setEndDate(Date endDate) {
+            this.endDate = endDate;
+        }
+
+         @Override
+         public String toString() {
+             return super.toString();
+         }
+     }
+
     public static void main(String[] args) {
-        Set<String> set=new HashSet<String>();
-        set.add("a");set.add("c");set.add("b");
-        Set<String> set1=new HashSet<String>();
-        set1.add("a");
-        set.removeAll(set1);
-        System.out.println("set:"+ JSON.toJSONString(set));
-        Integer status=null;
-        status=1;
-        if (1==status){
-            System.out.println("fsfdgg111");
-        }
-        push(status);
-        List<String> list=null;
-        for (String s:list){
-            System.out.println("s:"+s);
-        }
+
+        ContractEntity entity=new ContractEntity();
+        entity.setBeginDate(new Date());
+        entity.setEndDate(new Date());
+        reSetEntityDate(entity);
+
+        System.out.println(JSON.toJSONString(entity));
     }
 
-    private static void push(int status) {
-        if (1==status){
-            System.out.println("sdsdfsd");
+    private static void reSetEntityDate(ContractEntity entity) {
+        try {
+            SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat formatNew=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            entity.setBeginDate(formatNew.parse(format.format(entity.getBeginDate())+" 00:00:00"));
+            entity.setEndDate(formatNew.parse(format.format(entity.getEndDate())+" 23:59:59"));
+        }catch (Exception e){
+            throw new RuntimeException("合同日期有误....");
         }
     }
 }

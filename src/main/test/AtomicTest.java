@@ -1,3 +1,6 @@
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.concurrent.CountDownLatch;
 
@@ -17,12 +20,14 @@ public class AtomicTest {
         map.put("seq", 0);
     }
 
-    static int seq = 0;
-    private static final CountDownLatch ctl = new CountDownLatch(10);
-    public static void main(String[] args) throws InterruptedException {
+    private static int seq = 0;
+
+    private static final CountDownLatch ctl = new CountDownLatch(100);
+
+    public static void main(String[] args) throws InterruptedException, UnsupportedEncodingException {
 
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -37,6 +42,14 @@ public class AtomicTest {
         }
         ctl.await();
         System.out.println("最终seq:" + seq);
+        String password="123456";
+        String encode1 = Base64.getEncoder().encodeToString(password.getBytes("UTF-8"));
+        System.out.println("ec:"+encode1);
+        byte[] dncode = Base64.getDecoder().decode(encode1);
+        String s = new String(dncode,Charset.forName("UTF-8"));
+        System.out.println("pass:"+s);
+        System.out.println("pass:"+s);
+
 
     }
 }

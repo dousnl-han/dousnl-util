@@ -42,6 +42,9 @@ public class CountDownTest {
         JSONObject postData = new JSONObject();
         postData.put("id", "1111");//TMS订单号
         postData.put("id2", "21111");//TMS订单号
+        if (false||true){
+            System.out.println("sadfafdf");
+        }
         log.info(">>>>>>postData:{}", postData);
     }
 }
