@@ -9,6 +9,7 @@ import java.lang.reflect.Method;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,9 +23,9 @@ import java.util.stream.Collectors;
 public class InstofTest {
 
     public static void main(String[] args) throws Exception {
-        BigInteger bi=new BigInteger("4");
-        BigInteger bi1=new BigInteger("6");
-        System.out.println(bi.divide(bi1));
+        HashMap<String,String> areaMap=new HashMap<String,String>();
+        areaMap.put("",null);
+        System.out.println(JSON.toJSONString(areaMap));
     }
 
     private static <T> void push(T u) {

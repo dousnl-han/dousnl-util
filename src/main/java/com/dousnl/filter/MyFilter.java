@@ -41,7 +41,7 @@ public class MyFilter implements Filter {
             chain.doFilter(request,response);
             return;
         }
-        System.out.println("......requestURI:"+requestURI);
+        //System.out.println("......requestURI:"+requestURI);
         chain.doFilter(request,response);
     }
 
