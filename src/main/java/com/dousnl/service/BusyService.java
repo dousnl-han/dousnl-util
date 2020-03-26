@@ -20,7 +20,7 @@ public class BusyService {
         log.info(name);
         String s = "Hello,"+name+"!";
         //模拟耗时操作，5秒
-        Thread.sleep(5000);
+        Thread.sleep(1000);
         return CompletableFuture.completedFuture(s);
     }
 }

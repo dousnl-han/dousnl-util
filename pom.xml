@@ -12,7 +12,7 @@
   <groupId>com.dousnl</groupId>
   <artifactId>dousnl-util</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <packaging>war</packaging>
+  <packaging>jar</packaging>
 
   <name>dousnl-util</name>
   <url>http://www.example.com</url>
@@ -121,6 +121,12 @@
       <version>2.2.4</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.apache.lucene</groupId>
+      <artifactId>lucene-core</artifactId>
+      <version>4.0.0</version>
+    </dependency>
+
   </dependencies>
 
   <build>
@@ -139,6 +145,39 @@
           <target>8</target>
         </configuration>
       </plugin>
+       <plugin>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-maven-plugin</artifactId>
+         <configuration>
+            <fork>true</fork>
+            <mainClass>com.dousnl.DousnlUtilApplication</mainClass>
+         </configuration>
+         <executions>
+             <execution>
+                 <goals>
+                     <goal>repackage</goal>
+                 </goals>
+             </execution>
+         </executions>
+      </plugin>
+
+      <!--计算对象大小-第二种方式，此处先注释掉，需要测试时再放开-->
+      <!--<plugin>-->
+        <!--<artifactId>maven-jar-plugin</artifactId>-->
+        <!--<version>2.4</version>-->
+        <!--<configuration>-->
+          <!--<finalName>ObjectSize</finalName>-->
+          <!--<archive>-->
+            <!--<manifestEntries>-->
+              <!--<Premain-class>com.dousnl.utils.ObjectSize</Premain-class>-->
+              <!--<Boot-Class-Path></Boot-Class-Path>-->
+              <!--<Can-Redefine-Classes>false</Can-Redefine-Classes>-->
+            <!--</manifestEntries>-->
+            <!--<addMavenDescriptor>false</addMavenDescriptor>-->
+          <!--</archive>-->
+        <!--</configuration>-->
+      <!--</plugin>-->
+
     </plugins>
   </build>
 </project>

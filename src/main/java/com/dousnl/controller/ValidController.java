@@ -97,10 +97,6 @@ public class ValidController {
         DataPairParams<PrivatePileData> data=JSON.parseObject(str,DataPairParams.class);
 
         redisTemplate.opsForValue().set("pile",JSON.toJSONString(data));
-//        for(PrivatePile pile:data.getSupperManagerDataParams().getData().getPrivatePileData()){
-//            redisTemplate.opsForHash().put("key-sup",pile.getProvinceCode(),pile);
-//            redisTemplate.opsForHash().put("key-sup",pile.getCityCode(),pile);
-//        }
         System.out.println(">>>>>>>>>>>>>>>获取私桩分布数据");
     }
 
@@ -138,7 +134,6 @@ public class ValidController {
         supper.setData(newp);
         data.setSupperManagerDataParams(supper);
 
-        //System.out.println(">>>>>>>>>>>>省份信息："+JSON.toJSONString(o));
         System.out.println(">>>>>>>>>>>>>>>获取私桩分布数据");
         return JSON.toJSONString(data);
     }
