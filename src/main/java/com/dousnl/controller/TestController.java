@@ -25,24 +25,36 @@ import java.util.List;
 @RequestMapping("/test")
 public class TestController {
 
+    /**
+     * //计算指定对象及其引用树上的所有对象的综合大小，单位字节
+     * long RamUsageEstimator.sizeOf(Object obj)
+     *
+     * //计算指定对象本身在堆空间的大小，单位字节
+     * long RamUsageEstimator.shallowSizeOf(Object obj)
+     *
+     * //计算指定对象及其引用树上的所有对象的综合大小，返回可读的结果，如：2KB
+     * String RamUsageEstimator.humanSizeOf(Object obj)
+     *
+     * @param num
+     * @return
+     */
     @ApiOperation(value = "车主取消订单接口", notes = "车主取消订单接口")
     @GetMapping(value = "/v1")
     public String v2(@RequestParam("num") Integer num) {
         User u=new User(1 + "", 1, 1 + "");
         String l = RamUsageEstimator.humanSizeOf(u);
         System.out.println("user 大小："+l);
-        List<User> list = new ArrayList<User>();
-        long is=0;
+        List<User> list = new ArrayList<User>(99915);
         for (int i = 0; i < num; i++) {
-            if (i==1) {
-                is=RamUsageEstimator.sizeOf(i);
-                System.out.println("i长度：" + is);
+            if (i==99910) {
+                System.out.println("i长度：" + RamUsageEstimator.humanSizeOf(i));
             }
             list.add(new User(i + "", i, i + ""));
         }
         System.out.println("list长度：" + list.size());
-        System.out.println("is 大小字节"+Double.valueOf((is*list.size())/1024));
+        //大约产生10m内存---RamUsageEstimator.humanSizeOf(list)
         System.out.println("list大小字节：" + RamUsageEstimator.humanSizeOf(list));
+        //99911-----大约15.5m内存
         return "v1 seccuss..";
     }
 
