@@ -41,6 +41,7 @@ public class TestController {
     @ApiOperation(value = "车主取消订单接口", notes = "车主取消订单接口")
     @GetMapping(value = "/v1")
     public String v2(@RequestParam("num") Integer num) {
+        long start=System.currentTimeMillis();
         User u=new User(1 + "", 1, 1 + "");
         String l = RamUsageEstimator.humanSizeOf(u);
         System.out.println("user 大小："+l);
@@ -55,7 +56,8 @@ public class TestController {
         //大约产生10m内存---RamUsageEstimator.humanSizeOf(list)
         System.out.println("list大小字节：" + RamUsageEstimator.humanSizeOf(list));
         //99911-----大约15.5m内存
-        return "v1 seccuss..";
+        long end=System.currentTimeMillis();
+        return "v1 seccuss...."+(end-start)+"ms";
     }
 
     /**

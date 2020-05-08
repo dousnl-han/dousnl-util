@@ -1,6 +1,8 @@
 package com.dousnl.controller;
 
 import com.dousnl.domain.User;
+import com.dousnl.service.BusyService;
+import com.dousnl.service.ContstructService;
 import com.dousnl.utils.enums.FileType;
 import com.dousnl.utils.execl.ExportUtils;
 import com.dousnl.utils.execl.ImportUtils;
@@ -12,9 +14,12 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -35,6 +40,25 @@ import java.util.Map;
 @RequestMapping("/execl")
 public class ExeclController {
 
+    @Value("${server.port}")
+    private String port;
+
+    @Autowired
+    private ContstructService contstructService;
+    @Autowired
+    private BusyService busyService;
+
+    @RequestMapping("/xp3")
+    @ResponseBody
+    public String xp3(HttpServletRequest request,HttpServletResponse response) {
+        return ">>>>>>"+port+"端口";
+    }
+
+    @RequestMapping("/xp22")
+    public void xp1() throws Exception {
+        System.out.println(">>>>>>>>>>>>execl.contstructService.busyService>>>>>"+contstructService.getBusyService().toString());
+        System.out.println(">>>>>>>>>>>>execl.busyService>>>>>"+busyService.toString());
+    }
 
     @RequestMapping("/xp")
     @Deprecated

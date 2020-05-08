@@ -15,5 +15,7 @@ public class ListEqTest {
     public static void main(String[] args) {
         long l = System.currentTimeMillis();
         System.out.println(l);
+        String str="AIZZ1DC900000012";
+        System.out.println("leg:"+str.length());
     }
 }

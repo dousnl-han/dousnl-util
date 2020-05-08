@@ -14,7 +14,7 @@ import java.io.IOException;
  * @version 1.0
  * @date 2019/10/30 13:46
  */
-@Component
+//@Component
 public class MySecondFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

@@ -1,6 +1,7 @@
 import com.alibaba.fastjson.JSON;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
  * @date 2019/11/11 15:53
  */
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class Apple {
     private Integer id;
