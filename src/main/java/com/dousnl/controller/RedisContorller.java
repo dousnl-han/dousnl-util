@@ -1,12 +1,12 @@
 package com.dousnl.controller;
 
+import com.dousnl.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.DefaultTypedTuple;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -38,6 +38,24 @@ public class RedisContorller {
         System.out.println("num-getAndSet:"+redisTemplate.opsForValue().get("num"));
 
         System.out.println("num.size:"+redisTemplate.opsForValue().size("num"));
+
+        User u=new User("zhang",18,"shangh");
+        User u1=new User("li",19,"beij");
+        List<User> list=new ArrayList<>();
+        list.add(u1);list.add(u1);
+        redisTemplate.opsForValue().set("userlist",list);
+        List<User> list1 = (List<User>) redisTemplate.opsForValue().get("userlist");
+        System.out.println(list1.toString());
+
+        Object id = redisTemplate.opsForValue().get("source_event:activity_id");
+        if (id!=null){
+            id = redisTemplate.opsForValue().increment("source_event:activity_id", 1);
+        }else{
+            //操作数据库，设置id
+            redisTemplate.opsForValue().set("source_event:activity_id",1);
+        }
+        System.out.println("=====id:"+id);
+
     }
 
     @RequestMapping("/list")

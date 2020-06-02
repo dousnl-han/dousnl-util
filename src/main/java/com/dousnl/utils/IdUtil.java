@@ -83,6 +83,8 @@ public class IdUtil {
 
         System.out.println(uniqueId);
 
+        System.out.println(UUID.randomUUID().toString().replace("-",""));
+        System.out.println(UUID.randomUUID().toString().replace("-",""));
         System.out.println(5.5/2);
         Long dt = System.currentTimeMillis();
         String dateString = dt.toString();
