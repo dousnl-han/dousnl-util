@@ -14,18 +14,10 @@ import java.util.List;
 public class AnnontionTypeTest {
 
     public static void main(String[] args) {
-        Class<Apple> appleClass = Apple.class;
-        System.out.println(appleClass.getName());
-        int h = "s".hashCode();
-        System.out.println(h ^ (h >>> 16));
-        HashMap<String, List<String>> map= Maps.newHashMap();
-        map.put("1",Arrays.asList("a","b"));
-        map.put("2",Arrays.asList("c","d"));
-        List<String> remove = map.remove("1");
-        System.out.println(remove);
-        System.out.println(map);
-        for(int i=0;i<5;i++){
-            System.out.println(i);
-        }
+        User u=new User();
+        u.setName("zzz");
+        String aa=u.getName();
+        aa="bb";
+        System.out.println(u);
     }
 }

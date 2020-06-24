@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dousnl.mapper.SourceEventVersionMapper" >
+  <resultMap id="BaseResultMap" type="com.dousnl.domain.fdds.dto.SourceEventVersionDTO">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="tid" jdbcType="VARCHAR" property="tid" />
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="fk_event_tid" jdbcType="VARCHAR" property="fkEventTid" />
+    <result column="publish_status" jdbcType="INTEGER" property="publishStatus" />
+    <result column="publish_record" jdbcType="INTEGER" property="publishRecord" />
+    <result column="publish_time" jdbcType="TIMESTAMP" property="publishTime" />
+    <result column="publisher" jdbcType="VARCHAR" property="publisher" />
+    <result column="version_url" jdbcType="VARCHAR" property="versionUrl" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="context" jdbcType="LONGVARCHAR" property="context" />
+  </resultMap>
+
+    <select id="getSourceEventInfo" resultType="com.dousnl.domain.fdds.dto.SourceEventInfoDTO">
+      SELECT
+        e.tid as tid,
+        e.name as name,
+        e.status as status,
+        e.start_time as startTime,
+        e.end_time as endTime,
+        e.bussiness_name as bussinessName,
+        e.channel_id as channelId,
+        v.version_url as versionUrl,
+        v.context as context
+      FROM
+          t_source_event e
+      LEFT JOIN t_source_event_version v ON e.tid = v.fk_event_tid
+      WHERE e.activity_id = #{activityId}
+      <if test="id==null or id==0">
+        and v.publish_status = 1
+      </if>
+      <if test="id!=null and id!=0">
+        and v.id=#{id}
+      </if>
+    </select>
+
+</mapper>

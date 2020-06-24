@@ -1,5 +1,6 @@
 package com.dousnl.utils.freemud;
 
+import com.dousnl.utils.IntegerEncryptTool;
 import org.apache.commons.codec.binary.Hex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,5 +90,24 @@ public class EncryptHelper {
             LOGGER.error("Decrypt error.", e);
             return null;
         }
+    }
+
+    public static void main(String[] args) {
+        String str="FEfp88PC7E4n2eDx06q";
+        long start = System.currentTimeMillis();
+        String encrypt = EncryptHelper.getInstance().encrypt(str);
+        System.out.println(encrypt);
+        String decrypt = EncryptHelper.getInstance().decrypt(encrypt);
+        System.out.println(decrypt);
+        System.out.println((System.currentTimeMillis()-start)+"ms");
+
+        long start1 = System.currentTimeMillis();
+        String encrypt1 = IntegerEncryptTool.encrypt(1114);
+        System.out.println(encrypt1);
+        int decrypt1 = IntegerEncryptTool.decrypt(encrypt1);
+        System.out.println(decrypt1);
+        System.out.println((System.currentTimeMillis()-start1)+"ms");
+
+        System.out.println(1<<3);
     }
 }

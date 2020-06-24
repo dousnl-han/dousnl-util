@@ -1,5 +1,10 @@
 package com.dousnl.utils;
 
+import com.dousnl.domain.User;
+import com.google.common.collect.Lists;
+
+import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -74,22 +79,10 @@ public class IntegerEncryptTool {
     }
 
     public static void main(String[] args) {
-        String encrypt = encrypt(5);
-        int decrypt = decrypt(encrypt);
-        System.out.println(encrypt);
-        System.out.println(decrypt);
-        String url="http://rds-d.dushu.io/compose-orch/sourceurl/?activityId=";
-        String encrypt1 = IntegerEncryptTool.encrypt(1);
-        url+=encrypt1+"&id=";
-        System.out.println(url);
-        String encrypt2 = IntegerEncryptTool.encrypt(2);
-        url+=encrypt2;
-        System.out.println(url);
-
-        int decrypt1 = decrypt("tkkt7swkkk99kzzw");
-        System.out.println(decrypt1);
-
-        String encrypt3 = IntegerEncryptTool.encrypt(24);
-        System.out.println(encrypt3);
+        String str="cpwcZ4Pjh9gCIILq5xVhIdyjpXTfU0fWPCizqMLp8sB4tjA9mRrh49YSQECK/3NJiAACClswK2caL3D3sUFYyO5vl08akfVx67UH0lPR1GrUJotnTVaWSBZRJKS1XovYlu+qAJ/WlhAYP6hvOSUtjhkkYkNXnWWroeCU51wVuXw=";
+        List<String> list= Lists.newArrayList();
+        list.forEach(e->{
+            System.out.println(">>>>>>>>>>>"+e);
+        });
     }
 }

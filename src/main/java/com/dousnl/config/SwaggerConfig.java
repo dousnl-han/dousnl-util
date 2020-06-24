@@ -26,7 +26,7 @@ public class SwaggerConfig {
 		tokenPar.name("Cookie").description("Cookie")
 				.modelRef(new ModelRef("string"))
 				.parameterType("header")
-				.required(true)
+				.required(false)
 				.build();
 		List<Parameter> pars = new ArrayList<Parameter>();
 		pars.add(tokenPar.build());

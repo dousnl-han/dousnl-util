@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * TODO
  *
@@ -12,6 +16,24 @@ public class ConstructClass {
         Class<?> construct = Class.forName("Construct");
         Object instance =  construct.newInstance();
         System.out.println(instance);
+        List<String> list = null;
+        User u = null;
+        try{
+            u=new User();
+            list=Arrays.asList("1");
+        }catch (Exception e){
+
+        }
+        u.getAge();
+        list.get(0);
+        Integer i=null;
+        if (1>0){
+            list=new ArrayList<String>();
+            list.add("1");
+            i=1;
+        }
+        System.out.println(list);
+        System.out.println(i);
     }
 
 

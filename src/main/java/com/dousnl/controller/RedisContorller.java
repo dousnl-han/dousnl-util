@@ -42,8 +42,9 @@ public class RedisContorller {
         User u=new User("zhang",18,"shangh");
         User u1=new User("li",19,"beij");
         List<User> list=new ArrayList<>();
-        list.add(u1);list.add(u1);
+        list.add(u);list.add(u1);
         redisTemplate.opsForValue().set("userlist",list);
+        Object userlist = redisTemplate.opsForValue().get("userlist");
         List<User> list1 = (List<User>) redisTemplate.opsForValue().get("userlist");
         System.out.println(list1.toString());
 

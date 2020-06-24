@@ -1,16 +1,23 @@
 package com.dousnl.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.dousnl.domain.User;
+import com.dousnl.domain.entity.UserEntity;
+import com.dousnl.service.UserService;
 import com.dousnl.utils.ObjectSize;
+import com.dousnl.utils.fdds.SoybeanRequestWrapper;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.util.RamUsageEstimator;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 计算对象大小第一种方式---maven-pom文件增加 lucene-core  ---对应方法v1
@@ -21,10 +28,13 @@ import java.util.List;
  * @version 1.0
  * @date 2020/3/24 9:59
  */
+@Slf4j
 @RestController
 @RequestMapping("/test")
 public class TestController {
 
+    @Autowired
+    private UserService userService;
     /**
      * //计算指定对象及其引用树上的所有对象的综合大小，单位字节
      * long RamUsageEstimator.sizeOf(Object obj)
@@ -86,4 +96,41 @@ public class TestController {
         System.out.println("list大小字节：" + ObjectSize.getSizeOf(list));
         return "v2 seccuss..";
     }
+
+
+    @PostMapping("v100/uploadImage")
+    @ResponseBody
+    public String uploadImage(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws UnsupportedEncodingException {
+        SoybeanRequestWrapper requestWrapper = (SoybeanRequestWrapper)request;
+        String body = requestWrapper.getBody();
+        Pattern URL_PATTERN = Pattern.compile("http[s]?://[A-Za-z.-]+\\.dushu\\.io/[a-zA-Z0-9-_/.]+(\\?contentType=[a-zA-Z0-9%/-]+)?");
+        Matcher matcher = URL_PATTERN.matcher(body);
+        String fileName = file.getOriginalFilename();
+        return fileName;
+    }
+
+    @GetMapping("v100/user")
+    @ResponseBody
+    public List<UserEntity> listUser() {
+        return userService.listUserEntity();
+    }
+
+    @GetMapping("v100/adduser")
+    public void adduser() {
+        userService.addUser();
+    }
+
+    @PostMapping("v100/getuser")
+    @ResponseBody
+    public String getuser(@RequestBody User vo) {
+        log.info(">>>>>>user:{}", vo);
+        try {
+            int i = 1 / 0;
+        } catch (Exception e) {
+            log.error(">>>>>>>>user:{}", vo, e);
+        }
+        return "success";
+    }
+
+
 }
