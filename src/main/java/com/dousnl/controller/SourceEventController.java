@@ -1,7 +1,7 @@
 package com.dousnl.controller;
 
-import com.dousnl.domain.fdds.SourceEventInfoVO;
-import com.dousnl.domain.fdds.SourceInfoParamVO;
+import com.alibaba.fastjson.JSON;
+import com.dousnl.domain.fdds.*;
 import com.dousnl.domain.fdds.dto.SourceEventInfoDTO;
 import com.dousnl.mapper.SourceEventVersionMapper;
 import com.dousnl.utils.IntegerEncryptTool;
@@ -11,10 +11,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
+import java.util.Objects;
 
 /**
  * TODO
@@ -64,5 +64,49 @@ public class SourceEventController {
             e.printStackTrace();
         }
         return null;
+    }
+
+
+    @PostMapping("/v100/addSourceEvent")
+    @ApiOperation(value = "活动新增", notes = "活动新增")
+    public String addSourceEvent(@RequestBody SourceEventVO vo) {
+        log.debug("=========活动容器添加参数，vo={}", vo);
+        vo.setStatus(1);
+        vo.setActivityType(1);
+        log.info(">>>>>>>before:>>addSourceEvent:{}",vo);
+        assignCreateByAndUpdateBy(vo, "hanliang");
+        try {
+            log.info(">>>>>>>after:>>>addSourceEvent:{}",vo);
+        } catch (Exception e) {
+            log.error("=========活动新增失败，vo={}", vo, e);
+        }
+        return "新增成功";
+    }
+
+    @PostMapping("/v100/copySourceEvent")
+    @ApiOperation(value = "活动新增", notes = "活动新增")
+    public String copySourceEvent(@RequestBody SourceEventCopyVO vo) {
+        log.debug("=========活动容器添加参数，vo={}", vo);
+        vo.setStatus(1);
+        vo.setActivityType(1);
+        log.info(">>>>>>>before:>>copySourceEvent:{}", JSON.toJSONString(vo));
+        assignCreateByAndUpdateBy(vo, "hanliang");
+        try {
+            log.info(">>>>>>>af:>>copySourceEvent:{}", JSON.toJSONString(vo));
+            log.info(">>>>>>>after:>>>copySourceEvent:{},vo.createBy:{},vo.updateBy:{},vo.createTime:{}",vo,vo.getCreateBy(),vo.getUpdateBy(),vo.getCreateTime());
+        } catch (Exception e) {
+            log.error("=========活动新增失败，vo={}", vo, e);
+        }
+        return "新增成功";
+    }
+
+    private void assignCreateByAndUpdateBy(Object vo, String username) {
+        Date date = new Date();
+        if (vo instanceof BaseCreateUserVO) {
+            ((BaseCreateUserVO) vo).setCreateBy(username);
+            ((BaseCreateUserVO) vo).setUpdateBy(username);
+            ((BaseCreateUserVO) vo).setCreateTime(date);
+            ((BaseCreateUserVO) vo).setUpdateTime(date);
+        }
     }
 }
