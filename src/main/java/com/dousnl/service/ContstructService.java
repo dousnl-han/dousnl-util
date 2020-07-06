@@ -18,12 +18,6 @@ public class ContstructService {
     @Autowired
     private BusyService busyService;
 
-//    public ContstructService() {
-//    }
-//
-//    public ContstructService(BusyService age) {
-//        this.busyService = age;
-//    }
     @PostConstruct
     public void DP(){
         System.out.println(">>>>>>>>>>>ContstructService>>>>"+this.toString());

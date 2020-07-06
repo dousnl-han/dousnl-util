@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,10 +13,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.*;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -39,16 +43,16 @@ public class DousnlUtilApplication {
         SpringApplication.run(DousnlUtilApplication.class, args);
     }
 
-    @Bean
-    public Executor taskExecutor(){
-        ThreadPoolTaskExecutor executor=new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(3);
-        executor.setMaxPoolSize(3);
-        executor.setQueueCapacity(500);
-        executor.setThreadNamePrefix("synce1--");
-        executor.initialize();
-        return executor;
-    }
+//    @Bean
+//    public Executor taskExecutor(){
+//        ThreadPoolTaskExecutor executor=new ThreadPoolTaskExecutor();
+//        executor.setCorePoolSize(3);
+//        executor.setMaxPoolSize(3);
+//        executor.setQueueCapacity(500);
+//        executor.setThreadNamePrefix("synce1--");
+//        executor.initialize();
+//        return executor;
+//    }
 
     @RequestMapping("/test")
     public String test() throws InterruptedException, ExecutionException {
@@ -99,4 +103,5 @@ public class DousnlUtilApplication {
         //经过压测工具对比，GenericJackson2JsonRedisSerializer，性能最好
         return redisTemplate;
     }
+
 }
