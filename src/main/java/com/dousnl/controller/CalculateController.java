@@ -2,6 +2,7 @@ package com.dousnl.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.dousnl.domain.User;
+import com.dousnl.exception.MyException;
 import com.dousnl.service.UserService;
 import com.dousnl.strategy.CalculateOpertionContext;
 import com.dousnl.strategy.CalculateStrategy;
@@ -36,6 +37,22 @@ public class CalculateController {
     @GetMapping(value = "/async")
     public String async() throws InterruptedException {
         User user = userService.getUser();
+        return "success";
+    }
+
+    @GetMapping(value = "/ex")
+    public String ex() {
+        int i=1/0;
+        return "success";
+    }
+
+    @GetMapping(value = "/myex")
+    public String myex() {
+        try {
+            int i = 1 / 0;
+        } catch (Exception e) {
+            throw new MyException("9999", e.getMessage());
+        }
         return "success";
     }
 }
