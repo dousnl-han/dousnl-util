@@ -2,16 +2,17 @@ package com.dousnl.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.dousnl.domain.User;
+import com.dousnl.domain.fdds.SourceEventCopyVO;
 import com.dousnl.exception.MyException;
 import com.dousnl.service.UserService;
 import com.dousnl.strategy.CalculateOpertionContext;
 import com.dousnl.strategy.CalculateStrategy;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * TODO
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @version 1.0
  * @date 2020/6/30 14:54
  */
+@Slf4j
 @RestController
 public class CalculateController {
 
@@ -28,7 +30,7 @@ public class CalculateController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/operation")
+    @GetMapping(value = "/operation")
     public String calculate(@RequestParam("mode") String mode){
         CalculateStrategy calculateStrategy = calculateOpertionContext.selectStrategy(mode);
         return calculateStrategy != null ? String.valueOf(calculateStrategy.doOperation(20, 5)) : "无匹配的策略";
@@ -52,6 +54,17 @@ public class CalculateController {
             int i = 1 / 0;
         } catch (Exception e) {
             throw new MyException("9999", e.getMessage());
+        }
+        return "success";
+    }
+
+
+    @PostMapping(value = "/valid")
+    public String valid(@RequestBody SourceEventCopyVO vo) {
+        log.info(">>>>>>>>>valid vo:{}",vo);
+        vo=null;
+        if (vo!=null && vo.getActivityId()>0){
+            System.out.println("valid is null...");
         }
         return "success";
     }
