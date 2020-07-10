@@ -186,6 +186,13 @@
       <artifactId>druid</artifactId>
       <version>${com.alibaba.druid.version}</version>
     </dependency>
+
+    <!--<dependency>-->
+      <!--<groupId>com.github.binarywang</groupId>-->
+      <!--<artifactId>weixin-java-mp</artifactId>-->
+      <!--<version>3.8.0</version>-->
+    <!--</dependency>-->
+
   </dependencies>
 
   <build>

@@ -1,7 +1,6 @@
 import com.alibaba.fastjson.JSON;
 import com.dousnl.domain.User;
 import com.dousnl.domain.UserDto;
-import com.dousnl.utils.beans.BeanCopierUtils;
 import com.dousnl.utils.beans.BeanCopyUtil;
 import org.springframework.util.StringUtils;
 
