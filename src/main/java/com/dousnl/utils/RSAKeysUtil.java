@@ -1,8 +1,10 @@
-package com.dousnl.utils.fdds;
+package com.dousnl.utils;
 
 import com.alibaba.druid.util.Base64;
+import io.swagger.models.auth.In;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import javax.crypto.Cipher;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
@@ -213,6 +215,9 @@ public class RSAKeysUtil {
         String str="NdochBwAilT88VKk/oNhHob85tsF2IDi3ydtSsLTVsgHy63HNk0SJrH+aXO6C7it0/PKd3mITRBv4PbD5SCUqkATX3+XwVPTdeu6M85qY6n6ESEdrHc6TVz0NSzAYsWKS1+gNJeWrlZ9zPI1c22JZbBSJU/eoOBws3Nd5yJPf44=";
         String decrypt = RSAKeysUtil.decrypt(str);
         System.out.println(decrypt);
-
+        Integer type=1;
+        if (type.equals(1)){
+            System.out.println("11111111111111");
+        }
     }
 }

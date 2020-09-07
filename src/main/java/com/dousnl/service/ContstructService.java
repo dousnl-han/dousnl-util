@@ -13,7 +13,7 @@ import javax.annotation.PreDestroy;
  * @date 2020/4/18 11:29
  */
 @Service
-public class ContstructService {
+public class ContstructService extends CommonService{
 
     @Autowired
     private BusyService busyService;
