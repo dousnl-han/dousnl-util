@@ -2,6 +2,7 @@ package com.dousnl.controller;
 
 import com.dousnl.domain.User;
 import com.dousnl.domain.entity.UserEntity;
+import com.dousnl.service.ContstructService;
 import com.dousnl.service.UserService;
 import com.dousnl.utils.ObjectSize;
 import com.dousnl.utils.fdds.SoybeanRequestWrapper;
@@ -11,6 +12,7 @@ import org.apache.lucene.util.RamUsageEstimator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import tk.mybatis.mapper.entity.Example;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
@@ -35,6 +37,8 @@ public class TestController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private ContstructService contstructService;
     /**
      * //计算指定对象及其引用树上的所有对象的综合大小，单位字节
      * long RamUsageEstimator.sizeOf(Object obj)
@@ -132,5 +136,9 @@ public class TestController {
         return "success";
     }
 
-
+    @GetMapping("/v100/getUserById")
+    @ResponseBody
+    public List<UserEntity> getUserById(Integer id) throws InterruptedException {
+        return contstructService.getUserById(id);
+    }
 }
