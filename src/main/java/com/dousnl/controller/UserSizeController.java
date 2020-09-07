@@ -33,7 +33,7 @@ import java.util.regex.Pattern;
 @Slf4j
 @RestController
 @RequestMapping("/test")
-public class TestController {
+public class UserSizeController {
 
     @Autowired
     private UserService userService;
