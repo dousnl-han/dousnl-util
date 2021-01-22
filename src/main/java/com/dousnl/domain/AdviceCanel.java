@@ -1,7 +1,9 @@
 package com.dousnl.domain;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 
@@ -13,13 +15,13 @@ import javax.validation.constraints.NotNull;
  * @date 2019/10/21 10:00
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class AdviceCanel {
 
     @ApiModelProperty(value = "订单编码")
-    @NotNull
     private String adviceNo;
 
     @ApiModelProperty(value = "终止原因备注")
-    @NotNull
     private String breakRemark;
 }

@@ -31,5 +31,11 @@ public class OptionalTest {
         Optional<User> op = Optional.of(new User(null, 11, 11, false));
         String str = "";
         //System.out.println(str+op.map(User::getName).orElse(""));
+        //System.out.println(Optional.of(null));
+        String s = Optional.ofNullable(null).map(o -> o.toString()).orElse(null);
+        OpalModel model=new OpalModel();
+        model.setChild(new OpalModelChild());
+        Integer add = Optional.ofNullable(model).map(o -> o.getChild()).map(o -> o.getAdd()).orElse(null);
+        System.out.println(add);
     }
 }

@@ -82,8 +82,7 @@ public class IntegerEncryptTool {
         //String str="NdochBwAilT88VKk/oNhHob85tsF2IDi3ydtSsLTVsgHy63HNk0SJrH+aXO6C7it0/PKd3mITRBv4PbD5SCUqkATX3+XwVPTdeu6M85qY6n6ESEdrHc6TVz0NSzAYsWKS1+gNJeWrlZ9zPI1c22JZbBSJU/eoOBws3Nd5yJPf44=";
         //System.out.println(decrypt(str));
         System.out.println(decrypt("7u1bkfdvf12wyh9k"));
-        System.out.println(encrypt(1026538707));
-        String str="a";
-        System.out.println(str.concat("fsfsd"));
+        System.out.println(encrypt(336));
+        System.out.println("a".concat("fsfsd"));
     }
 }

@@ -1,12 +1,18 @@
 package com.dousnl.controller;
 
+import com.dousnl.domain.AdviceCanel;
 import com.dousnl.domain.User;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.DefaultTypedTuple;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -24,7 +30,7 @@ public class RedisContorller {
     @Autowired
     private RedisTemplate redisTemplate;
 
-    @RequestMapping("/string")
+    @RequestMapping(value = "/string",method = RequestMethod.GET)
     public void xp1() throws Exception {
         redisTemplate.opsForValue().set("num",23);
         Object num = redisTemplate.opsForValue().get("num");
@@ -59,7 +65,7 @@ public class RedisContorller {
 
     }
 
-    @RequestMapping("/list")
+    @RequestMapping(value = "/list",method = RequestMethod.GET)
     public void list() throws Exception {
         Long num = redisTemplate.opsForList().size("list");
         System.out.println(num);
@@ -67,7 +73,7 @@ public class RedisContorller {
         redisTemplate.opsForList().leftPush("list", "c++");
         Long aLong = redisTemplate.opsForList().leftPush("list", "pyphon");
         System.out.println(aLong);
-        List list = redisTemplate.opsForList().range("list", 0, -1);
+        List list = redisTemplate.opsForList().range("list11111", 0, -1);
         redisTemplate.delete("list");
         System.out.println(list.toString());
 
@@ -93,9 +99,22 @@ public class RedisContorller {
         System.out.println(leftPop);
         List listarLeftPop = redisTemplate.opsForList().range("list-a-r", 0, -1);
         System.out.println(listarLeftPop);
+
+        User user=new User("1",1,"1");
+        User user1=new User("2",2,"2");
+        List listUser= Lists.newArrayList();
+        listUser.add(user);listUser.add(user1);
+        List<User> list2 = redisTemplate.opsForList().range("list-a-user", 0, -1);
+        if (CollectionUtils.isEmpty(list2)){
+            redisTemplate.opsForList().rightPushAll("list-a-user",listUser);
+            redisTemplate.expire("list-a-user",10,TimeUnit.SECONDS);
+        }
+        List<User> list1 = redisTemplate.opsForList().range("list-a-user", 0, -1);
+        System.out.println(list1);
+
     }
 
-    @RequestMapping("/hash")
+    @RequestMapping(value = "/hash",method = RequestMethod.GET)
     public void hash() throws Exception {
         redisTemplate.opsForHash().put("user","name","zhangsan");
         redisTemplate.opsForHash().put("user","age","21");
@@ -113,10 +132,16 @@ public class RedisContorller {
         System.out.println(user21.toString());
     }
 
-    @RequestMapping("/set")
+    @RequestMapping(value = "/set",method = RequestMethod.GET)
     public void set() throws Exception {
+        redisTemplate.delete("set:aaa:1");
+        redisTemplate.delete("set");
         String[] str=new String[]{"zhangsan","lisi","wangwu","zhaoliu","111","234","567"};
         redisTemplate.opsForSet().add("set", str);
+
+        String[] str2=new String[]{"zhangsan","lisi","46645"};
+        redisTemplate.opsForSet().add("set", str2);
+
         Set set = redisTemplate.opsForSet().members("set");
         System.out.println(set);
         Object pop1 = redisTemplate.opsForSet().pop("set");
@@ -133,7 +158,19 @@ public class RedisContorller {
         System.out.println(set2);
     }
 
-    @RequestMapping("/zset")
+    @RequestMapping(value = "/setDel",method = RequestMethod.GET)
+    public void setDel() throws Exception {
+        redisTemplate.opsForSet().add("set1:AA:BB"+1, "2");
+        redisTemplate.opsForSet().add("set1:AA:CC"+1, "3");
+        redisTemplate.opsForSet().add("set1:AA:DD"+1, "3");
+        redisTemplate.opsForSet().add("set1:AA:DD"+1, "4");
+        redisTemplate.delete("set1:AA:BB"+1);
+        redisTemplate.delete("set1:AA:CC"+1);
+        redisTemplate.delete("set1:AA:BB"+2);
+        redisTemplate.delete("set1:AA:ff"+1);
+    }
+
+    @RequestMapping(value = "/zset",method = RequestMethod.GET)
     public void zset() throws Exception {
         redisTemplate.opsForZSet().add("zset","111",1);
         redisTemplate.opsForZSet().add("zset","222",3);
@@ -166,4 +203,16 @@ public class RedisContorller {
         redisTemplate.opsForZSet().removeRange("zset",1,2);
         System.out.println("removeRange:"+redisTemplate.opsForZSet().range("zset", 0, -1).toString());
     }
+
+    @GetMapping("/get")
+    public void get(AdviceCanel adviceCanel) {
+        System.out.println(adviceCanel);
+        System.out.println(adviceCanel);
+    }
+    @GetMapping("/incm")
+    public void incm() {
+        System.out.println(redisTemplate.opsForValue().get("incm"));
+        redisTemplate.opsForValue().increment("incm",1);
+    }
+
 }

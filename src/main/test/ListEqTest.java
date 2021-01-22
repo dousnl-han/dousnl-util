@@ -1,6 +1,7 @@
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.CollectionUtils;
 
@@ -55,11 +56,19 @@ public class ListEqTest {
         log.error("count:{}",u);
 
         List<Integer> list1 = new ArrayList<>();
-        list1.add(1);
+        Integer y=null;
+        for (int j=0;j<13;j++){
+            list1.add(j);
+            y=j;
+            final Integer o=j;
+            System.out.println(o);
+        }
+        System.out.println(list1);
 
-        List<Integer> list2 = list1.stream().filter(e->e.intValue()==2).collect(Collectors.toList());
-
-        snsAccountAddInfoList(list2);
+        //List<Integer> list2 = list1.stream().filter(e->e.intValue()==2).collect(Collectors.toList());
+        System.out.println(list1.subList(0,6));
+        System.out.println(list1.subList(6,list1.size()));
+        //snsAccountAddInfoList(list2);
 
 
         //System.out.println(list2);
