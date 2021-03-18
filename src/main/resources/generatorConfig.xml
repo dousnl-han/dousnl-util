@@ -27,6 +27,6 @@
 
     <javaClientGenerator targetPackage="com.dousnl.mapper" targetProject="target"  type="XMLMAPPER" />
 
-    <table tableName="t_config" domainObjectName="Config"></table>
+    <table tableName="t_advert_image" domainObjectName="AdvertImageDTO"></table>
   </context>
 </generatorConfiguration>

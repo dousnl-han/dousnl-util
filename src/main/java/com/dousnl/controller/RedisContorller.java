@@ -1,7 +1,11 @@
 package com.dousnl.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.dousnl.domain.AdviceCanel;
 import com.dousnl.domain.User;
+import com.dousnl.domain.entity.AdvertImageDTO;
+import com.dousnl.mapper.AdvertImageDTOMapper;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.DefaultTypedTuple;
@@ -10,11 +14,16 @@ import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * TODO
@@ -29,6 +38,8 @@ public class RedisContorller {
 
     @Autowired
     private RedisTemplate redisTemplate;
+    @Autowired
+    private AdvertImageDTOMapper advertImageDTOMapper;
 
     @RequestMapping(value = "/string",method = RequestMethod.GET)
     public void xp1() throws Exception {
@@ -62,7 +73,14 @@ public class RedisContorller {
             redisTemplate.opsForValue().set("source_event:activity_id",1);
         }
         System.out.println("=====id:"+id);
-
+        redisTemplate.opsForValue().set("config:banner:group:showLimit_businessActivity",null);
+        Integer showLimit = (Integer) redisTemplate.opsForValue().get("config:banner:group:showLimit_businessActivity");
+        System.out.println("showLimit:"+showLimit);
+        if (Objects.isNull(showLimit)) {
+            redisTemplate.opsForValue().set("config:banner:group:showLimit_businessActivity", 10, 10, TimeUnit.MINUTES);
+        }
+        showLimit = (Integer) redisTemplate.opsForValue().get("config:banner:group:showLimit_businessActivity");
+        System.out.println("showLimit:"+showLimit);
     }
 
     @RequestMapping(value = "/list",method = RequestMethod.GET)
@@ -215,4 +233,48 @@ public class RedisContorller {
         redisTemplate.opsForValue().increment("incm",1);
     }
 
+    @GetMapping("/image")
+    public void image(String group) {
+        Example example=new Example(AdvertImageDTO.class);
+        example.createCriteria().andEqualTo("delFlag",1)
+                .andEqualTo("groupCode","intellect");
+        List<AdvertImageDTO> advertImageDTOS = advertImageDTOMapper.selectByExample(example);
+        String val = JSON.toJSONString(advertImageDTOS);
+        redisTemplate.opsForValue().set("banner:code:set:" + group, val);
+        Map<String,AdvertImageDTO> hashmap=new HashMap<>();
+        for (AdvertImageDTO dto:advertImageDTOS){
+            hashmap.put(dto.getId().toString(),dto);
+        }
+        redisTemplate.opsForHash().putAll("banner:code:hash:" + group, hashmap);
+        redisTemplate.opsForValue().multiSet(hashmap);
+    }
+
+    @PostMapping("/imageIdsSet")
+    @ResponseBody
+    public List<AdvertImageDTO> imageIdsSet(@RequestBody List<Integer> ids) {
+        long start=System.currentTimeMillis();
+        String value = (String) redisTemplate.opsForValue().get("banner:code:set:intellect");
+        List<AdvertImageDTO> advertImageVOS = JSONObject.parseArray(value, AdvertImageDTO.class);
+        List<AdvertImageDTO> collect = advertImageVOS.stream().filter(o -> ids.contains(o.getId())).collect(Collectors.toList());
+        System.out.println((System.currentTimeMillis()-start)+"ms");
+        return collect;
+    }
+    @PostMapping("/imageIdsHash")
+    @ResponseBody
+    public List<AdvertImageDTO> imageIdsHash(@RequestBody List<Integer> ids) {
+        long start=System.currentTimeMillis();
+        List<String> stringList = ids.stream().map(String::valueOf).collect(Collectors.toList());
+        List<AdvertImageDTO> list = redisTemplate.opsForHash().multiGet("banner:code:hash:intellect", stringList);
+        System.out.println((System.currentTimeMillis()-start)+"ms");
+        return list;
+    }
+    @PostMapping("/imageIdsMSet")
+    @ResponseBody
+    public List<AdvertImageDTO> imageIdsMSet(@RequestBody List<Integer> ids) {
+        long start=System.currentTimeMillis();
+        List<String> stringList = ids.stream().map(String::valueOf).collect(Collectors.toList());
+        List<AdvertImageDTO> list = redisTemplate.opsForValue().multiGet( stringList);
+        System.out.println((System.currentTimeMillis()-start)+"ms");
+        return list;
+    }
 }

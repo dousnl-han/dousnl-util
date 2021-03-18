@@ -25,5 +25,8 @@ public class HashSetDisTest {
         if (set.containsAll(set1)){
             System.out.println("包含set1");
         }
+        User u=new User();
+        u.setMoney(0);
+        System.out.println(JSON.toJSONString(u));
     }
 }

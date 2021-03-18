@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
+import java.util.Random;
 
 /**
  * TODO
@@ -72,10 +73,15 @@ public class DateTest {
         String rkey = "appnotifykey_" + HashUtil.string2Hash("418279610");
         System.out.println(rkey);
 
-        System.out.println(DateUtil.formatTime(1604851200000l,"yyyy-MM-dd HH:mm:ss"));
-
-
-
+        System.out.println(DateUtil.formatTime(31557052800000l,"yyyy-MM-dd HH:mm:ss"));
+        System.out.println(new Random().nextInt(10)+1);
+        System.out.println(new Random().nextInt(10)+1);
+        System.out.println(new Random().nextInt(10)+1);
+        System.out.println(new Random().nextInt(10)+1);
+        System.out.println(new Random().nextInt(10)+1);
+        System.out.println(new Random().nextInt(10)+1);
+        System.out.println(new Random().nextInt(10)+1);
+        System.out.println(new Random().nextInt(10)+1);
     }
 
     private static void screenList(int i) {

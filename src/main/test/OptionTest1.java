@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @description:
  * @author: hanliangliang
@@ -11,5 +15,8 @@ public class OptionTest1 {
         System.out.println(1<<2);
         System.out.println(1<<3);
         System.out.println(1<<4);
+        System.out.println(new User().getStatus());
+        List<Integer> ids=Arrays.asList(1,2,3,4);
+        System.out.println("此改动会导致id="+ids+",的这些banner不被显示,请确认后再提交");
     }
 }
