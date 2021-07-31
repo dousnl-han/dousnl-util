@@ -22,6 +22,11 @@ public class PrivatePile implements Serializable {
     private BigDecimal privatePileLongitude;//私桩经度
     private BigDecimal privatePileLatitude;//私桩纬度
 
+    public PrivatePile(String cityCode, String cityName) {
+        this.cityCode = cityCode;
+        this.cityName = cityName;
+    }
+
     public String getDeviceCode() {
         return deviceCode;
     }

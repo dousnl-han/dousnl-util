@@ -2,8 +2,12 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.dousnl.utils.response.Resp;
 import com.dousnl.utils.response.RespStatus;
+import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
 
 /**
@@ -18,6 +22,7 @@ public class CountDownTest {
 
 
     private static final CountDownLatch ctl=new CountDownLatch(10);
+    private static final CountDownLatch ctl1=new CountDownLatch(10);
 
     public static void main(String[] args) throws InterruptedException {
 
@@ -32,6 +37,17 @@ public class CountDownTest {
             }).start();
         }
         ctl.await();
+        for (int i = 0; i < 10; i++) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    System.out.println(Thread.currentThread().getName() + "-执行");
+                    ctl1.countDown();
+                    ;
+                }
+            }).start();
+        }
+        ctl1.await();
         System.out.println("主线程执行....");
         Resp resp = new Resp();
         RespStatus respStatus=new RespStatus("1","失败");
@@ -46,5 +62,11 @@ public class CountDownTest {
             System.out.println("sadfafdf");
         }
         log.info(">>>>>>postData:{}", postData);
+        int i=0;
+        int num=2;
+        BigDecimal b1=new BigDecimal(1);
+        BigDecimal b2=new BigDecimal(1);
+        System.out.println(Objects.equals(b1,b2));
+        System.out.println(13/2);
     }
 }

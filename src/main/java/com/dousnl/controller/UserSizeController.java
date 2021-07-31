@@ -2,12 +2,14 @@ package com.dousnl.controller;
 
 import com.dousnl.domain.User;
 import com.dousnl.domain.entity.UserEntity;
+import com.dousnl.service.ContstructService;
 import com.dousnl.service.UserService;
 import com.dousnl.utils.ObjectSize;
 import com.dousnl.utils.fdds.SoybeanRequestWrapper;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.util.RamUsageEstimator;
+import org.openjdk.jol.info.ClassLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,6 +37,8 @@ public class UserSizeController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private ContstructService contstructService;
     /**
      * //计算指定对象及其引用树上的所有对象的综合大小，单位字节
      * long RamUsageEstimator.sizeOf(Object obj)
@@ -48,23 +52,44 @@ public class UserSizeController {
      * @param num
      * @return
      */
-    @ApiOperation(value = "计算对象大小接口V1", notes = "计算对象大小接口V1")
+    @ApiOperation(value = "计算对象大小，单位字节", notes = "计算对象大小，单位字节")
     @GetMapping(value = "/v1")
     public String v2(@RequestParam("num") Integer num) {
         long start=System.currentTimeMillis();
-        User u=new User(1 + "", 1, 1 + "");
-        String l = RamUsageEstimator.humanSizeOf(u);
+        User u=new User("1", 1, "1");
+        long l = RamUsageEstimator.shallowSizeOf(u);
         System.out.println("user 大小："+l);
-        List<User> list = new ArrayList<User>(99915);
+        List<User> list = new ArrayList<User>();
         for (int i = 0; i < num; i++) {
             if (i==99910) {
-                System.out.println("i长度：" + RamUsageEstimator.humanSizeOf(i));
+                System.out.println("i长度：" + RamUsageEstimator.shallowSizeOf(i));
             }
             list.add(new User(i + "", i, i + ""));
         }
         System.out.println("list长度：" + list.size());
         //大约产生10m内存---RamUsageEstimator.humanSizeOf(list)
-        System.out.println("list大小字节：" + RamUsageEstimator.humanSizeOf(list));
+        System.out.println("list大小字节：" + RamUsageEstimator.shallowSizeOf(list));
+        //99911-----大约15.5m内存
+        long end=System.currentTimeMillis();
+        return "v1 seccuss...."+(end-start)+"ms";
+    }
+
+    @ApiOperation(value = "计算对象大小，单位字节", notes = "计算对象大小，单位字节")
+    @GetMapping(value = "/v3")
+    public String v3(@RequestParam("num") Integer num) {
+        long start=System.currentTimeMillis();
+        User u=new User(1 + "", 1, 1 + "");
+        System.out.println("user 大小："+ClassLayout.parseInstance(u).toPrintable());
+        List<User> list = new ArrayList<User>();
+        for (int i = 0; i < num; i++) {
+            if (i==99910) {
+                System.out.println("i长度：" + RamUsageEstimator.shallowSizeOf(i));
+            }
+            list.add(new User(i + "", i, i + ""));
+        }
+        System.out.println("list长度：" + list.size());
+        //大约产生10m内存---RamUsageEstimator.humanSizeOf(list)
+        System.out.println("list大小字节：" + ClassLayout.parseInstance(list).toPrintable());
         //99911-----大约15.5m内存
         long end=System.currentTimeMillis();
         return "v1 seccuss...."+(end-start)+"ms";
@@ -132,5 +157,9 @@ public class UserSizeController {
         return "success";
     }
 
-
+    @GetMapping("/v100/getUserById")
+    @ResponseBody
+    public List<UserEntity> getUserById(Integer id) throws InterruptedException {
+        return contstructService.getUserById(id);
+    }
 }

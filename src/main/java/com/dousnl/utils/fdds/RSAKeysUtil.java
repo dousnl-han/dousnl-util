@@ -210,8 +210,9 @@ public class RSAKeysUtil {
 
 
     public static void main(String[] args) {
-        String str="cpwcZ4Pjh9gCIILq5xVhIdyjpXTfU0fWPCizqMLp8sB4tjA9mRrh49YSQECK/3NJiAACClswK2caL3D3sUFYyO5vl08akfVx67UH0lPR1GrUJotnTVaWSBZRJKS1XovYlu+qAJ/WlhAYP6hvOSUtjhkkYkNXnWWroeCU51wVuXw=";
-        String decrypt = decrypt(str);
+        String str="NdochBwAilT88VKk/oNhHob85tsF2IDi3ydtSsLTVsgHy63HNk0SJrH+aXO6C7it0/PKd3mITRBv4PbD5SCUqkATX3+XwVPTdeu6M85qY6n6ESEdrHc6TVz0NSzAYsWKS1+gNJeWrlZ9zPI1c22JZbBSJU/eoOBws3Nd5yJPf44=";
+        String decrypt = RSAKeysUtil.decrypt(str);
         System.out.println(decrypt);
+
     }
 }

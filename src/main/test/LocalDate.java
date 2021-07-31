@@ -48,9 +48,14 @@ public class LocalDate {
         //1576822993891
 
         //1576823017896
-        Date b1 = new Date(1576822993891l);
+        Date b1 = new Date(1546272000000L);
         Date b2 = new Date(1576823017896l);
         System.out.println(DateUtil.dateToString(b1,"yyyy-MM-dd HH:mm:ss sss"));
         System.out.println(DateUtil.dateToString(b2,"yyyy-MM-dd HH:mm:ss sss"));
+
+        System.out.println("user:screen:popup:418279610".getBytes().length);
+        System.out.println("1".getBytes().length);
+        System.out.println("promo:link:030a1656b506f56fca3e9eaaaf2af2bce0e925fedb5d5cec83102df814f8e2af".getBytes().length);
+        System.out.println("http://test4.99bs.club/3wjgqXh".getBytes().length);
     }
 }

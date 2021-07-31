@@ -12,6 +12,7 @@ import org.springframework.util.CollectionUtils;
 import tk.mybatis.mapper.entity.Example;
 
 import java.nio.file.attribute.UserPrincipalLookupService;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -38,8 +39,8 @@ public class UserServiceImpl implements UserService{
         String user = (String) redisTemplate.opsForValue().get("user");
         if (Objects.isNull(user)){
             Example example=new Example(UserEntity.class);
-            Example.Criteria criteria = example.createCriteria();
-            criteria.andEqualTo("roleId",2);
+            //Example.Criteria criteria = example.createCriteria();
+            //criteria.andEqualTo("roleId",2);
             List<UserEntity> list = userEntityMapper.selectByExample(example);
             if(!CollectionUtils.isEmpty(list)){
                 redisTemplate.opsForValue().set("user", JSON.toJSONString(list));
@@ -56,6 +57,8 @@ public class UserServiceImpl implements UserService{
         u.setUsername(String.valueOf(new Random().nextInt(10)));
         u.setPassword(String.valueOf(new Random().nextInt(10)));
         u.setRoleId(2);
+        u.setBeginDate(new Date());
+        u.setEndDate(new Date());
         userEntityMapper.insertSelective(u);
         redisTemplate.delete("user");
     }

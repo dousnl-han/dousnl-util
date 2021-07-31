@@ -27,7 +27,7 @@ public class TimeTest {
     public static void main(String[] args) throws IOException {
         long l = System.currentTimeMillis();
         SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:sss");
-        long b=1568334093000l;
+        long b=1599446785642l;
         String format1 = format.format(new Date(b));//1568334093000
         System.out.println("format1:"+format1);
         long a=1568334093000l;

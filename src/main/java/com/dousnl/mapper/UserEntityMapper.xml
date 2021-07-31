@@ -13,4 +13,12 @@
     <result column="begin_date" jdbcType="TIMESTAMP" property="beginDate" />
     <result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
   </resultMap>
+    <update id="updateUser">
+      update t_user
+      <set>
+        `role_id` = #{id},
+      <if test='id==3'>order_id=#{id}</if>
+      </set>
+      where id=#{id}
+    </update>
 </mapper>

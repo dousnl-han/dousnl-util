@@ -1,7 +1,9 @@
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.dousnl.domain.AdviceCanel;
 import com.dousnl.domain.User;
 import com.dousnl.domain.UserDto;
+import com.dousnl.domain.VaildDomain;
 import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.InvocationTargetException;
@@ -26,6 +28,22 @@ public class InstofTest {
         HashMap<String,String> areaMap=new HashMap<String,String>();
         areaMap.put("",null);
         System.out.println(JSON.toJSONString(areaMap));
+        Object userObject=null;
+        Integer type=3;
+        switch (type){
+            case 1:
+                userObject=new VaildDomain();
+                ((VaildDomain) userObject).setChannelCode("2");
+                break;
+            case 2:
+                userObject=new AdviceCanel("1","1");
+                break;
+                default:break;
+        }
+
+        if(userObject instanceof VaildDomain){
+            System.out.println(((VaildDomain)userObject).getChannelCode());
+        }
     }
 
     private static <T> void push(T u) {

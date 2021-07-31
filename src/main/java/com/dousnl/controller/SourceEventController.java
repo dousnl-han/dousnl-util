@@ -109,4 +109,9 @@ public class SourceEventController {
             ((BaseCreateUserVO) vo).setUpdateTime(date);
         }
     }
+
+    public static void main(String[] args) {
+        String encrypt = IntegerEncryptTool.encrypt(1);
+        System.out.println(encrypt);
+    }
 }

@@ -1,4 +1,14 @@
+import com.alibaba.fastjson.JSON;
+import com.dousnl.domain.User;
+import com.dousnl.utils.date.DateUtil;
+import com.google.common.collect.Lists;
+
 import java.io.Serializable;
+import java.text.ParseException;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * TODO
@@ -40,5 +50,22 @@ public class DataParams<T> implements Serializable {
 
     public void setData(T data) {
         this.data = data;
+    }
+
+    public static void main(String[] args) throws ParseException {
+        Date start = DateUtil.parse("2021-01-30 00:00:00", "yyyy-MM-dd HH:mm:ss");
+        System.out.println(start.getTime());
+        Date end = DateUtil.parse("2021-03-12 00:00:00", "yyyy-MM-dd HH:mm:ss");
+        System.out.println(end.getTime());
+
+        if ("acrossSkuPackage".contains("Package")){
+            System.out.println("Package");
+        }
+        System.out.println(DateUtil.formatTime(1615344596246l,"yyyy-MM-dd HH:mm:ss"));
+        List<User> advertImageBOS=Lists.newArrayList();
+        List<User> collect = advertImageBOS.stream().filter(o -> o.getAge() > 1).collect(Collectors.toList());
+        System.out.println(collect);
+        List ids=Arrays.asList(1,2,4);
+        System.out.println(JSON.toJSONString(ids));
     }
 }

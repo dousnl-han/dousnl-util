@@ -28,5 +28,11 @@ public class IntegerEqualsTest {
         System.out.println(i);
         List<Integer> integers = Arrays.asList(1, 2);
         System.out.println(integers.contains(1));
+
+        Double aDouble = Double.valueOf("4.6");
+        System.out.println(9611%32);
+        System.out.println(aDouble);
+        Object str="123";
+        System.out.println(str.toString());
     }
 }

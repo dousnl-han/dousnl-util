@@ -1,4 +1,7 @@
 import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Lists;
+
+import java.util.List;
 
 /**
  * TODO
@@ -15,5 +18,11 @@ public class PileTest {
         DataPairParams<PrivatePileData> data=JSON.parseObject(str,DataPairParams.class);
 
         System.out.println(JSON.toJSONString(data));
+        List<User> list= Lists.newArrayList();
+        User user=null;
+        while (true){
+            user=new User();
+            list.add(user);
+        }
     }
 }
