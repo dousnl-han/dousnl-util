@@ -71,7 +71,7 @@ public class TimeTest {
         List<String> userTypes = Arrays.asList(split);
         User u1=new User();
         User u2=new User();
-        u1.setAddress1("dsdsad");
+        //u1.setAddress1("dsdsad");
         u1.setName("ada111");
         System.out.println("u1.getName():"+u1.getName());
         System.out.println("06".contains("06"));

@@ -1,7 +1,7 @@
 package com.dousnl.component.error;
 
 import com.alibaba.fastjson.JSON;
-import com.dousnl.component.chanjar.WxType;
+//import com.dousnl.component.chanjar.WxType;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -51,47 +51,47 @@ public class WxError implements Serializable {
         this.errorMsg = errorMsg;
     }
 
-    public static WxError fromJson(String json) {
-        return fromJson(json, null);
-    }
-
-    public static WxError fromJson(String json, WxType type) {
-        final WxError wxError = JSON.parseObject(json, WxError.class);
-        if (wxError.getErrorCode() == 0 || type == null) {
-            return wxError;
-        }
-
-        if (StringUtils.isNotEmpty(wxError.getErrorMsg())) {
-            wxError.setErrorMsgEn(wxError.getErrorMsg());
-        }
-
-        switch (type) {
-            case MP: {
-                final String msg = WxMpErrorMsgEnum.findMsgByCode(wxError.getErrorCode());
-                if (msg != null) {
-                    wxError.setErrorMsg(msg);
-                }
-                break;
-            }
-            case CP: {
-                final String msg = WxCpErrorMsgEnum.findMsgByCode(wxError.getErrorCode());
-                if (msg != null) {
-                    wxError.setErrorMsg(msg);
-                }
-                break;
-            }
-            case MiniApp: {
-                final String msg = WxMaErrorMsgEnum.findMsgByCode(wxError.getErrorCode());
-                if (msg != null) {
-                    wxError.setErrorMsg(msg);
-                }
-                break;
-            }
-            default:
-                return wxError;
-        }
-        return wxError;
-    }
+//    public static WxError fromJson(String json) {
+//        return fromJson(json, null);
+//    }
+//
+//    public static WxError fromJson(String json, WxType type) {
+//        final WxError wxError = JSON.parseObject(json, WxError.class);
+//        if (wxError.getErrorCode() == 0 || type == null) {
+//            return wxError;
+//        }
+//
+//        if (StringUtils.isNotEmpty(wxError.getErrorMsg())) {
+//            wxError.setErrorMsgEn(wxError.getErrorMsg());
+//        }
+//
+//        switch (type) {
+//            case MP: {
+//                final String msg = WxMpErrorMsgEnum.findMsgByCode(wxError.getErrorCode());
+//                if (msg != null) {
+//                    wxError.setErrorMsg(msg);
+//                }
+//                break;
+//            }
+//            case CP: {
+//                final String msg = WxCpErrorMsgEnum.findMsgByCode(wxError.getErrorCode());
+//                if (msg != null) {
+//                    wxError.setErrorMsg(msg);
+//                }
+//                break;
+//            }
+//            case MiniApp: {
+//                final String msg = WxMaErrorMsgEnum.findMsgByCode(wxError.getErrorCode());
+//                if (msg != null) {
+//                    wxError.setErrorMsg(msg);
+//                }
+//                break;
+//            }
+//            default:
+//                return wxError;
+//        }
+//        return wxError;
+//    }
 
     @Override
     public String toString() {

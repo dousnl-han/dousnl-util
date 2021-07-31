@@ -48,7 +48,7 @@ public class UserSizeController {
      * @param num
      * @return
      */
-    @ApiOperation(value = "车主取消订单接口", notes = "车主取消订单接口")
+    @ApiOperation(value = "计算对象大小接口V1", notes = "计算对象大小接口V1")
     @GetMapping(value = "/v1")
     public String v2(@RequestParam("num") Integer num) {
         long start=System.currentTimeMillis();
@@ -76,7 +76,7 @@ public class UserSizeController {
      * @param num
      * @return
      */
-    @ApiOperation(value = "车主取消订单接口", notes = "车主取消订单接口")
+    @ApiOperation(value = "计算对象大小接口V2", notes = "计算对象大小接口V2")
     @GetMapping(value = "/v2")
     public String v1(@RequestParam("num") Integer num) {
         User u=new User(1 + "", 1, 1 + "");

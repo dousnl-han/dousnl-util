@@ -19,7 +19,6 @@ public class User implements InitializingBean {
     private String name;
     private Integer age;
     private String address;
-    private Object address1;
     private Date da;
 
     public User() {
