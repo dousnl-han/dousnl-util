@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import tk.mybatis.mapper.entity.Example;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
@@ -112,7 +111,7 @@ public class UserSizeController {
      * @param num
      * @return
      */
-    @ApiOperation(value = "车主取消订单接口", notes = "车主取消订单接口")
+    @ApiOperation(value = "计算对象大小接口V2", notes = "计算对象大小接口V2")
     @GetMapping(value = "/v2")
     public String v1(@RequestParam("num") Integer num) {
         User u=new User(1 + "", 1, 1 + "");

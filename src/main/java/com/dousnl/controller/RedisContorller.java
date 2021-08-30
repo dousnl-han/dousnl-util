@@ -85,6 +85,17 @@ public class RedisContorller {
     @RequestMapping(value = "/string",method = RequestMethod.GET)
     public void xp1() throws Exception {
         redisTemplate.opsForValue().set("num",23);
+
+        User u1= (User) redisTemplate.opsForValue().get("user_id");
+        if (u1!=null){
+            System.out.println(JSON.toJSONString(u1));
+            return;
+        }
+
+        redisTemplate.opsForValue().set("user_id",new User(),2,TimeUnit.MINUTES);
+
+
+
         Object num = redisTemplate.opsForValue().get("num");
         System.out.println("num:"+num);
         redisTemplate.delete("num");
@@ -98,7 +109,6 @@ public class RedisContorller {
         System.out.println("num.size:"+redisTemplate.opsForValue().size("num"));
 
         User u=new User("zhang",18,"shangh");
-        User u1=new User("li",19,"beij");
         List<User> list=new ArrayList<>();
         list.add(u);list.add(u1);
         redisTemplate.opsForValue().set("userlist",list);
@@ -124,7 +134,7 @@ public class RedisContorller {
         System.out.println("showLimit:"+showLimit);
     }
 
-    @RequestMapping(value = "/list",method = RequestMethod.GET)
+    @PostMapping("/list")
     public void list() throws Exception {
         Long num = redisTemplate.opsForList().size("list");
         System.out.println(num);
@@ -173,7 +183,7 @@ public class RedisContorller {
 
     }
 
-    @RequestMapping(value = "/hash",method = RequestMethod.GET)
+    @PostMapping("/hash")
     public void hash() throws Exception {
         redisTemplate.opsForHash().put("user","name","zhangsan");
         redisTemplate.opsForHash().put("user","age","21");
@@ -191,7 +201,7 @@ public class RedisContorller {
         System.out.println(user21.toString());
     }
 
-    @RequestMapping(value = "/set",method = RequestMethod.GET)
+    @PostMapping("/set")
     public void set() throws Exception {
         redisTemplate.delete("set:aaa:1");
         redisTemplate.delete("set");

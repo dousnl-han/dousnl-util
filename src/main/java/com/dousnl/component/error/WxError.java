@@ -1,6 +1,7 @@
 package com.dousnl.component.error;
 
 import com.alibaba.fastjson.JSON;
+//import com.dousnl.component.chanjar.WxType;
 import com.dousnl.component.chanjar.WxType;
 import lombok.Builder;
 import lombok.Data;
