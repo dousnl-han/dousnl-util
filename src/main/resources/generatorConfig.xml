@@ -21,12 +21,12 @@
                     password="">
     </jdbcConnection>
 
-    <javaModelGenerator targetPackage="com.dousnl.domain.entity" targetProject="target" />
+    <javaModelGenerator targetPackage="com.dousnl.domain.entity" targetProject="src" />
 
-    <sqlMapGenerator targetPackage="com.dousnl.mapper"  targetProject="target"/>
+    <sqlMapGenerator targetPackage="com.dousnl.mapper"  targetProject="src"/>
 
-    <javaClientGenerator targetPackage="com.dousnl.mapper" targetProject="target"  type="XMLMAPPER" />
+    <javaClientGenerator targetPackage="com.dousnl.mapper" targetProject="src"  type="XMLMAPPER" />
 
-    <table tableName="t_advert_image" domainObjectName="AdvertImageDTO"></table>
+    <table tableName="t_my_config_fields" domainObjectName="MyConfigFields"></table>
   </context>
 </generatorConfiguration>

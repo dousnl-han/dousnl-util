@@ -29,15 +29,16 @@ public class InstofTest {
         areaMap.put("",null);
         System.out.println(JSON.toJSONString(areaMap));
         Object userObject=null;
-        Integer type=3;
-        switch (type){
+        switch (1){
             case 1:
                 userObject=new VaildDomain();
                 ((VaildDomain) userObject).setChannelCode("2");
                 break;
+
             case 2:
                 userObject=new AdviceCanel("1","1");
                 break;
+
                 default:break;
         }
 

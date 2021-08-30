@@ -13,7 +13,7 @@ public class OptionalTest {
 
 
     public static void main(String[] args) {
-        User user = new User("zhang", 11, 11, false);
+        User user = new User("zhang", 11, 11, false,null);
         Optional<User> user1 = Optional.ofNullable(user);
         Optional<User> user2 = Optional.empty();
 
@@ -28,10 +28,35 @@ public class OptionalTest {
         System.out.println(1<<0);
 
         if (true){
-            throw new RuntimeException("片段关联");
+            //throw new RuntimeException("片段关联");
         }
         System.out.println("1111");
+
+
+        int[] currentVersionArray={5,11,11};
+        int[] compareVersionArray={5,11,10};
+        compareVersion(currentVersionArray, compareVersionArray);
     }
+    private static int compareVersion(int[] currentVersionArray, int[] compareVersionArray) {
+        if (currentVersionArray[0] != compareVersionArray[0]) {
+            if (currentVersionArray[0] > compareVersionArray[0]) {
+                return 1;
+            }
+            return -1;
+        } else if (currentVersionArray[1] != compareVersionArray[1]) {
+            if (currentVersionArray[1] > compareVersionArray[1]) {
+                return 1;
+            }
+            return -1;
+        } else if (currentVersionArray[2] != compareVersionArray[2]) {
+            if (currentVersionArray[2] > compareVersionArray[2]) {
+                return 1;
+            }
+            return -1;
+        }
+        return 0;
+    }
+
 
 
     @Test

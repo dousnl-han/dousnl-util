@@ -2,10 +2,14 @@ import com.dousnl.domain.User;
 import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -23,7 +27,22 @@ public class ListSortTest {
                 new User("zhang",null,"beijing"),
                 new User("li",20,"shanghai"),
                 new User("wang",19,"shenzhen"),
-                new User("wang",21,"shenzhen"));
+                new User("zhang1",null,"beijing"),
+                new User("wang1",21,"shenzhen"));
+        User u=new User();
+        u.setList(Arrays.asList(1,2,3));
+        users.add(u);
+
+        Map<String, User> thirdPartyMap = users.stream().collect(Collectors.toMap(User::getName, Function.identity()));
+
+        System.out.println("age:"+thirdPartyMap.get("zhang").getAge());
+
+        List<User> collect2 = users.stream().filter(a -> a.belongClassify(4)).collect(Collectors.toList());
+
+        System.out.println("collect2:"+collect2);
+
+        users.stream().sorted(Comparator.comparing(User::getAge,Comparator.nullsLast(Integer::compareTo)).reversed());
+        System.out.println("users:"+users);
         Collections.sort(users,(o1,o2)->{
             if (o1.getAge()!=null && o2.getAge()!=null){
                 return o1.getAge()-o2.getAge();
@@ -63,22 +82,28 @@ public class ListSortTest {
         list1.add(null);
         list1.add(4);
         System.out.println("之前" + list1);
-        Collections.sort(list1, new Comparator<Integer>() {
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                // 写法1：
-                if (o1 != null && o2 != null) {
-                    return o1.compareTo(o2);
-                } else {
-                    return o1 == null ? 1 : -1;
-                }
-                // 写法2：
-			/*return o1 == null ?
-					1 :
-					(o2 == null ? -1 : o1.compareTo(o2));*/
-            }
-        });
+//        Collections.sort(list1, new Comparator<Integer>() {
+//            @Override
+//            public int compare(Integer o1, Integer o2) {
+//                // 写法1：
+//                if (o1 != null && o2 != null) {
+//                    return o1.compareTo(o2);
+//                } else {
+//                    return o1 == null ? 1 : -1;
+//                }
+//                // 写法2：
+//			/*return o1 == null ?
+//					1 :
+//					(o2 == null ? -1 : o1.compareTo(o2));*/
+//            }
+//        });
         System.out.println("之后" + list1);
+
+        List<Integer> collect1 = list1.stream().sorted(Comparator.comparing(Integer::intValue, Comparator.nullsLast(Integer::compareTo))).collect(Collectors.toList());
+
+        System.out.println("list1:"+collect1);
+
+        System.out.println((long)1/10);
 
     }
 }

@@ -29,11 +29,23 @@ public class JsonMsgBean implements Serializable {
 		this.success = success;
 	}
 
+	public JsonMsgBean(String code) {
+		this.code = code;
+	}
+
 	public JsonMsgBean(Boolean success, String code, Object data) {
 		super();
 		this.success = success;
 		this.code = code;
 		this.data = data;
+	}
+
+	public static JsonMsgBean success(String msg) {
+		return new JsonMsgBean(true, "0000", msg);
+	}
+
+	public static JsonMsgBean error(String msg) {
+		return new JsonMsgBean(true, "9999", msg);
 	}
 
 	public JsonMsgBean initSuccess() {

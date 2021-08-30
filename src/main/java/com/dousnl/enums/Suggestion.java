@@ -18,6 +18,7 @@ public enum Suggestion {
             e.printStackTrace();
             System.out.println(1111);
         }
+        System.out.println(PASS.name());
 
     }
 }

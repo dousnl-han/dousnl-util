@@ -104,7 +104,7 @@ public class EncryptHelper {
         long start1 = System.currentTimeMillis();
         String encrypt1 = IntegerEncryptTool.encrypt(1114);
         System.out.println(encrypt1);
-        int decrypt1 = IntegerEncryptTool.decrypt(encrypt1);
+        int decrypt1 = IntegerEncryptTool.decrypt("C94ExpcM4jLwd47Tg6x");
         System.out.println(decrypt1);
         System.out.println((System.currentTimeMillis()-start1)+"ms");
 

@@ -9,13 +9,15 @@ import lombok.NoArgsConstructor;
  * @version 1.0
  * @date 2020/4/18 11:06
  */
+@Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class User {
     private String name;
     private int age;
     private Integer money;
     private Boolean status;
+    private Integer num;
+    private long aaa;
 
     public String getName() {
         return name;
@@ -47,5 +49,20 @@ public class User {
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    public User(String name, int age, Integer money, Boolean status) {
+        this.name = name;
+        this.age = age;
+        this.money = money;
+        this.status = status;
+    }
+
+    public User(String name, int age, Integer money, Boolean status, Integer num) {
+        this.name = name;
+        this.age = age;
+        this.money = money;
+        this.status = status;
+        this.num = num;
     }
 }

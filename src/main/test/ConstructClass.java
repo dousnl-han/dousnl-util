@@ -26,14 +26,15 @@ public class ConstructClass {
         }
         u.getAge();
         list.get(0);
-        Integer i=null;
-        if (1>0){
+        Integer i=1;
+        if (i.equals(null)){
             list=new ArrayList<String>();
             list.add("1");
             i=1;
         }
         System.out.println(list);
         System.out.println(i);
+
     }
 
 

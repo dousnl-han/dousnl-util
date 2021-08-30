@@ -93,6 +93,10 @@ public class WxError implements Serializable {
         return wxError;
     }
 
+    public static void main(String[] args) {
+        fromJson("{}",null);
+    }
+
     @Override
     public String toString() {
         if (this.json == null) {

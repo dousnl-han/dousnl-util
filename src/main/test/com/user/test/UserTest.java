@@ -1,6 +1,7 @@
 package com.user.test;
 
 import com.dousnl.DousnlUtilApplication;
+import com.dousnl.domain.User;
 import com.dousnl.mapper.UserEntityMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,7 +10,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
- * Description: TODO
+ * Description: 对象引用传递说明-实测，讲的比较清楚的
+ *
+ * https://blog.csdn.net/q5706503/article/details/82910428
+ *
  * Company    : 上海黄豆网络科技有限公司
  *
  * @author : hanliangliang
@@ -31,8 +35,27 @@ public class UserTest {
 
     @Test
     public void testUpdateUser(){
-        int updateUser = userEntityMapper.updateUser(5);
-        System.out.println(updateUser);
+        //int updateUser = userEntityMapper.updateUser(5);
+        //System.out.println(updateUser);
+        User u1=saveU1();
+        u1.setName("22");
+        if (u1!=null){
+            System.out.println(u1.getAge());
+            saveU12(u1);
+        }
+        System.out.println(u1);
+    }
+
+    private User saveU12(User u1) {
+        u1.setName("111");
+        u1=null;
+        return null;
+    }
+
+    private User saveU1() {
+        User u1=new User();
+        u1.setAge(1);
+        return u1;
     }
 }
 

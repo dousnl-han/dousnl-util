@@ -4,12 +4,19 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.dousnl.domain.AdviceCanel;
 import com.dousnl.domain.User;
+import com.dousnl.domain.UserT;
 import com.dousnl.domain.entity.AdvertImageDTO;
 import com.dousnl.mapper.AdvertImageDTOMapper;
 import com.google.common.collect.Lists;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.DefaultTypedTuple;
+import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
@@ -19,8 +26,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import tk.mybatis.mapper.entity.Example;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -32,7 +41,7 @@ import java.util.stream.Collectors;
  * @version 1.0
  * @date 2020/5/8 15:02
  */
-@Controller
+@RestController
 @RequestMapping("/redis")
 public class RedisContorller {
 
@@ -40,6 +49,38 @@ public class RedisContorller {
     private RedisTemplate redisTemplate;
     @Autowired
     private AdvertImageDTOMapper advertImageDTOMapper;
+
+    @RequestMapping(value = "/user",method = RequestMethod.GET)
+    public void xp2() throws Exception {
+        List list=Lists.newArrayList();
+        User u=new User();
+        u.setName("111");
+        u.setAge(2);
+        u.setAddress("22222");
+        list.add(u);
+
+        redisTemplate.execute(new RedisCallback<String>() {
+            @Override
+            public String doInRedis(RedisConnection redisConnection) throws DataAccessException {
+                redisConnection.set("user:quene:prod:1".getBytes(), JSON.toJSONString(list).getBytes());
+                return null;
+            }
+        });
+
+        String user = (String) redisTemplate.execute(new RedisCallback<String>() {
+            @Override
+            public String doInRedis(RedisConnection redisConnection) throws DataAccessException {
+                byte [] buffer = redisConnection.get("user:quene:prod:1".getBytes());
+                return buffer==null?null:new String(buffer);
+            }
+        });
+        List<UserT> mainBusinessBOS = JSONObject.parseArray(user, UserT.class);
+
+
+        System.out.println(mainBusinessBOS);
+
+
+    }
 
     @RequestMapping(value = "/string",method = RequestMethod.GET)
     public void xp1() throws Exception {
@@ -176,6 +217,41 @@ public class RedisContorller {
         System.out.println(set2);
     }
 
+    @RequestMapping(value = "/mset",method = RequestMethod.GET)
+    public String mset() throws Exception {
+        User user=new User("lisi",20,"shanghai");
+        User user1=new User("zhangsan",18,"beijing");
+        Calendar calendar = Calendar.getInstance();
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        System.out.println(month);
+        System.out.println(day);
+        String s = UUID.randomUUID().toString();
+        System.out.println(s);
+        String substring = s.substring(0, 5);
+        String key="user:realname:100_"+substring;
+        //redisTemplate.opsForValue().set(key,user,60,TimeUnit.DAYS);
+        String s1 = UUID.randomUUID().toString();
+        System.out.println(s1);
+        String substring1 = s1.substring(0, 5);
+        String key1="user:realname:100_"+substring1;
+        //redisTemplate.opsForValue().set(key1,user1,60,TimeUnit.DAYS);
+
+        Integer time = (Integer) redisTemplate.opsForValue().get("user:realname:10001_5");
+//        if (time == null) {
+//            time = 1;
+//        } else {
+//            if (time>=3){
+//                return "本月修改已达3次";
+//            }
+//            time += 1;
+//        }
+        redisTemplate.opsForValue().increment("user:realname:10001_5", 1);
+        redisTemplate.expire("user:realname:10001_5", 60,TimeUnit.SECONDS);
+        System.out.println(time);
+        return null;
+    }
+
     @RequestMapping(value = "/setDel",method = RequestMethod.GET)
     public void setDel() throws Exception {
         redisTemplate.opsForSet().add("set1:AA:BB"+1, "2");
@@ -186,6 +262,7 @@ public class RedisContorller {
         redisTemplate.delete("set1:AA:CC"+1);
         redisTemplate.delete("set1:AA:BB"+2);
         redisTemplate.delete("set1:AA:ff"+1);
+        boolean flag=false;
     }
 
     @RequestMapping(value = "/zset",method = RequestMethod.GET)
@@ -239,14 +316,25 @@ public class RedisContorller {
         example.createCriteria().andEqualTo("delFlag",1)
                 .andEqualTo("groupCode","intellect");
         List<AdvertImageDTO> advertImageDTOS = advertImageDTOMapper.selectByExample(example);
+        advertImageDTOS= advertImageDTOS.subList(0,10);
+
         String val = JSON.toJSONString(advertImageDTOS);
         redisTemplate.opsForValue().set("banner:code:set:" + group, val);
         Map<String,AdvertImageDTO> hashmap=new HashMap<>();
+        ArrayList<Object> objects = Lists.newArrayList();
+
         for (AdvertImageDTO dto:advertImageDTOS){
             hashmap.put(dto.getId().toString(),dto);
+            hashmap.put(dto.getId().toString(),dto);
+            objects.add(dto.getId().toString());
+            objects.add(dto.getId().toString());
         }
         redisTemplate.opsForHash().putAll("banner:code:hash:" + group, hashmap);
         redisTemplate.opsForValue().multiSet(hashmap);
+
+        List<AdvertImageDTO> list = redisTemplate.opsForValue().multiGet(objects);
+
+        System.out.println(list);
     }
 
     @PostMapping("/imageIdsSet")
@@ -264,6 +352,7 @@ public class RedisContorller {
     public List<AdvertImageDTO> imageIdsHash(@RequestBody List<Integer> ids) {
         long start=System.currentTimeMillis();
         List<String> stringList = ids.stream().map(String::valueOf).collect(Collectors.toList());
+        Map entries = redisTemplate.opsForHash().entries("");
         List<AdvertImageDTO> list = redisTemplate.opsForHash().multiGet("banner:code:hash:intellect", stringList);
         System.out.println((System.currentTimeMillis()-start)+"ms");
         return list;
@@ -276,5 +365,15 @@ public class RedisContorller {
         List<AdvertImageDTO> list = redisTemplate.opsForValue().multiGet( stringList);
         System.out.println((System.currentTimeMillis()-start)+"ms");
         return list;
+    }
+
+
+
+    @PostMapping("/topic")
+    public String imagePost(@RequestBody User user) {
+
+        redisTemplate.convertAndSend("message.disc","hello world");
+        System.out.println(JSON.toJSONString(user));
+        return "success";
     }
 }

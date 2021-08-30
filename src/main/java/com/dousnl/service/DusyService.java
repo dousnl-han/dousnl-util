@@ -2,6 +2,7 @@ package com.dousnl.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -17,15 +18,19 @@ import java.util.concurrent.CompletableFuture;
  */
 @Service
 @Slf4j
-public class BusyService {
+public class DusyService extends CommonService{
 
     @Autowired
     private ContstructService contstructService;
 
+    public DusyService() {
+        System.err.println(">>>>>>>>>>>DusyService>>构造方法>>"+this.toString());
+    }
+
     @PostConstruct
     public void DP(){
-        System.out.println(">>>>>>>>>>>BusyService.contstructService>>>>"+contstructService.toString());
-        System.out.println(">>>>>>>>>>>BusyService>>>>"+this.toString());
+        System.err.println(">>>>>>>>>>>DusyService.contstructService>>>>"+contstructService.toString());
+        System.err.println(">>>>>>>>>>>DusyService>>>>"+this.toString());
     }
     //@Async
     public CompletableFuture<String> busyMethod(String name) throws InterruptedException {

@@ -1,6 +1,7 @@
 package com.dousnl.utils.date;
 
 import com.google.common.collect.Lists;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
@@ -424,4 +425,7 @@ public class DateUtil {
         return c.getTime();
     }
 
+    public static Date getCurrentDate() {
+        return (new DateTime()).toDate();
+    }
 }

@@ -1,3 +1,4 @@
+import com.dousnl.utils.IntegerEncryptTool;
 import com.dousnl.utils.date.DateUtil;
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.slf4j.Logger;
@@ -23,7 +24,10 @@ public class DateTest {
     public static void main(String[] args) {
         Date d=new Date();
         Date c=d;
-
+        Integer u=null;
+        if (u==null ||u == 0){
+            System.out.println(u);
+        }
         Integer a=null;
         boolean after = d.after(c);
         screenList(1);
@@ -82,6 +86,8 @@ public class DateTest {
         System.out.println(new Random().nextInt(10)+1);
         System.out.println(new Random().nextInt(10)+1);
         System.out.println(new Random().nextInt(10)+1);
+        Integer userId=new User().getMoney();
+        System.out.println(IntegerEncryptTool.encrypt(userId));
     }
 
     private static void screenList(int i) {

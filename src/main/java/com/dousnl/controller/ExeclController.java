@@ -1,7 +1,7 @@
 package com.dousnl.controller;
 
 import com.dousnl.domain.User;
-import com.dousnl.service.BusyService;
+import com.dousnl.service.DusyService;
 import com.dousnl.service.ContstructService;
 import com.dousnl.utils.enums.FileType;
 import com.dousnl.utils.execl.ExportUtils;
@@ -46,7 +46,7 @@ public class ExeclController {
     @Autowired
     private ContstructService contstructService;
     @Autowired
-    private BusyService busyService;
+    private DusyService busyService;
 
     @RequestMapping("/xp3")
     @ResponseBody

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import tk.mybatis.mapper.entity.Example;
 
+import java.math.BigDecimal;
 import java.nio.file.attribute.UserPrincipalLookupService;
 import java.util.Date;
 import java.util.List;
@@ -36,7 +37,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<UserEntity> listUserEntity(){
 
-        String user = (String) redisTemplate.opsForValue().get("user");
+        String user = (String) redisTemplate.opsForValue().get("user11");
         if (Objects.isNull(user)){
             Example example=new Example(UserEntity.class);
             //Example.Criteria criteria = example.createCriteria();
@@ -56,7 +57,7 @@ public class UserServiceImpl implements UserService{
         UserEntity u=new UserEntity();
         u.setUsername(String.valueOf(new Random().nextInt(10)));
         u.setPassword(String.valueOf(new Random().nextInt(10)));
-        u.setRoleId(2);
+        u.setRoleId(new BigDecimal(2));
         u.setBeginDate(new Date());
         u.setEndDate(new Date());
         userEntityMapper.insertSelective(u);
