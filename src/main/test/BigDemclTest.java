@@ -3,6 +3,7 @@ import com.dousnl.domain.User;
 import com.dousnl.domain.UserDto;
 import com.dousnl.enums.OrderSourceEnum;
 import com.dousnl.utils.beans.BeanCopyUtil;
+import com.dousnl.utils.soybean.DateUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.springframework.util.StringUtils;
@@ -16,7 +17,9 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -160,13 +163,26 @@ public class BigDemclTest {
 
         System.out.println("notifysharding-hashcode:"+"notifysharding".hashCode());
         List<User> users=Lists.newArrayList();
-        users.add(new User(18,"1"));
-        users.add(new User(19,"1"));
-        users.add(new User(null,""));
-        users.add(new User(null,"1"));
-        User user1 = users.stream().filter(e->Objects.nonNull(e.getAge())).filter(e -> e.getAge() > 20).findAny().orElse(null);
+        users.add(new User(18,"1",DateUtil.parseDate("2021-01-02")));
+        users.add(new User(19,"1",DateUtil.parseDate("2021-01-03")));
+        users.add(new User(21,"",DateUtil.parseDate("2021-01-04")));
+        users.add(new User(11,"1",DateUtil.parseDate("2021-09-13 20:18:12")));
+        users.add(new User(11,"1",DateUtil.parseDate("2021-09-13 20:44:56")));
+        users.add(new User(11,"1",DateUtil.parseDate("2021-09-13 14:53:46")));
+        User user2 = users.stream().filter(e -> !Arrays.asList(11, 18,19).contains(e.getAge())).findAny().orElse(null);
 
-        System.out.println("大于20的用户"+user1);
+        System.out.println(JSON.toJSONString(user2));
+
+        List<User> collect1 = users.stream().filter(e -> Objects.nonNull(e.getAge())).sorted(Comparator.comparing(x -> x.getDa())).collect(Collectors.toList());
+        Map<Integer, Date> userMap = Maps.newHashMap();
+        for (User user1 : collect1) {
+            userMap.put(user1.getAge(),user1.getDa());
+        }
+        Object aaa= null;
+        System.out.println((String) aaa);
+        System.out.println(userMap);
+
+        System.out.println("大于20的用户"+0);
 
         Map<Integer, String> collect = users.stream().collect(Collectors.toMap(User::getAge,
                 User::getAddress));

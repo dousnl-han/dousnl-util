@@ -1,6 +1,7 @@
 package com.dousnl.utils;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.dousnl.domain.User;
 import com.dousnl.utils.date.DateUtil;
 import com.google.common.collect.Lists;
@@ -86,9 +87,9 @@ public class IntegerEncryptTool {
     public static void main(String[] args) throws ParseException {
         //String str="NdochBwAilT88VKk/oNhHob85tsF2IDi3ydtSsLTVsgHy63HNk0SJrH+aXO6C7it0/PKd3mITRBv4PbD5SCUqkATX3+XwVPTdeu6M85qY6n6ESEdrHc6TVz0NSzAYsWKS1+gNJeWrlZ9zPI1c22JZbBSJU/eoOBws3Nd5yJPf44=";
         //System.out.println(decrypt(str));
-        System.out.println(decrypt("7ttsk7swnbc1avhg"));
+        System.out.println(decrypt("9zts9twxxw831yik"));
         System.out.println(0x7fffffff);
-        System.out.println(encrypt(336));
+        System.out.println(encrypt(500007257));
         System.out.println("a".concat("fsfsd"));
         User u=new User();
         u.setOwn(true);
@@ -127,6 +128,15 @@ public class IntegerEncryptTool {
         jumpUrlConfig.concat("1");
 
         System.out.println(jumpUrlConfig);
+        
+        User user = new User();
+        user.setName("111");
+        user.setAge(20);
+        user.setDa(new Date());
+
+        JSONObject s = JSON.parseObject(JSON.toJSONString(user));
+
+        System.out.println(s);
 
     }
 

@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.*;
@@ -121,5 +122,9 @@ public class AnnontionTypeTest {
         if (!flag){
             System.out.println("不合法");
         }
+        BigDecimal bigInteger = new BigDecimal(100);
+        BigDecimal balanceBig = new BigDecimal("-156");
+        BigDecimal decimal = balanceBig.divide(bigInteger);
+        System.out.println(decimal);
     }
 }

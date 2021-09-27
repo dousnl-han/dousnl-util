@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
  ********************************************************************/
 @Slf4j
 @Component
-public class MqMessageListener implements MessageListener {
+public class RedisMqMessageListener implements MessageListener {
 
     @Autowired
     private RedisTemplate redisTemplate;

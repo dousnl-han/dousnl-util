@@ -6,6 +6,7 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -131,12 +132,12 @@ public class MobileEncryptTool {
     }
 
     public static void main(String[] args) {
-        System.out.println(MobileEncryptTool.encryptMobile("13162505004"));
+        System.out.println(MobileEncryptTool.encryptMobile("13162505297"));
         System.out.println(MobileEncryptTool.encryptMobile("13162504111"));
         System.out.println(MobileEncryptTool.encryptMobile("13162505001"));
-        System.out.println(MobileEncryptTool.encryptMobile("13162505002"));
+        System.out.println(MobileEncryptTool.encryptMobile("15868149665"));
         System.out.println(MobileEncryptTool.decryptMobile("9wssknxkw7s9zxxaxt8dn76z1wrwv13v"));
-        System.out.println(MobileEncryptTool.decryptMobile("nksnt7xxkwx77whzbsg2lz3dyhunfc4z"));
+        System.out.println(MobileEncryptTool.decryptMobile("sznxttnknn7zxkrkxombzbmiuanr1hgz"));
         int update = 0;
         update = Integer.parseInt("1");
         System.out.println(update > 0);
@@ -169,7 +170,7 @@ public class MobileEncryptTool {
             u.setAge(null != null ? 0 : null);
             com.dousnl.domain.es.User user = new com.dousnl.domain.es.User();
             //Integer i = user == null ? Integer.valueOf(0) : Integer.valueOf(0);
-            u.setAge(user == null ? 0 : user.getCount());
+            //u.setAge(user == null ? 0 : user.getCount());
 
         }
         System.out.println(list);
@@ -178,11 +179,34 @@ public class MobileEncryptTool {
         int month = calendar.get(Calendar.MONTH) + 1;
         System.out.println(month);
 
-        Integer i = calendar.get(Calendar.MONTH + 1);
+        Integer i = null;
         System.out.println(i);
-        System.out.println(i.toString());
+        //System.out.println(i.toString());
         System.out.println(JSON.toJSONString(i));
         System.out.println(Objects.equals(1,Integer.valueOf(1)));
+
+        if(Objects.equals(1,null)){
+            System.out.println("iiiii");
+        }else if (Objects.equals(1,1)){
+            System.out.println("iiiii");
+        }else if (Objects.equals(1,null)){
+            System.out.println("iiiii");
+        }
+        if(Objects.equals(1,null)){
+            System.out.println("iiiii");
+        }
+        if (Objects.equals(1,1)){
+            System.out.println("iiiii");
+        }
+        if (Objects.equals(1,null)){
+            System.out.println("iiiii");
+        }
+        BigDecimal wisdomCoinIosCurrent = BigDecimal.valueOf(222);
+        BigDecimal tatalFeeBig = BigDecimal.valueOf(1111).divide(BigDecimal.valueOf(100));
+        int i2 = wisdomCoinIosCurrent.compareTo(tatalFeeBig);
+        if (wisdomCoinIosCurrent.compareTo(tatalFeeBig) < 0) {
+            System.out.println("用户：{}，当前智慧币:{}，小于应扣金额：{}");
+        }
 
     }
 }

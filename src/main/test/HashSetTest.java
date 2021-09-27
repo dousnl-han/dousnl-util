@@ -1,5 +1,9 @@
 import com.alibaba.fastjson.JSON;
+import com.dousnl.utils.date.DateUtil;
+import org.springframework.util.CollectionUtils;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -46,6 +50,21 @@ public class HashSetTest {
         reSetEntityDate(entity);
 
         System.out.println(JSON.toJSONString(entity));
+
+        List<Object> list =new ArrayList<>();
+        System.out.println(CollectionUtils.isEmpty(list));
+        System.out.println(JSON.toJSONString(list));
+
+        BigDecimal divide = new BigDecimal(0).divide(BigDecimal.valueOf(100), 2, RoundingMode.FLOOR);
+        System.out.println(divide);
+        System.out.println(BigDecimal.ZERO.setScale(2));
+
+        Date end=new Date();
+
+        Date date = com.dousnl.utils.soybean.DateUtil.plusMonths(end, 1);
+        String pattern = "yyyy年MM月dd日";
+        System.out.println(com.dousnl.utils.soybean.DateUtil.formatDate(end,pattern));
+        System.out.println(com.dousnl.utils.soybean.DateUtil.formatDate(date));
     }
 
     private static void reSetEntityDate(ContractEntity entity) {

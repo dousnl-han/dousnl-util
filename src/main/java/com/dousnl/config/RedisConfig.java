@@ -1,13 +1,12 @@
 package com.dousnl.config;
 
-import com.dousnl.listener.MqMessageListener;
+import com.dousnl.listener.RedisMqMessageListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.PatternTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
-import org.springframework.data.redis.listener.Topic;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
@@ -73,7 +72,7 @@ public class RedisConfig {
     }
 
     @Bean
-    public MessageListenerAdapter adapter(MqMessageListener mqMessageListener){
+    public MessageListenerAdapter adapter(RedisMqMessageListener mqMessageListener){
         MessageListenerAdapter adapter = new MessageListenerAdapter(mqMessageListener);
         return adapter;
     }

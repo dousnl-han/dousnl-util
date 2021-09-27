@@ -37,6 +37,12 @@ public class User implements InitializingBean {
         this.address = address;
     }
 
+    public User(Integer age, String address,Date da) {
+        this.da=da;
+        this.age = age;
+        this.address = address;
+    }
+
     public User(String name, Integer age, String address) {
         this.name = name;
         this.age = age;
@@ -93,14 +99,6 @@ public class User implements InitializingBean {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public Object getAddress1() {
-        return address1;
-    }
-
-    public void setAddress1(Object address1) {
-        this.address1 = address1;
     }
 
     public Date getDa() {
