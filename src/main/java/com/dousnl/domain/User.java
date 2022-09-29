@@ -1,11 +1,12 @@
 package com.dousnl.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Builder;
 import lombok.Data;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.util.CollectionUtils;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
@@ -16,18 +17,25 @@ import java.util.List;
  * @version 1.0
  * @date 2019/9/12 10:36
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 public class User implements InitializingBean {
     private String name;
     private Integer age;
     private String address;
-    private Date da;
+    private Date date;
     private List list;
-    private Boolean at=false;
+    private Boolean at=true;
     private Boolean own;
+    @NotNull
     private String uid;
     private Long num;
     private long longNum;
+    private Integer fragmentType;
+    private PrivatePileData privatePileData;
+    private PrivatePileData privatePileData2;
+    private PrivatePileData privatePileData3;
+
 
     public User() {
     }
@@ -38,7 +46,7 @@ public class User implements InitializingBean {
     }
 
     public User(Integer age, String address,Date da) {
-        this.da=da;
+        this.date=da;
         this.age = age;
         this.address = address;
     }
@@ -101,12 +109,12 @@ public class User implements InitializingBean {
         this.address = address;
     }
 
-    public Date getDa() {
-        return da;
+    public Date getDate() {
+        return date;
     }
 
-    public void setDa(Date da) {
-        this.da = da;
+    public void setDate(Date da) {
+        this.date = da;
     }
 
     public List getList() {
@@ -139,5 +147,9 @@ public class User implements InitializingBean {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public static User createUser(){
+        return new User();
     }
 }

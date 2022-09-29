@@ -26,7 +26,9 @@ public class AtomicTest {
 
     public static void main(String[] args) throws InterruptedException, UnsupportedEncodingException {
 
-
+        Long orderId = 697574315069902208L;
+        long i1 = orderId.longValue();
+        getIn(orderId.intValue());
         for (int i = 0; i < 100; i++) {
             new Thread(new Runnable() {
                 @Override
@@ -51,5 +53,11 @@ public class AtomicTest {
         System.out.println("pass:"+s);
 
 
+
+    }
+
+    private static void getIn(Integer i) {
+        System.out.println(i);
+        System.out.println(i);
     }
 }

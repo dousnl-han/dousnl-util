@@ -115,22 +115,22 @@ public class ValidController {
         DataParams<PrivatePileData> supper=new DataParams<>();
         PrivatePileData newp=new PrivatePileData();
         List<PrivatePile> privatePileData= new ArrayList();
-        for(PrivatePile p:a.getPrivatePileData()){
-            if (1==type){
-                privatePileData.add(p);
-            }
-            if (2==type){
-                if (provinceCode.equals(p.getProvinceCode())){
-                    privatePileData.add(p);
-                }
-            }
-            if (3==type){
-                if (cityCode.equals(p.getCityCode())){
-                    privatePileData.add(p);
-                }
-            }
-        }
-        newp.setPrivatePileData(privatePileData);
+//        for(PrivatePile p:a.getPrivatePileData()){
+//            if (1==type){
+//                privatePileData.add(p);
+//            }
+//            if (2==type){
+//                if (provinceCode.equals(p.getProvinceCode())){
+//                    privatePileData.add(p);
+//                }
+//            }
+//            if (3==type){
+//                if (cityCode.equals(p.getCityCode())){
+//                    privatePileData.add(p);
+//                }
+//            }
+//        }
+//        newp.setPrivatePileData(privatePileData);
         supper.setData(newp);
         data.setSupperManagerDataParams(supper);
 
@@ -168,18 +168,18 @@ public class ValidController {
         PrivatePileData newp=new PrivatePileData();
 
         List<PrivatePile> newPrivatePileData= new ArrayList();
-        for(PrivatePile p:a.getPrivatePileData()){
-            if (1==type){
-                newPrivatePileData.add(p);
-            }
-            if (2==type && Objects.equals(provinceCode,p.getProvinceCode())){
-                newPrivatePileData.add(p);
-            }
-            if (3==type && Objects.equals(cityCode,p.getCityCode())){
-                newPrivatePileData.add(p);
-            }
-        }
-        newp.setPrivatePileData(newPrivatePileData);
+//        for(PrivatePile p:a.getPrivatePileData()){
+//            if (1==type){
+//                newPrivatePileData.add(p);
+//            }
+//            if (2==type && Objects.equals(provinceCode,p.getProvinceCode())){
+//                newPrivatePileData.add(p);
+//            }
+//            if (3==type && Objects.equals(cityCode,p.getCityCode())){
+//                newPrivatePileData.add(p);
+//            }
+//        }
+//        newp.setPrivatePileData(newPrivatePileData);
         resultData.setTenantId(tenantId);
         resultData.setData(newp);
 

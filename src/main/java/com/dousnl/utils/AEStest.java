@@ -1,9 +1,22 @@
 package com.dousnl.utils;
 
+import com.dousnl.domain.User;
+import com.dousnl.domain.entity.AdvertImageDTO;
+import com.dousnl.utils.date.DateUtil;
+import com.google.common.collect.Lists;
+import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import java.math.BigDecimal;
 import java.security.SecureRandom;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * TODO
@@ -13,8 +26,31 @@ import java.security.SecureRandom;
  * @date 2020/5/22 15:27
  */
 public class AEStest {
+    private static RedisTemplate redisTemplate;
 
     public static void main(String[] args) throws Exception {
+        Integer preview = 1;
+
+        System.out.println(checkMasterOrderFee(3800,56));
+
+        if (!Objects.equals(1,preview)){
+            System.out.println(1121423);
+        }
+        Date currentDate = DateUtil.getCurrentDate();
+        System.out.println(currentDate);
+        System.out.println(new Date());
+        User user1 = new User();
+        if (Boolean.TRUE.equals(user1.getAt()) && user1.getDate()!=null &&user1.getDate().getTime()<System.currentTimeMillis()){
+            System.out.println(1);
+        }
+        Date date = DateTime.now().millisOfDay().withMaximumValue().toDate();
+        String name="str";
+
+        caseName(name);
+        String aa=very(name);
+
+        System.out.println(aa);
+        System.out.println(DateUtil.dateToString(date));
         // TODO Auto-generated method stub
         String str = "user=admin&pwd=admin";
         String key = "12345678";
@@ -30,8 +66,56 @@ public class AEStest {
         //加密过的16进制的字符串转化成二进制数组
         encrytByte = parseHexStr2Byte(encrytStr);
         System.out.println("解密后："+deCrypt(encrytByte,key));
+        boolean flag1=false;
+        boolean flag2=true;
+        boolean flag3 = flag1 || flag2;
+        System.out.println(flag3);
+
+        User user = new User();
+        int size = 0;
+        user.setOwn(true);
+        if (Boolean.TRUE.equals(user.getOwn())){
+            size += 4;
+        }
+        if (Boolean.TRUE.equals(user.getOwn())){
+            size += 2;
+        }
+        System.out.println(size);
+        List<AdvertImageDTO> list =
+                redisTemplate.opsForValue().multiGet(Lists.newArrayList(111));
+        System.out.println(111);
 
 
+
+
+    }
+
+    private static Boolean checkMasterOrderFee(Integer masterTotalFee, Integer orderFee) {
+        if (masterTotalFee == null || orderFee == null) {
+            return false;
+        }
+        if (masterTotalFee.equals(orderFee)) {
+            return true;
+        }
+        BigDecimal divide = BigDecimal.valueOf(masterTotalFee).divide(BigDecimal.valueOf(100));
+        if (divide.compareTo(BigDecimal.valueOf(orderFee)) == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    private static void caseName(String name) {
+        if (name.equals("str")){
+            return;
+        }
+        System.out.println(name);
+    }
+
+    private static String very(String name) {
+        if (name.equals("str1")) {
+            name = "111";
+        }
+        return name;
     }
 
     /**

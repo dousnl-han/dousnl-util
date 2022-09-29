@@ -22,6 +22,11 @@ public class PrivatePile implements Serializable {
     private BigDecimal privatePileLongitude;//私桩经度
     private BigDecimal privatePileLatitude;//私桩纬度
 
+    private Integer type;
+
+    public PrivatePile(){
+
+    }
     public PrivatePile(String cityCode, String cityName) {
         this.cityCode = cityCode;
         this.cityName = cityName;
@@ -97,5 +102,13 @@ public class PrivatePile implements Serializable {
 
     public void setPrivatePileLatitude(BigDecimal privatePileLatitude) {
         this.privatePileLatitude = privatePileLatitude;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 }

@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dousnl.mapper.UserEntityMapper">
-  <resultMap id="BaseResultMap" type="com.dousnl.domain.entity.UserEntity">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="username" jdbcType="VARCHAR" property="username" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="role_id" jdbcType="NUMERIC" property="roleId" />
-    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
-    <result column="begin_date" jdbcType="TIMESTAMP" property="beginDate" />
-    <result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
-    <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
-  </resultMap>
+    <resultMap id="BaseResultMap" type="com.dousnl.domain.entity.UserEntity">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="role_id" jdbcType="NUMERIC" property="roleId"/>
+        <result column="order_id" jdbcType="VARCHAR" property="orderId"/>
+        <result column="begin_date" jdbcType="TIMESTAMP" property="beginDate"/>
+        <result column="end_date" jdbcType="TIMESTAMP" property="endDate"/>
+        <result column="del_flag" jdbcType="INTEGER" property="delFlag"/>
+    </resultMap>
     <update id="updateUser">
-      update t_user
-      <set>
-        `role_id` = #{id},
-      <if test='id==3'>order_id=#{id}</if>
-      </set>
-      where id=#{id}
+        <foreach collection="ids" item="id" index="key" open="" close="" separator=";">
+            update t_user
+            <set>
+                role_id = role_id +1,
+                del_flag = (case role_id when 2 then 2 else 1 end)
+            </set>
+            where id=#{id}
+        </foreach>
     </update>
 </mapper>

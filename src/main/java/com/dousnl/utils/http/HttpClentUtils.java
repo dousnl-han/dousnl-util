@@ -1,5 +1,6 @@
 package com.dousnl.utils.http;
 
+import com.alibaba.fastjson.JSON;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -8,6 +9,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -120,7 +122,52 @@ public class HttpClentUtils {
 	        result.setBody(EntityUtils.toString(entity));
 	        return result;
 	    }
-	 
+
+	/**
+	 * //TODO post请求
+	 *
+	 * @param url 请求地址
+	 * @param headers 请求头
+	 * @param params 请求参数
+	 * @param encoding 请求编码
+	 * @return
+	 * @throws IOException
+	 * @throws ClientProtocolException
+	 */
+	public static Result postJson(String url, Map<String, String> headers, Map<String, String> params, String encoding) throws ClientProtocolException, IOException {
+
+		cookieStore = new BasicCookieStore();
+		client = HttpClients.custom().setDefaultCookieStore(cookieStore).build();
+
+		post = new HttpPost(url);
+
+		List<NameValuePair> list = new ArrayList<NameValuePair>();
+		for (String temp : params.keySet()) {
+			list.add(new BasicNameValuePair(temp, params.get(temp)));
+		}
+		post.setEntity(new StringEntity(JSON.toJSONString(params), encoding));
+
+		post.setHeaders(parseHeader(headers));
+
+		response = client.execute(post);
+		entity = response.getEntity();
+
+		result = new Result();
+
+		result.setHttpClient(client);
+
+		//result.setCookies(cookieStore.getCookies());
+
+		result.setStatusCode(response.getStatusLine().getStatusCode());
+
+		result.setHeaders(response.getAllHeaders());
+
+		result.setHttpEntity(entity);
+
+		result.setBody(EntityUtils.toString(entity));
+		return result;
+	}
+
 	    /**
 	     * //TODO 转换header
 	     * 

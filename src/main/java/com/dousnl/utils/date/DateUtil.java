@@ -18,7 +18,7 @@ public class DateUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(DateUtil.class);
 
     private static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    public static  final String DATEFORMAT2 = "yyyy-MM-dd HH:mm:ss";
+    public static  final String DATEFORMAT2 = "yyyy-MM-dd HH:mm:ss sss";
 
     public static final String EXPANDED_DATE_FORMAT = "yyyy-MM-dd";
 
@@ -35,6 +35,16 @@ public class DateUtil {
             LOGGER.error("input time format error , input str : " + input, e);
             throw new RuntimeException();
         }
+    }
+    /**
+     * parse a String date to Date type date .
+     *
+     * @param dateStr
+     * @return
+     * @throws ParseException
+     */
+    public static Date parse(String dateStr) throws ParseException {
+        return parse(dateStr,DATEFORMAT2);
     }
     /**
 	 * parse a String date to Date type date .
@@ -101,6 +111,10 @@ public class DateUtil {
         c.setTime(date);
         c.add(Calendar.DAY_OF_MONTH, day);
         return c.getTime();
+    }
+
+    public static String dateToString(Date date) {
+        return dateToString(date,DATEFORMAT2);
     }
 
     public static String dateToString(Date date, String format) {

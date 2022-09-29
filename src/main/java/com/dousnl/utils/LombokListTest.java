@@ -2,13 +2,19 @@ package com.dousnl.utils;
 
 import com.alibaba.fastjson.JSON;
 import com.dousnl.domain.User;
+import com.dousnl.utils.date.DateUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomUtils;
 
+import java.text.ParseException;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -34,7 +40,16 @@ public class LombokListTest {
     private List<User> users;
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
+        User build = User.createUser();
+        build.setDate(DateUtil.parse("2022-07-28 13:00:00","yyyy-MM-dd HH:mm:ss"));
+        LocalDateTime endTime = build.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        LocalDateTime now = LocalDateTime.now();
+        long between = Duration.between(endTime, now).toMinutes();
+
+        //DateUtil.getMinutesBetween(build.getDate(), new Date());
+
+        System.out.println(between);
         List<String> list=Lists.newArrayList();
         list.addAll(Arrays.asList("1"));
         if (list.contains("1")){

@@ -17,9 +17,9 @@ public class GcTest {
 
         List<User> list=new ArrayList<User>();
         int cout=0;
-        while (true){
-            list.add(new User());
-            System.out.println("Instance: "+(++cout));
-        }
+        do{
+            list=null;
+            System.out.println(111);
+        }while (list!=null && list.size()>0);
     }
 }

@@ -2,12 +2,14 @@ package com.dousnl.controller;
 
 import com.dousnl.domain.User;
 import com.dousnl.domain.entity.UserEntity;
+import com.dousnl.mapper.UserEntityMapper;
 import com.dousnl.service.CommonService;
 import com.dousnl.service.ContstructService;
 import com.dousnl.service.DusyService;
 import com.dousnl.service.UserService;
 import com.dousnl.utils.ObjectSize;
 import com.dousnl.utils.fdds.SoybeanRequestWrapper;
+import com.google.common.collect.Lists;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.util.RamUsageEstimator;
@@ -49,6 +51,10 @@ public class UserSizeController {
 
     @Autowired
     private DusyService dusyService;
+    @Autowired
+    private UserEntityMapper userEntityMapper;
+
+
     /**
      * //计算指定对象及其引用树上的所有对象的综合大小，单位字节
      * long RamUsageEstimator.sizeOf(Object obj)
@@ -59,9 +65,21 @@ public class UserSizeController {
      * //计算指定对象及其引用树上的所有对象的综合大小，返回可读的结果，如：2KB
      * String RamUsageEstimator.humanSizeOf(Object obj)
      *
-     * @param num
      * @return
      */
+    public static void main(String[] args) {
+        String str="-非凡精读馆-为你解决的问题如果你";
+        long l = RamUsageEstimator.sizeOf(str.getBytes());
+        System.out.println(l);
+
+        ArrayList<Integer> integers = Lists.newArrayList(13, 9);
+        integers.clear();
+        integers.add(11);
+        System.out.println(integers);
+        integers.clear();
+        integers.add(1);
+        System.out.println(integers);
+    }
     @ApiOperation(value = "计算对象大小，单位字节", notes = "计算对象大小，单位字节")
     @GetMapping(value = "/v1")
     public String v2(@RequestParam("num") Integer num) {
@@ -147,8 +165,17 @@ public class UserSizeController {
     @GetMapping("v100/user")
     @ResponseBody
     public List<UserEntity> listUser() {
-        return userService.listUserEntity();
+        ArrayList<Integer> integers = Lists.newArrayList(13, 9);
+        integers.clear();
+        integers.add(11);
+        System.out.println(integers);
+        integers.clear();
+        integers.add(1);
+        System.out.println(integers);
+        userEntityMapper.updateUser(Lists.newArrayList(13,9));
+        return null;
     }
+
 
     @GetMapping("v100/adduser")
     public void adduser() {

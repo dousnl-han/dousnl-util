@@ -20,9 +20,6 @@ public class PileTest {
         System.out.println(JSON.toJSONString(data));
         List<User> list= Lists.newArrayList();
         User user=null;
-        while (true){
-            user=new User();
-            list.add(user);
-        }
+
     }
 }

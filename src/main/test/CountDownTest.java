@@ -4,6 +4,7 @@ import com.dousnl.utils.response.Resp;
 import com.dousnl.utils.response.RespStatus;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -61,12 +62,19 @@ public class CountDownTest {
         if (false||true){
             System.out.println("sadfafdf");
         }
-        log.info(">>>>>>postData:{}", postData);
         int i=0;
         int num=2;
         BigDecimal b1=new BigDecimal(1);
         BigDecimal b2=new BigDecimal(1);
         System.out.println(Objects.equals(b1,b2));
         System.out.println(13/2);
+        User u = new User();
+        u.setName("1");
+        u.setAddress(" <p>&lt;p&gt;试听节目文稿&lt;/p&gt;</p> ");
+        u.setAddress(StringUtils.trimToEmpty(u.getAddress()));
+        u.setNickName(StringUtils.trimToEmpty(u.getNickName()));
+        StringBuilder builder=new StringBuilder();
+        builder.append(u.getName()).append(u.getAddress()).append(u.getNickName());
+        System.out.println(builder.toString());
     }
 }

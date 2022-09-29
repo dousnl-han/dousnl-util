@@ -101,12 +101,12 @@ public class StringTest {
         u.setName("1111");
         u.setAge(1222);
         u.setAddress("11");
-        u.setDa(new Date());
+        u.setDate(new Date());
         //u.setAddress1("");
         u.setName("1111");
         u.setAge(1222);
         u.setAddress("11");
-        u.setDa(new Date());
+        u.setDate(new Date());
         //u.setAddress1("");
         return timeCount.getSecondCount();
     }

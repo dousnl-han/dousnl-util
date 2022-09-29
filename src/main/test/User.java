@@ -2,6 +2,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 /**
  * TODO
  *
@@ -13,11 +15,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class User {
     private String name;
+    private String address;
+    private String nickName;
     private int age;
     private Integer money;
     private Boolean status;
     private Integer num;
     private long aaa;
+    private Date date;
+    private Boolean isAtatus;
 
     public String getName() {
         return name;
@@ -49,6 +55,11 @@ public class User {
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    public User(String name, int age) {
+        this.name = name;
+        this.age = age;
     }
 
     public User(String name, int age, Integer money, Boolean status) {

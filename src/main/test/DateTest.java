@@ -1,13 +1,21 @@
+import com.alibaba.fastjson.JSON;
 import com.dousnl.utils.IntegerEncryptTool;
 import com.dousnl.utils.date.DateUtil;
+import com.google.common.collect.Lists;
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+import org.apache.commons.collections.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tk.mybatis.mapper.util.StringUtil;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 
@@ -30,7 +38,7 @@ public class DateTest {
         }
         Integer a=null;
         boolean after = d.after(c);
-        screenList(1);
+        //screenList(1);
         System.out.println(after);
 
         Calendar calendar = Calendar.getInstance();
@@ -87,10 +95,42 @@ public class DateTest {
         System.out.println(new Random().nextInt(10)+1);
         System.out.println(new Random().nextInt(10)+1);
         Integer userId=new User().getMoney();
-        System.out.println(IntegerEncryptTool.encrypt(userId));
+        //System.out.println(IntegerEncryptTool.encrypt(userId));
+
+        List<Integer> booksId= Lists.newArrayList();
+        for (int i=0;i<400;i++){
+           booksId.add(i);
+        }
+        List<Integer> jjj= Lists.newArrayList(23,7,789,243);
+        List<Integer> aaa= Lists.newArrayList(23,7,789,243);
+        long l = System.currentTimeMillis();
+
+        System.out.println((System.currentTimeMillis()-l)+"ms");
+        Boolean outside = MapUtils.getBoolean(new HashMap() , "outside");
+        screenList(outside);
+        User user = new User();
+        user.setIsAtatus(true);
+        ArrayList<User> users = Lists.newArrayList(user);
+        users.forEach(e->{
+            if (Boolean.TRUE.equals(e.getIsAtatus())){
+                System.out.println("user is status");
+            }
+        });
+        Iterator<Integer> iterator = jjj.iterator();
+        while (iterator.hasNext()){
+            Integer next = iterator.next();
+            if (next.equals(7)) {
+                iterator.remove();
+            }
+        }
+        System.out.println(jjj);
+
     }
 
-    private static void screenList(int i) {
+    private static void screenList(Boolean i) {
+        if (Boolean.FALSE.equals(i)){
+            System.out.println(false);
+        }
         return;
     }
     private static boolean registerYearSource(String source) {

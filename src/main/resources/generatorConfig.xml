@@ -21,12 +21,12 @@
                     password="">
     </jdbcConnection>
 
-    <javaModelGenerator targetPackage="com.dousnl.domain.entity" targetProject="src" />
+    <javaModelGenerator targetPackage="com.dousnl.domain.entity" targetProject="target" />
 
-    <sqlMapGenerator targetPackage="com.dousnl.mapper"  targetProject="src"/>
+    <sqlMapGenerator targetPackage="com.dousnl.mapper"  targetProject="target"/>
 
-    <javaClientGenerator targetPackage="com.dousnl.mapper" targetProject="src"  type="XMLMAPPER" />
+    <javaClientGenerator targetPackage="com.dousnl.mapper" targetProject="target"  type="XMLMAPPER" />
 
-    <table tableName="t_my_config_fields" domainObjectName="MyConfigFields"></table>
+    <table tableName="t_fanbuy_clockin_rights" domainObjectName="FanbuyClockinRights"></table>
   </context>
 </generatorConfiguration>

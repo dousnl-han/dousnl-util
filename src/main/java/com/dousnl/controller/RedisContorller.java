@@ -1,14 +1,31 @@
 package com.dousnl.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dousnl.domain.AdviceCanel;
+import com.dousnl.domain.PrivatePile;
+import com.dousnl.domain.PrivatePileData;
+import com.dousnl.domain.TestUser;
+import com.dousnl.domain.TestUserA;
 import com.dousnl.domain.User;
 import com.dousnl.domain.UserT;
 import com.dousnl.domain.entity.AdvertImageDTO;
+import com.dousnl.domain.fdds.BookPanGuBO;
+import com.dousnl.file.FileUser;
 import com.dousnl.mapper.AdvertImageDTOMapper;
+import com.dousnl.utils.BeanCommonUtils;
+import com.dousnl.utils.date.DateUtil;
+import com.dousnl.utils.file.TxtUtil;
+import com.dousnl.vo.FragmentPanGuBO;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import lombok.val;
+import org.apache.commons.collections.MapUtils;
+import org.apache.ibatis.annotations.Param;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
@@ -18,8 +35,10 @@ import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.core.ZSetOperations;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,7 +48,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import tk.mybatis.mapper.entity.Example;
 
-import java.io.IOException;
+import javax.annotation.Resource;
+import java.io.*;
+import java.text.ParseException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -44,9 +65,11 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/redis")
 public class RedisContorller {
-
+    private static final Logger logger = LoggerFactory.getLogger(RedisContorller.class);
     @Autowired
     private RedisTemplate redisTemplate;
+    @Resource(name = "templatePangu")
+    private RedisTemplate<String, Object> redisTemplatePanGu;
     @Autowired
     private AdvertImageDTOMapper advertImageDTOMapper;
 
@@ -275,6 +298,39 @@ public class RedisContorller {
         boolean flag=false;
     }
 
+    @RequestMapping(value = "/setList",method = RequestMethod.GET)
+    public List<User> setList() throws Exception {
+        String cacheKey = String.format("openpage_cache_%s", 1);
+
+        List<User> cacheList = (List<User>) redisTemplate.opsForValue().get(cacheKey);
+        if (cacheList != null){
+            return cacheList;
+        }
+        List<User> list=Lists.newArrayList();
+        User u=new User();
+        u.setAge(11);
+        PrivatePileData privatePileData = new PrivatePileData();
+        PrivatePile privatePile = new PrivatePile();
+        privatePile.setAreaCode("11");
+        privatePile.setAreaName("22");
+        privatePile.setDeviceCode("243");
+        privatePileData.setPile(privatePile);
+        u.setPrivatePileData(privatePileData);
+        list.add(u);
+        redisTemplate.opsForValue().set(cacheKey, list, 5, TimeUnit.MINUTES);
+
+        redisTemplate.opsForValue().set("openpage_cache_2", list);
+        redisTemplate.expireAt("openpage_cache_2",DateUtil.addMillis(new Date(),10000));
+        return list;
+    }
+
+    @RequestMapping(value = "/getList",method = RequestMethod.GET)
+    public List<Integer> getList() throws Exception {
+        List<Integer> allBookIds = (List<Integer>) redisTemplate.opsForValue().get("publishtime.desc.bookids");
+        return allBookIds;
+    }
+
+
     @RequestMapping(value = "/zset",method = RequestMethod.GET)
     public void zset() throws Exception {
         redisTemplate.opsForZSet().add("zset","111",1);
@@ -309,15 +365,132 @@ public class RedisContorller {
         System.out.println("removeRange:"+redisTemplate.opsForZSet().range("zset", 0, -1).toString());
     }
 
-    @GetMapping("/get")
-    public void get(AdviceCanel adviceCanel) {
-        System.out.println(adviceCanel);
-        System.out.println(adviceCanel);
+    @PostMapping("/12313")
+    public void get(@RequestBody Integer pageNo) {
+        List<Integer> integers = JSON.parseArray(
+                "[400017862,400017695,400017631,400017598,400017564,400017505,400017401,400017220,400017225,400016858,400016860,400017193,400016859,400016857,400016856," +
+                        "400016851,400016814,400016394,400016083,400016012,400015992,400015906,400015880,400015814,400015779,400015711,400015608,400015343,400015114,400015088,400014977," +
+                        "400014829,400014774,400014439,400014555,400014445,400014349,400014248,400011659,400011320,400011295,400011016,400010727,400009396,400008296,400007872,400007272," +
+                        "400006832,400006349,400005425,400005130,400004937,400004632,400004116,400003744,400003351,400003100,400002877,400002562,400002338,400002113,400001915,400001918,400001898," +
+                        "400001749,400001656,400001528,400001560,400001511,400001497,400001208,400001172,400001045,400001031,400000994,400000875,400000829,400000834,400000721,400000570,400000566,400000516," +
+                        "400000348,400000108,400000093,400000085,400000084,400000083,400000075,400000074,400000065,400000055,400000056,400000050,400000042,200000150,200000149,200000148,200000147,200000146,200000145," +
+                        "200000144,200000143,200000142,200000141,200000137,200000136,200000135,200000134,200000133,200000132,200000131,200000128,200000126,200000123,200000120,200000118,200000115,200000114,200000113," +
+                        "200000112,200000111,200000109,200000104,200000102,200000101,200000100,200000099,200000098,200000097,200000096,200000090,200000089,200000088,200000087,200000086,200000085,200000084,200000083," +
+                        "200000082,200000081,200000080,200000079,200000078,200000076,200000074,200000073,200000071,200000069,200000068,200000067,200000066,200000065,200000064,200000063,200000062,200000061,200000060," +
+                        "200000059,200000058,200000057,200000056,200000055,200000054,200000053,200000052,200000051,200000050,200000048,200000047,200000046,200000045,200000043,200000044,200000042,200000041,200000040,200000038," +
+                        "200000037,200000036,200000035,200000034,200000033,200000032,200000031,200000030,200000029,200000025,200000024,200000023,200000022,200000020,200000019,200000018,200000017,200000016,200000015,200000014," +
+                        "200000013,200000011,200000010,200000009,200000008,200000006,200000005,200000004,200000003,597,596,595,594,592,593,591,589,588,587,586,200000049,585,584,315,583,581,580,579,578,577,576,575,574,573,572,571," +
+                        "570,569,567,565,563,561,558,555,554,553,552,551,550,549,548,547,521,495,492,475,424,388,386,385,384,383,382,381,380,379,378,377,376,375,374,373,372,371,370,369,368,367,366,365,364,363,362,361,360,358,357,356," +
+                        "355,354,348,353,352,351,350,349,347,346,345,344,343,342,341,340,339,338,337,335,334,333,332,331,330,156,328,327,325,67,141,146,135,321,108,320,319,316,314,63,312,311,310,100,309,307,305,173,128,21,103,302,116," +
+                        "152,297,294,69,148,160,127,102,272,180,206,183,178,177,176,175,174,172,171,166,170,167,165,163,162,161,157,155,153,150,147,144,92,91,84,76,72,65,55,18,19,20," +
+                        "22]", Integer.class);
+        redisTemplate.opsForValue().set("13123", integers);
+        List<BookPanGuBO> list = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            BookPanGuBO user = new BookPanGuBO();
+            user.setAuthor("作者"+i);
+            user.setName("name" + i);
+            user.setCoverImageUrl("上海市：" + i);
+            FragmentPanGuBO audio = new FragmentPanGuBO();
+            audio.setAuthor("sefsf"+i);
+            FragmentPanGuBO video = new FragmentPanGuBO();
+            video.setAuthor("sefsf"+i);
+            FragmentPanGuBO article = new FragmentPanGuBO();
+            article.setCategoryId(1);
+            audio.setAuthor("sefsf"+i);
+            user.setAudio(audio);
+            user.setVideo(video);
+            user.setArticle(article);
+            list.add(user);
+        }
+        Map<String, List<BookPanGuBO>> bookMap = new LinkedHashMap<>();
+        bookMap.put("1测试key#大小#心灵文学",list);
+        redisTemplatePanGu.opsForValue().set("book_category_real_data_v2",bookMap);
+        redisTemplate.opsForValue().set("book_category_real_data_v2_1",bookMap);
+
+
+        Map<String, List<BookPanGuBO>> map = (Map<String, List<BookPanGuBO>>) redisTemplatePanGu.opsForValue().get("book_category_real_data_v2");
+        //System.out.println(map);
+        List<String> cacheKey = integers.stream().skip((long) ((pageNo - 1) * 50)).limit(50).map(a -> "" + a).collect(Collectors.toList());
+        List<Object> bookPanGu = redisTemplate.opsForValue().multiGet(cacheKey);
+        List<BookPanGuBO> bookPanGuBOS = new ArrayList<>();
+        bookPanGuBOS = BeanCommonUtils.copyList(bookPanGu, BookPanGuBO.class);
+        if (CollectionUtils.isEmpty(bookPanGuBOS)){
+            System.out.println("cacheKey is null....111111");
+        }
     }
+
+    @PostMapping("/45646")
+    public void get1(@RequestBody Integer pageNo) throws Exception{
+
+
+        Map<String, JSONArray> adad = JSON.parseObject(TxtUtil.txt2String(new File("D:/1.txt")), Map.class);
+        Map<String, List<BookPanGuBO>> bookMap1 = new LinkedHashMap<>();
+        for (Map.Entry entry : adad.entrySet()){
+            JSONArray objects = adad.get(entry.getKey());
+            bookMap1.put(entry.getKey().toString(),objects.toJavaList(BookPanGuBO.class));
+        }
+
+        Map<String, List<BookPanGuBO>> bookMap = new LinkedHashMap<>();
+        for (Map.Entry<String, List<BookPanGuBO>> entry : bookMap1.entrySet()) {
+            List<BookPanGuBO> list = new ArrayList<>();
+            for (BookPanGuBO item : entry.getValue()) {
+                BookPanGuBO bookPanGuBO = new BookPanGuBO();
+                bookPanGuBO.setAuthor(item.getAuthor());
+                bookPanGuBO.setReadCount(item.getReadCount());
+                bookPanGuBO.setCoverImageUrl(item.getCoverImageUrl());
+                bookPanGuBO.setId(item.getId());
+                bookPanGuBO.setName(item.getName());
+                bookPanGuBO.setPublishTime(item.getPublishTime());
+                bookPanGuBO.setSummary(item.getSummary());
+                FragmentPanGuBO article = new FragmentPanGuBO();
+                if (item.getArticle() != null) {
+                    article.setId(item.getArticle().getId());
+                    bookPanGuBO.setArticle(article);
+                }
+                FragmentPanGuBO audio = new FragmentPanGuBO();
+                if (item.getAudio() != null) {
+                    audio.setId(item.getAudio().getId());
+                    bookPanGuBO.setAudio(audio);
+                }
+                FragmentPanGuBO video = new FragmentPanGuBO();
+                if (item.getVideo() != null) {
+                    video.setId(item.getVideo().getId());
+                    bookPanGuBO.setVideo(video);
+                }
+
+                list.add(bookPanGuBO);
+            }
+            bookMap.put(entry.getKey(), list);
+        }
+        //redisTemplatePanGu.opsForValue().set("book_category_real_data_v3",bookMap);
+        Map<String, List<BookPanGuBO>> map = (Map<String, List<BookPanGuBO>>) redisTemplatePanGu.opsForValue().get("book_category_real_data_v3");
+        System.out.println("cacheKey is null....111111");
+    }
+
+
     @GetMapping("/incm")
     public void incm() {
         System.out.println(redisTemplate.opsForValue().get("incm"));
         redisTemplate.opsForValue().increment("incm",1);
+        redisTemplate.opsForValue().setBit("userIdSetBit",1,true);
+        redisTemplate.opsForValue().setBit("userIdSetBit",2,true);
+        redisTemplate.opsForValue().setBit("userIdSetBit",6,true);
+        redisTemplate.opsForValue().setBit("userIdSetBit",213181752,true);
+        Boolean userIdSetBit1 = redisTemplate.opsForValue().getBit("userIdSetBit", 1);
+        Boolean userIdSetBit2 = redisTemplate.opsForValue().getBit("userIdSetBit", 2);
+        Boolean userIdSetBit3 = redisTemplate.opsForValue().getBit("userIdSetBit", 3);
+        Boolean userIdSetBit5 = redisTemplate.opsForValue().getBit("userIdSetBit", 5);
+        Boolean userIdSetBit6 = redisTemplate.opsForValue().getBit("userIdSetBit", 6);
+        Boolean userIdSetBit7 = redisTemplate.opsForValue().getBit("userIdSetBit", 7);
+        Boolean userIdSetBit17 = redisTemplate.opsForValue().getBit("userIdSetBit", 17);
+        System.out.println(userIdSetBit1);
+        System.out.println(userIdSetBit2);
+        System.out.println(userIdSetBit3);
+        System.out.println(userIdSetBit5);
+        System.out.println(userIdSetBit6);
+        System.out.println(userIdSetBit7);
+        System.out.println(userIdSetBit17);
     }
 
     @GetMapping("/image")
@@ -380,10 +553,70 @@ public class RedisContorller {
 
 
     @PostMapping("/topic")
-    public String imagePost(@RequestBody User user) {
-
-        redisTemplate.convertAndSend("message.disc","hello world");
+    public String imagePost(@Validated @RequestBody User user) {
+        //redisTemplate.convertAndSend("message.disc","hello world");
         System.out.println(JSON.toJSONString(user));
+        try{
+            int i = 1/0;
+        }catch (Exception e){
+            logger.error("订单完成扣除冻结积分失败.....orderNumber：{}，orderExtentBOs:{}",1111,new User(),e);
+        }
         return "success";
     }
+
+    @PostMapping("/sh")
+    public String sh(@RequestBody Map<String, Object> data) {
+        //System.out.println("success.....");
+        if (data != null){
+            String date = (String) data.get("date");
+            try {
+                System.out.println(DateUtil.dateToString(DateUtil.parse(date)));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return "success";
+    }
+
+    @PostMapping("/getUser")
+    public User getUser() {
+        User u=new User();
+        u.setDate(new Date());
+        u.setUid("111");
+        return u;
+    }
+
+
+    @RequestMapping(value = "/setUser",method = RequestMethod.GET)
+    public void setUser() throws Exception {
+        User u=new User();
+        u.setAge(11);
+        u.setName("zahngsa");
+        u.setUid("111111");
+        redisTemplate.opsForValue().set("user-json",JSON.toJSONString(u));
+        String o = (String) redisTemplate.opsForValue().get("user-json");
+        User parse = JSON.parseObject(o,User.class);
+        System.out.println(JSON.toJSONString(parse));
+    }
+
+    @PostMapping("/clutchshot")
+    public void clutchShot(@RequestBody Map<String, Object> data) {
+        Object awardsStr = data.get("st");
+        List<TestUser> objects = JSON.parseArray(JSON.toJSONString(awardsStr), TestUser.class);
+        for (TestUser object : objects){
+            System.out.println(object);
+        }
+    }
+
+    @PostMapping("/user")
+    public String user(@RequestBody TestUser user) {
+        //redisTemplate.convertAndSend("message.disc","hello world");
+        System.out.println(JSON.toJSONString(user));
+        TestUserA userA=new TestUserA();
+        BeanUtils.copyProperties(user,userA,TestUserA.class);
+        //userA.setAge(Integer.parseInt(user.getAge()));
+        System.out.println(userA);
+        return "success";
+    }
+
 }

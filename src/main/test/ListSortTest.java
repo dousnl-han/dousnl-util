@@ -27,15 +27,18 @@ public class ListSortTest {
                 new User("zhang",null,"beijing"),
                 new User("li",20,"shanghai"),
                 new User("wang",19,"shenzhen"),
-                new User("zhang1",null,"beijing"),
+                new User("zhang",21,"beijing"),
                 new User("wang1",21,"shenzhen"));
+        Map<String, User> collect3 = users.stream().collect(Collectors.toMap(e -> e.getName(), Function.identity(), (k1, k2) -> k2));
+        ArrayList<User> users1 = new ArrayList<>(collect3.values());
+        System.out.println("users1==>"+users1);
         User u=new User();
         u.setList(Arrays.asList(1,2,3));
         users.add(u);
 
-        Map<String, User> thirdPartyMap = users.stream().collect(Collectors.toMap(User::getName, Function.identity()));
+        //Map<String, User> thirdPartyMap = users.stream().collect(Collectors.toMap(User::getName, Function.identity()));
 
-        System.out.println("age:"+thirdPartyMap.get("zhang").getAge());
+        //System.out.println("age:"+thirdPartyMap.get("zhang").getAge());
 
         List<User> collect2 = users.stream().filter(a -> a.belongClassify(4)).collect(Collectors.toList());
 

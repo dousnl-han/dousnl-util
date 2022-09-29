@@ -1,8 +1,10 @@
 import com.alibaba.fastjson.JSON;
+import com.dousnl.domain.User;
 import com.dousnl.utils.date.DateUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import org.joda.time.DateTime;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
@@ -23,6 +25,28 @@ public class AnnontionTypeTest {
     public static volatile boolean flag=false;
 
     public static void main(String[] args) throws UnsupportedEncodingException {
+
+        try{
+            int i=1/0;
+        }finally {
+            System.out.println(1);
+        }
+        Long value=20L;
+        System.out.println(value<30);
+        System.out.println(String.format("openpage_cache_%s_%s",111,new User().getAge()));
+        Date startTime = new DateTime(DateUtil.getCurrentDate()).plusDays(1).withTimeAtStartOfDay().toDate();
+        Date startTime1 = new DateTime(DateUtil.getCurrentDate()).plusWeeks(1).dayOfWeek().withMinimumValue().withTimeAtStartOfDay().toDate();
+        System.out.println(DateUtil.dateToString(startTime));
+        System.out.println(DateUtil.dateToString(startTime1));
+        Boolean flag = false || Boolean.TRUE;
+        System.out.println(flag);
+        int size=0;
+        User user = new User();
+        Set<Integer> noRepeatIds = Lists.newArrayList(1,2,3,4,1,3,5).stream().map(Integer::intValue).collect(Collectors.toSet());
+        System.out.println("noRepeatIds:"+noRepeatIds);
+        Integer age = user.getAge() != null? user.getAge():1;
+        size+=age;
+        System.out.println(size);
         Integer showLimit=0;
         if (Objects.equals(0, showLimit)) {
             System.out.println("showLimit");
@@ -106,7 +130,7 @@ public class AnnontionTypeTest {
         System.out.println("sets:"+sets);
 
         Set set2=Sets.newHashSet(1,4);
-        boolean flag=false;
+        //boolean flag=false;
         for (Set s : list) {
             if (s.size() != set2.size()) {
                 System.out.println("不合法");

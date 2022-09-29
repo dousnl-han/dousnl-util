@@ -43,6 +43,12 @@ public class BigDemclTest {
      * Size is always a power of two. Accessed directly by iterators.
      */
     public static void main(String[] args) throws IOException {
+        User user =new User();
+        Boolean own =false;
+        user.setOwn(own);
+        own=true;
+        user.setOwn(own);
+        System.out.println(user);
         BigDecimal bigDecimal = new BigDecimal("0.00");
         if (bigDecimal.compareTo(BigDecimal.ZERO) == 0) {
             System.out.println("zero");
@@ -103,7 +109,7 @@ public class BigDemclTest {
         list.add(u3);
 
         HashMap<Object, Object> newHashMap = Maps.newHashMap();
-        User user = list.stream().filter(p -> filterUser(p, newHashMap)).findFirst().get();
+        //User user = list.stream().filter(p -> filterUser(p, newHashMap)).findFirst().get();
         user.setName("555");
 
         System.out.println(list);
@@ -158,8 +164,8 @@ public class BigDemclTest {
 
         LocalDateTime parse = LocalDateTime.parse("2021-07-30 16:46:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         Date from = Date.from(parse.atZone(ZoneId.systemDefault()).toInstant());
-        u1.setDa(from);
-        System.out.println("u1.date:"+ u1.getDa());
+        u1.setDate(from);
+        System.out.println("u1.date:"+ u1.getDate());
 
         System.out.println("notifysharding-hashcode:"+"notifysharding".hashCode());
         List<User> users=Lists.newArrayList();
@@ -173,10 +179,10 @@ public class BigDemclTest {
 
         System.out.println(JSON.toJSONString(user2));
 
-        List<User> collect1 = users.stream().filter(e -> Objects.nonNull(e.getAge())).sorted(Comparator.comparing(x -> x.getDa())).collect(Collectors.toList());
+        List<User> collect1 = users.stream().filter(e -> Objects.nonNull(e.getAge())).sorted(Comparator.comparing(x -> x.getDate())).collect(Collectors.toList());
         Map<Integer, Date> userMap = Maps.newHashMap();
         for (User user1 : collect1) {
-            userMap.put(user1.getAge(),user1.getDa());
+            userMap.put(user1.getAge(),user1.getDate());
         }
         Object aaa= null;
         System.out.println((String) aaa);

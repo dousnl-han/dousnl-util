@@ -1,6 +1,8 @@
 package com.dousnl.config;
 
 import com.dousnl.listener.RedisMqMessageListener;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -9,6 +11,7 @@ import org.springframework.data.redis.listener.PatternTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
@@ -59,6 +62,22 @@ public class RedisConfig {
 //        redisTemplate.setHashValueSerializer(jdkSerializationRedisSerializer);
 
         //经过压测工具对比，GenericJackson2JsonRedisSerializer，性能最好
+        return redisTemplate;
+    }
+
+    @Bean("templatePangu")
+    public RedisTemplate<String, Object> getRedisTemplatePanGu(RedisConnectionFactory redisConnectionFactory) {
+        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer =
+                new Jackson2JsonRedisSerializer<>(Object.class);
+        ObjectMapper om = new ObjectMapper();
+        om.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        jackson2JsonRedisSerializer.setObjectMapper(om);
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<String,Object>();
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+        redisTemplate.setHashValueSerializer(new KryoRedisSerializer<>(Object.class));
+        redisTemplate.setValueSerializer(new KryoRedisSerializer<>(Object.class));
+        redisTemplate.setConnectionFactory(redisConnectionFactory);
         return redisTemplate;
     }
 

@@ -5,6 +5,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Table(name = "t_user")
@@ -35,6 +36,7 @@ public class UserEntity {
      * 订单(合同)号
      */
     @Column(name = "order_id")
+    @NotNull
     private String orderId;
 
     /**

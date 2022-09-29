@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class GlobalExceptionHandler {
 
 
-    @ExceptionHandler(Exception.class)
+    //@ExceptionHandler(Exception.class)
     @ResponseBody
     public String handlerException(Exception ex){
         log.error(">>>>>全局异常捕获：" + ex.getMessage(), ex);
         return ex.getMessage();
     }
 
-    @ExceptionHandler(MyException.class)
+    //@ExceptionHandler(MyException.class)
     @ResponseBody
     public String handlerMyException(Exception ex){
         log.error(">>>>>全局自定义异常捕获：" + ex.getMessage(), ex);
