@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Description: 活动复制VO
@@ -62,4 +63,8 @@ public class SourceEventCopyVO extends BaseCreateUserVO implements Serializable 
 
     @ApiModelProperty("渠道名称")
     private String channelName;
+
+    @NotNull
+    @Size(max = 5)
+    private List<Integer> ids;
 }

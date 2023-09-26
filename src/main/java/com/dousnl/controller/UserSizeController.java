@@ -1,5 +1,6 @@
 package com.dousnl.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.dousnl.domain.User;
 import com.dousnl.domain.entity.UserEntity;
 import com.dousnl.mapper.UserEntityMapper;
@@ -11,20 +12,24 @@ import com.dousnl.utils.ObjectSize;
 import com.dousnl.utils.fdds.SoybeanRequestWrapper;
 import com.google.common.collect.Lists;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomUtils;
 import org.apache.lucene.util.RamUsageEstimator;
 import org.openjdk.jol.info.ClassLayout;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import tk.mybatis.mapper.entity.Example;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 
 /**
  * 计算对象大小第一种方式---maven-pom文件增加 lucene-core  ---对应方法v1
@@ -35,11 +40,12 @@ import java.util.regex.Pattern;
  * @version 1.0
  * @date 2020/3/24 9:59
  */
-@Slf4j
 @RestController
 @RequestMapping("/test")
 public class UserSizeController {
 
+    private Logger logger = LoggerFactory.getLogger(UserSizeController.class);
+    
     @Autowired
     private UserService userService;
     @Autowired
@@ -79,6 +85,37 @@ public class UserSizeController {
         integers.clear();
         integers.add(1);
         System.out.println(integers);
+
+        List<Integer> list = new ArrayList<Integer>();
+        for (int i = 0; i < 50000; i++) {
+            list.add((int) RandomUtils.nextLong(0L, 9999999L));
+        }
+        System.out.println("list长度：" + list.size());
+        //大约产生10m内存---RamUsageEstimator.humanSizeOf(list)
+        System.out.println("list大小字节：" + RamUsageEstimator.humanSizeOf(list));
+
+
+        List<User> list1 = new ArrayList<User>();
+        for (int i = 0; i < 50000; i++) {
+            if (i==99910) {
+                System.out.println("i长度：" + RamUsageEstimator.shallowSizeOf(i));
+            }
+            list1.add(new User(i + "", i, i + ""));
+        }
+        System.out.println("list长度：" + list1.size());
+        //大约产生10m内存---RamUsageEstimator.humanSizeOf(list)
+        System.out.println("list大小字节：" + RamUsageEstimator.humanSizeOf(list1));
+
+        String s = "[\n" +
+                "    {\n" +
+                "        \"sk\": \"rightsRecord.createTime\",\n" +
+                "        \"so\": 2,\n" +
+                "        \"sp\": 1,\n" +
+                "        \"skt\": 0\n" +
+                "    }\n" +
+                "]";
+        List<SortTest> sorts = JSON.parseArray(s, SortTest.class);
+        System.out.println(sorts);
     }
     @ApiOperation(value = "计算对象大小，单位字节", notes = "计算对象大小，单位字节")
     @GetMapping(value = "/v1")
@@ -172,24 +209,38 @@ public class UserSizeController {
         integers.clear();
         integers.add(1);
         System.out.println(integers);
-        userEntityMapper.updateUser(Lists.newArrayList(13,9));
+        //userEntityMapper.updateUser(Lists.newArrayList(13,9));
+
+
+        Example example = new Example(UserEntity.class);
+        example.createCriteria()
+                .andEqualTo("id", 1)
+                .andLessThanOrEqualTo("beginDate", new Date())
+                .andGreaterThanOrEqualTo("endDate", new Date());
+        example.orderBy("endDate").asc();
+        List<UserEntity> taskDTO = userEntityMapper.selectByExample(example);
+        System.out.println(JSON.toJSONString(taskDTO));
         return null;
     }
-
 
     @GetMapping("v100/adduser")
     public void adduser() {
         userService.addUser();
     }
 
+    @PostMapping("v100/updateUser")
+    public void updateUser() {
+        userService.updateUser();
+    }
+
     @PostMapping("v100/getuser")
     @ResponseBody
     public String getuser(@RequestBody User vo) {
-        log.info(">>>>>>user:{}", vo);
+        logger.info(">>>>>>user:{}", vo);
         try {
             int i = 1 / 0;
         } catch (Exception e) {
-            log.error(">>>>>>>>user:{}", vo, e);
+            logger.error(">>>>>>>>user:{}", vo, e);
         }
         return "success";
     }

@@ -1,5 +1,6 @@
 package com.dousnl.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.dousnl.domain.User;
 import com.dousnl.service.DusyService;
 import com.dousnl.service.ContstructService;
@@ -8,6 +9,7 @@ import com.dousnl.utils.execl.ExportUtils;
 import com.dousnl.utils.execl.ImportUtils;
 import com.dousnl.utils.freemud.ExcelView;
 import com.dousnl.utils.response.Resp;
+import com.dousnl.vo.RankInfoFlowConfig;
 import com.google.common.collect.Lists;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.apache.poi.ss.usermodel.Row;
@@ -17,6 +19,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -118,7 +121,7 @@ public class ExeclController {
      * @return
      * @throws Exception
      */
-    @RequestMapping("/imp")
+    @PostMapping ("/imp")
     public Resp imp(@RequestParam(value = "execlFile") MultipartFile excelFile) throws Exception {
         try {
             boolean fileTypeError = FileType.checkExcelType(excelFile);
@@ -130,20 +133,44 @@ public class ExeclController {
             int rowCount = sheet.getLastRowNum();
             System.out.println("*************导入的excel一共----" + rowCount + "----行记录******");
             //校验传入文件格式，判断第一行第一列是否名称是否为"房源"
-            String column1 = ImportUtils.getCellValue(sheet.getRow(0).getCell(0));
-            String column2 = ImportUtils.getCellValue(sheet.getRow(0).getCell(1));
-            String column3 = ImportUtils.getCellValue(sheet.getRow(0).getCell(2));
-            String column4 = ImportUtils.getCellValue(sheet.getRow(0).getCell(3));
-            String column5 = ImportUtils.getCellValue(sheet.getRow(0).getCell(4));
-            if (!column1.equals("产品名称(系统中)") || !column2.equals("房号(系统中)")
-                    || !column3.equals("工号") || !column4.equals("姓名")
-                    || !column5.equals("应发奖金(元)")) {
-                return Resp.failed("excel格式不正确！");
+//            String column1 = ImportUtils.getCellValue(sheet.getRow(0).getCell(0));
+//            String column2 = ImportUtils.getCellValue(sheet.getRow(0).getCell(1));
+//            String column3 = ImportUtils.getCellValue(sheet.getRow(0).getCell(2));
+//            String column4 = ImportUtils.getCellValue(sheet.getRow(0).getCell(3));
+//            String column5 = ImportUtils.getCellValue(sheet.getRow(0).getCell(4));
+//            if (!column1.equals("产品名称(系统中)") || !column2.equals("房号(系统中)")
+//                    || !column3.equals("工号") || !column4.equals("姓名")
+//                    || !column5.equals("应发奖金(元)")) {
+//                return Resp.failed("excel格式不正确！");
+//            }
+
+            final int lastRowNum = sheet.getLastRowNum();
+
+            List<RankInfoFlowConfig> objects = Lists.newArrayList();
+            for (int i=1;i<=lastRowNum;i++){
+                Row row = sheet.getRow(i);
+                if (null == row) {
+                    continue;
+                }
+                RankInfoFlowConfig rankInfoFlowConfig = new RankInfoFlowConfig();
+                Integer rankId = Integer.valueOf(ImportUtils.getCellValue(row.getCell(0)));
+                String rankName = ImportUtils.getCellValue(row.getCell(1));
+                String rankCode = ImportUtils.getCellValue(row.getCell(2));
+                String rankCode1 = ImportUtils.getCellValue(row.getCell(3));
+
+                rankInfoFlowConfig.setRankId(rankId);
+                rankInfoFlowConfig.setRankName(rankName);
+                rankInfoFlowConfig.setRankCacheCode(rankCode);
+                rankInfoFlowConfig.setRankCode(rankCode1);
+                objects.add(rankInfoFlowConfig);
             }
+
+            System.out.println(JSON.toJSONString(objects));
+
             if (rowCount < 1) {
                 return Resp.failed("excel没有数据");
             }
-            importExecl(sheet, rowCount);
+            //importExecl(sheet, rowCount);
             //return bonusTemplatePointService.importTemplatePoint(sheet);
             return null;
 

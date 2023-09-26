@@ -3,6 +3,7 @@ package com.dousnl.utils;
 import com.alibaba.fastjson.JSON;
 import com.dousnl.domain.User;
 import com.dousnl.utils.date.DateUtil;
+import com.dousnl.utils.enums.ABTestTypeEnum;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -14,6 +15,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -138,11 +140,11 @@ public class MobileEncryptTool {
     }
 
     public static void main(String[] args) {
-        Integer task=1111;
+        Integer task = 1111;
         HashMap<Object, Object> map1 = Maps.newHashMap();
-        map1.put(1,new User(1,"2424"));
-        map1.put(2,new User(1,"2424"));
-        map1.put(3,new User(1,"2424"));
+        map1.put(1, new User(1, "2424"));
+        map1.put(2, new User(1, "2424"));
+        map1.put(3, new User(1, "2424"));
         System.out.println(JSON.toJSONString(map1));
 
         Map<Integer, User> map12 = JSON.parseObject("{\n" +
@@ -164,17 +166,25 @@ public class MobileEncryptTool {
         System.out.println(DateUtil.dateToString(startTimeOne));
         System.out.println(DateUtil.dateToString(endTimeOne));
 
-        Integer agg=2;
+        Integer agg = 2;
         List<Integer> integers = Arrays.asList(1, 2);
         if (!integers.contains(agg)) {
             System.out.println("不包含");
         }
-        System.out.println(MobileEncryptTool.encryptMobile("18986972262"));
+        System.out.println(MobileEncryptTool.encryptMobile("13162504001"));
         System.out.println(MobileEncryptTool.encryptMobile("13606881726"));
         System.out.println(MobileEncryptTool.encryptMobile("13162505001"));
         System.out.println(MobileEncryptTool.encryptMobile("18321745555"));
-        System.out.println(MobileEncryptTool.decryptMobile("st7xsnxx77tskztgmotghi4mtgsic3yc"));
-        System.out.println(MobileEncryptTool.decryptMobile("9xtnxnkkn97nkzo98mo8zpaa7my3ypmn"));
+        System.out.println(MobileEncryptTool.decryptMobile("swww59sigtpwaijis7e52rqec4lrcl7i"));
+        System.out.println(MobileEncryptTool.decryptMobile("s9x9z9txnkxksnwu7iu60dx26rl04gwr"));
+
+        System.out.println(JSON.parseObject("{'date':'2099-06-30 23:59:59'}", User.class));
+
+        String sku21DayIds = "[]";
+        List<Integer> sku21DayIdsList = JSON.parseArray(sku21DayIds, Integer.class);
+
+        System.out.println(sku21DayIdsList.contains(111));
+
         int update = 0;
         update = Integer.parseInt("1");
         System.out.println(update > 0);
@@ -199,23 +209,8 @@ public class MobileEncryptTool {
         list1.add(new User("", 1, ""));
         list1.add(new User("", 2, ""));
         list.addAll(list1);
-
-        Integer i1 = false ? 0 : null;
-        Map<String, com.dousnl.domain.es.User> resourceIdBOMap = Maps.newHashMap();
-
-        for (User u : list) {
-            u.setName("1");
-            u.setAge(null != null ? 0 : null);
-            com.dousnl.domain.es.User user = new com.dousnl.domain.es.User();
-            //Integer i = user == null ? Integer.valueOf(0) : Integer.valueOf(0);
-            //u.setAge(user == null ? 0 : user.getCount());
-
-        }
-        System.out.println(list);
-
-        list.forEach(e->e.setAge(20));
-
-        System.out.println("123123123sdfwer"+list);
+        String[] split2 = "1.2".split("P.");
+        System.out.println("split2.length:" + split2.length);
 
         Calendar calendar = Calendar.getInstance();
         int month = calendar.get(Calendar.MONTH) + 1;
@@ -225,7 +220,7 @@ public class MobileEncryptTool {
         System.out.println(i);
         //System.out.println(i.toString());
         System.out.println(JSON.toJSONString(i));
-        System.out.println(Objects.equals(1,Integer.valueOf(1)));
+        System.out.println(Objects.equals(1, Integer.valueOf(1)));
 
         BigDecimal wisdomCoinIosCurrent = BigDecimal.valueOf(222);
         BigDecimal tatalFeeBig = BigDecimal.valueOf(1111).divide(BigDecimal.valueOf(100));
@@ -233,23 +228,25 @@ public class MobileEncryptTool {
         if (wisdomCoinIosCurrent.compareTo(tatalFeeBig) < 0) {
             System.out.println("用户：{}，当前智慧币:{}，小于应扣金额：{}");
         }
-        Integer read=11111;
+        Integer read = 11111;
         Long aLong = Optional.ofNullable(read).map(Long::valueOf).orElse(0L);
         System.out.println(aLong);
-        String str="['xww7tnwwwsttskwgogvq9op2t2vzfpty',\n" +
+        String str = "['xww7tnwwwsttskwgogvq9op2t2vzfpty',\n" +
                 "'t77wtznwnkk8f6lakp7nsjx2vymrvx3t',\n" +
                 "'tn9tnt9snzsxsz7d0k9crlicir3nwnhv']\n";
         Map<Integer, User> collect = Maps.newHashMap();
-        Integer aaa=null;
-        if (Objects.equals(1,aaa)){
+        Integer aaa = null;
+        if (Objects.equals(1, aaa)) {
             collect = list.stream().collect(Collectors.toMap(k -> Integer.valueOf(k.getName()), e -> e, (v1, v2) -> v1));
             System.out.println("1231242354235");
         }
-        User user = collect.get(111);
-
-
+        User user1 = collect.get(111);
+        List<Long> userLikes = Lists.newArrayList();
+        if (!userLikes.contains(111)) {
+            userLikes = Lists.newArrayList();
+        }
         System.out.println(JSON.toJSONString(collect));
 
 
-}
+    }
 }

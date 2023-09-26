@@ -64,6 +64,13 @@ public class UserServiceImpl implements UserService{
         redisTemplate.delete("user");
     }
 
+    @Override
+    public void updateUser() {
+        UserEntity u=new UserEntity();
+        u.setId(1);
+        userEntityMapper.updateByPrimaryKeySelective(u);
+    }
+
 
     @Async
     @Override

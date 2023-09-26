@@ -35,6 +35,7 @@ public class User implements InitializingBean {
     private PrivatePileData privatePileData;
     private PrivatePileData privatePileData2;
     private PrivatePileData privatePileData3;
+    private Double score;
 
 
     public User() {

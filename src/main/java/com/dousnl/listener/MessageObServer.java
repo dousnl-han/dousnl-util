@@ -17,6 +17,6 @@ public class MessageObServer implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        System.out.println(">>>>收到消息："+arg);
+        System.out.println(">>>>监听到改变："+arg);
     }
 }

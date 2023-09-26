@@ -10,6 +10,7 @@ import com.dousnl.strategy.CalculateStrategy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -48,6 +49,11 @@ public class CalculateController {
         return "success";
     }
 
+    @GetMapping(value = "/ex1")
+    public String ex1(Integer userId) {
+        return userId.toString();
+    }
+
     @GetMapping(value = "/myex")
     public String myex() {
         try {
@@ -60,7 +66,7 @@ public class CalculateController {
 
 
     @PostMapping(value = "/valid")
-    public String valid(@RequestBody SourceEventCopyVO vo) {
+    public String valid(@RequestBody @Validated SourceEventCopyVO vo) {
         log.info(">>>>>>>>>valid vo:{}",vo);
         vo=null;
         if (vo!=null && vo.getActivityId()>0){

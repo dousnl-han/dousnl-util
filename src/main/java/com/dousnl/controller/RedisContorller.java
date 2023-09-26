@@ -161,8 +161,8 @@ public class RedisContorller {
     public void list() throws Exception {
         Long num = redisTemplate.opsForList().size("list");
         System.out.println(num);
-        redisTemplate.opsForList().leftPush("list","java");
-        redisTemplate.opsForList().leftPush("list", "c++");
+        final Long aLong1 = redisTemplate.opsForList().leftPush("list", "java");
+        final Long list3 = redisTemplate.opsForList().leftPush("list", "c++");
         Long aLong = redisTemplate.opsForList().leftPush("list", "pyphon");
         System.out.println(aLong);
         List list = redisTemplate.opsForList().range("list11111", 0, -1);
@@ -211,6 +211,8 @@ public class RedisContorller {
         redisTemplate.opsForHash().put("user","name","zhangsan");
         redisTemplate.opsForHash().put("user","age","21");
         redisTemplate.opsForHash().put("user","sex","woman");
+
+        redisTemplate.opsForHash().delete("user","age");
         Map user = redisTemplate.opsForHash().entries("user");
         System.out.println(user.toString());
         Map<String,Object> hashmap=new HashMap<>();
@@ -325,9 +327,48 @@ public class RedisContorller {
     }
 
     @RequestMapping(value = "/getList",method = RequestMethod.GET)
-    public List<Integer> getList() throws Exception {
-        List<Integer> allBookIds = (List<Integer>) redisTemplate.opsForValue().get("publishtime.desc.bookids");
-        return allBookIds;
+    public Object getList() throws Exception {
+        Integer userId=114423432;
+        int pageNo=1;
+        String s = "app_notify_userId:" + userId + ":pageNo:" + pageNo;
+        System.out.println("s:"+s);
+        redisTemplate.opsForValue().set("app_notify_userId:114423432:pageNo:1", JSON.toJSONString(1));
+        String USER_NOTIFY_CACHE_KEY = "app_notify_userId:%s:pageNo:%s";
+        String format = String.format(USER_NOTIFY_CACHE_KEY, userId, pageNo);
+        System.out.println("format:"+format);
+        Object o = redisTemplate.opsForValue().get(format);
+
+        redisTemplate.opsForValue().set("app_notify_userId", JSON.toJSONString(1));
+        Object o1 = redisTemplate.opsForValue().get("app_notify_userId");
+        return o1;
+    }
+
+    @RequestMapping(value = "/lpush",method = RequestMethod.GET)
+    public List<Integer> lpush() throws Exception {
+        redisTemplate.opsForList().leftPush("lpush-userIds", "1");
+        redisTemplate.opsForList().leftPush("lpush-userIds", "2");
+        redisTemplate.opsForList().leftPush("lpush-userIds", "3");
+
+        Object o = redisTemplate.opsForList().rightPop("lpush-userIds");
+        System.out.println(o);
+        int i=0;
+        for (;;){
+            Object o1 = redisTemplate.opsForList().leftPush("lpush-userIds",i);
+            System.out.println(o1);
+            i++;
+            if (i>2000000) break;
+        }
+        for (;;){
+            Object o1 = redisTemplate.opsForList().rightPop("lpush-userIds");
+            if (o1==null){
+                break;
+            }
+            System.out.println(o1);
+        }
+
+        List range = redisTemplate.opsForList().range("lpush-userIds", 0, -1);
+        System.out.println(range);
+        return null;
     }
 
 
@@ -363,6 +404,23 @@ public class RedisContorller {
         System.out.println(redisTemplate.opsForZSet().range("zset", 0, -1).toString());
         redisTemplate.opsForZSet().removeRange("zset",1,2);
         System.out.println("removeRange:"+redisTemplate.opsForZSet().range("zset", 0, -1).toString());
+
+        User user = new User();
+        user.setName("111");
+        User user1 = new User();
+        user1.setName("2222");
+        redisTemplate.opsForZSet().add("12442124",user,1);
+        redisTemplate.opsForZSet().add("12442124",user1,2);
+        User user2 = new User();
+        user2.setName("2222");
+        redisTemplate.opsForZSet().remove("12442124",user2);
+
+        Set rank1 = redisTemplate.opsForZSet().range("12442124",0,-1);
+
+        System.out.println("rank1:"+rank1);
+
+
+
     }
 
     @PostMapping("/12313")
@@ -384,40 +442,43 @@ public class RedisContorller {
                         "355,354,348,353,352,351,350,349,347,346,345,344,343,342,341,340,339,338,337,335,334,333,332,331,330,156,328,327,325,67,141,146,135,321,108,320,319,316,314,63,312,311,310,100,309,307,305,173,128,21,103,302,116," +
                         "152,297,294,69,148,160,127,102,272,180,206,183,178,177,176,175,174,172,171,166,170,167,165,163,162,161,157,155,153,150,147,144,92,91,84,76,72,65,55,18,19,20," +
                         "22]", Integer.class);
-        redisTemplate.opsForValue().set("13123", integers);
-        List<BookPanGuBO> list = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
-            BookPanGuBO user = new BookPanGuBO();
-            user.setAuthor("作者"+i);
-            user.setName("name" + i);
-            user.setCoverImageUrl("上海市：" + i);
-            FragmentPanGuBO audio = new FragmentPanGuBO();
-            audio.setAuthor("sefsf"+i);
-            FragmentPanGuBO video = new FragmentPanGuBO();
-            video.setAuthor("sefsf"+i);
-            FragmentPanGuBO article = new FragmentPanGuBO();
-            article.setCategoryId(1);
-            audio.setAuthor("sefsf"+i);
-            user.setAudio(audio);
-            user.setVideo(video);
-            user.setArticle(article);
-            list.add(user);
+        for (Integer userId: integers) {
+            redisTemplate.opsForValue().set("dengkong:userId:"+userId, userId,180,TimeUnit.DAYS);
         }
-        Map<String, List<BookPanGuBO>> bookMap = new LinkedHashMap<>();
-        bookMap.put("1测试key#大小#心灵文学",list);
-        redisTemplatePanGu.opsForValue().set("book_category_real_data_v2",bookMap);
-        redisTemplate.opsForValue().set("book_category_real_data_v2_1",bookMap);
+//        Map<String, List<BookPanGuBO>> map = (Map<String, List<BookPanGuBO>>) redisTemplatePanGu.opsForValue().get("book_category_real_data_v2");
+//        //System.out.println(map);
+//        List<String> cacheKey = integers.stream().skip((long) ((pageNo - 1) * 50)).limit(50).map(a -> "" + a).collect(Collectors.toList());
+//        List<Object> bookPanGu = redisTemplate.opsForValue().multiGet(cacheKey);
+//        List<BookPanGuBO> bookPanGuBOS = new ArrayList<>();
+//        bookPanGuBOS = BeanCommonUtils.copyList(bookPanGu, BookPanGuBO.class);
+//        if (CollectionUtils.isEmpty(bookPanGuBOS)){
+//            System.out.println("cacheKey is null....111111");
+//        }
+    }
 
-
-        Map<String, List<BookPanGuBO>> map = (Map<String, List<BookPanGuBO>>) redisTemplatePanGu.opsForValue().get("book_category_real_data_v2");
-        //System.out.println(map);
-        List<String> cacheKey = integers.stream().skip((long) ((pageNo - 1) * 50)).limit(50).map(a -> "" + a).collect(Collectors.toList());
-        List<Object> bookPanGu = redisTemplate.opsForValue().multiGet(cacheKey);
-        List<BookPanGuBO> bookPanGuBOS = new ArrayList<>();
-        bookPanGuBOS = BeanCommonUtils.copyList(bookPanGu, BookPanGuBO.class);
-        if (CollectionUtils.isEmpty(bookPanGuBOS)){
-            System.out.println("cacheKey is null....111111");
+    @PostMapping("/234")
+    public void get234(@RequestBody Integer pageNo) {
+        List<Integer> integers = JSON.parseArray(
+                "[400017862,400017695,400017631,163,162,161,157,155,153,150,147,144,92,91,84,76,72,65,55,18,19,20," +
+                        "22]", Integer.class);
+        for (Integer userId: integers) {
+            redisTemplate.opsForValue().set("dengkong:userId:"+userId, userId,180,TimeUnit.DAYS);
         }
+    }
+
+    @PostMapping("/decrement")
+    public int get346(@RequestBody Integer pageNo) {
+        redisTemplate.opsForValue().set("decrement", 1);
+        //redisTemplate.opsForValue().decrement("decrement");
+        //redisTemplate.opsForValue().decrement("decrement");
+
+        System.out.println(redisTemplate.opsForValue().get("decrement"));
+
+        redisTemplate.opsForValue().setBit("decrement-bit", 11, true);
+
+        Boolean bit = redisTemplate.opsForValue().getBit("decrement-bit", 11);
+        System.out.println(bit);
+        return (int) redisTemplate.opsForValue().get("decrement");
     }
 
     @PostMapping("/45646")
@@ -470,27 +531,24 @@ public class RedisContorller {
 
 
     @GetMapping("/incm")
-    public void incm() {
+    public void incm(Integer userId, Integer bookId) {
         System.out.println(redisTemplate.opsForValue().get("incm"));
         redisTemplate.opsForValue().increment("incm",1);
         redisTemplate.opsForValue().setBit("userIdSetBit",1,true);
         redisTemplate.opsForValue().setBit("userIdSetBit",2,true);
         redisTemplate.opsForValue().setBit("userIdSetBit",6,true);
         redisTemplate.opsForValue().setBit("userIdSetBit",213181752,true);
-        Boolean userIdSetBit1 = redisTemplate.opsForValue().getBit("userIdSetBit", 1);
-        Boolean userIdSetBit2 = redisTemplate.opsForValue().getBit("userIdSetBit", 2);
-        Boolean userIdSetBit3 = redisTemplate.opsForValue().getBit("userIdSetBit", 3);
-        Boolean userIdSetBit5 = redisTemplate.opsForValue().getBit("userIdSetBit", 5);
-        Boolean userIdSetBit6 = redisTemplate.opsForValue().getBit("userIdSetBit", 6);
         Boolean userIdSetBit7 = redisTemplate.opsForValue().getBit("userIdSetBit", 7);
         Boolean userIdSetBit17 = redisTemplate.opsForValue().getBit("userIdSetBit", 17);
-        System.out.println(userIdSetBit1);
-        System.out.println(userIdSetBit2);
-        System.out.println(userIdSetBit3);
-        System.out.println(userIdSetBit5);
-        System.out.println(userIdSetBit6);
         System.out.println(userIdSetBit7);
         System.out.println(userIdSetBit17);
+        redisTemplate.opsForValue().set("bookIdSetBit_心灵","[1,2,3,4,45645767,56756]");
+        redisTemplate.opsForValue().set("bookIdSetBit_人文","[1,2,3,4,45645767,21433]");
+        redisTemplate.opsForValue().set("bookIdSetBit_历史","[1,2,3,4,45645767,56867]");
+
+        System.out.println(redisTemplate.opsForValue().get("bookIdSetBit_心灵"));
+        System.out.println(redisTemplate.opsForValue().get("bookIdSetBit_人文"));
+        System.out.println(redisTemplate.opsForValue().get("bookIdSetBit_历史"));
     }
 
     @GetMapping("/image")
@@ -548,6 +606,30 @@ public class RedisContorller {
         List<AdvertImageDTO> list = redisTemplate.opsForValue().multiGet( stringList);
         System.out.println((System.currentTimeMillis()-start)+"ms");
         return list;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(3770/3600);
+    }
+
+    @GetMapping("/v100/exportUserToekn")
+    public Boolean exportUserToekn() {
+
+        Set<String> keysTmp = new HashSet<>();
+        Set<String> keys = (Set<String>) redisTemplate.execute((RedisCallback<Set<String>>) connection -> {
+            ScanOptions scanOptions = ScanOptions.scanOptions().match("TOKEN:" + "*")
+                    .count(100)
+                    .build();
+            Cursor<byte[]> cursor = connection.scan(scanOptions);
+            while (cursor.hasNext()) {
+                keysTmp.add(new String(cursor.next()));
+            }
+            return keysTmp;
+        });
+        for (String key : keys) {
+            System.out.println(key.split(":")[1]);
+        }
+        return true;
     }
 
 

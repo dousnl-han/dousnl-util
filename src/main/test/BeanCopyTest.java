@@ -42,6 +42,9 @@ public class BeanCopyTest {
                 break;
         }
         System.out.println("flag:"+flag);
+
+        Integer u=1200;
+        System.out.println(1200==u);
     }
 
     private static List<Integer> getList() {

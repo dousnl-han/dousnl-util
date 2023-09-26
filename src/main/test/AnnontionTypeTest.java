@@ -27,7 +27,7 @@ public class AnnontionTypeTest {
     public static void main(String[] args) throws UnsupportedEncodingException {
 
         try{
-            int i=1/0;
+            //int i=1/0;
         }finally {
             System.out.println(1);
         }
@@ -150,5 +150,15 @@ public class AnnontionTypeTest {
         BigDecimal balanceBig = new BigDecimal("-156");
         BigDecimal decimal = balanceBig.divide(bigInteger);
         System.out.println(decimal);
+
+        testLoopContinue();
+    }
+
+
+    public static void testLoopContinue() {
+        loop:
+        for (int i = 0; i<2; i++) {
+            System.out.println(i);
+        }
     }
 }

@@ -25,4 +25,5 @@ public class BaseController {
     public UserEntity getUser(){
         return userEntityMapper.selectByPrimaryKey(1);
     }
+
 }

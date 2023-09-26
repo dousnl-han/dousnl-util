@@ -6,9 +6,11 @@ import java.util.List;
 
 public interface UserService {
 
-    public List<UserEntity> listUserEntity();
+     List<UserEntity> listUserEntity();
 
-    public void addUser();
+     void addUser();
 
-    public User getUser() throws InterruptedException;
+     void updateUser();
+
+     User getUser() throws InterruptedException;
 }

@@ -27,6 +27,6 @@
 
     <javaClientGenerator targetPackage="com.dousnl.mapper" targetProject="target"  type="XMLMAPPER" />
 
-    <table tableName="t_fanbuy_clockin_rights" domainObjectName="FanbuyClockinRights"></table>
+    <table tableName="t_homepage_comment" domainObjectName="HomePageCommentDTO"></table>
   </context>
 </generatorConfiguration>

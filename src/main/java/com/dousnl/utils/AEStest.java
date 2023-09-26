@@ -1,9 +1,11 @@
 package com.dousnl.utils;
 
+import com.alibaba.fastjson.JSON;
 import com.dousnl.domain.User;
 import com.dousnl.domain.entity.AdvertImageDTO;
 import com.dousnl.utils.date.DateUtil;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -13,7 +15,10 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import java.math.BigDecimal;
 import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -50,7 +55,7 @@ public class AEStest {
         String aa=very(name);
 
         System.out.println(aa);
-        System.out.println(DateUtil.dateToString(date));
+        System.out.println("今天"+DateUtil.dateToString(date));
         // TODO Auto-generated method stub
         String str = "user=admin&pwd=admin";
         String key = "12345678";
@@ -66,6 +71,10 @@ public class AEStest {
         //加密过的16进制的字符串转化成二进制数组
         encrytByte = parseHexStr2Byte(encrytStr);
         System.out.println("解密后："+deCrypt(encrytByte,key));
+
+        System.out.println("11111:"+IntegerEncryptTool.decrypt("dasdad"));
+
+        System.out.println(IntegerEncryptTool.encrypt(400004272));
         boolean flag1=false;
         boolean flag2=true;
         boolean flag3 = flag1 || flag2;
@@ -74,6 +83,7 @@ public class AEStest {
         User user = new User();
         int size = 0;
         user.setOwn(true);
+        user.setName("增长部");
         if (Boolean.TRUE.equals(user.getOwn())){
             size += 4;
         }
@@ -81,13 +91,24 @@ public class AEStest {
             size += 2;
         }
         System.out.println(size);
-        List<AdvertImageDTO> list =
-                redisTemplate.opsForValue().multiGet(Lists.newArrayList(111));
-        System.out.println(111);
+        String deptName = String.format("(%s)", user.getName());
+        System.out.println(deptName);
+        String name1 = String.format("%d %s %s", 1, String.join("-", Arrays.asList("1","2")), deptName);
+        System.out.println(name1);
 
+        HashMap<Object, Object> objectHashMap = Maps.newHashMap();
+        objectHashMap.put("xiaomi",1111);
+        objectHashMap.put("huawei",2222);
+        System.out.println(JSON.toJSONString(objectHashMap));
 
+        Map map = JSON.parseObject("{'xiaomi':1111}", Map.class);
+        System.out.println(map);
 
+        System.out.println(checkAppRegisterSource(1));
+    }
 
+    protected static boolean checkAppRegisterSource(Integer registerSource) {
+        return Arrays.asList(1, 2, 3).contains(registerSource);
     }
 
     private static Boolean checkMasterOrderFee(Integer masterTotalFee, Integer orderFee) {

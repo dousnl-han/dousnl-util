@@ -36,7 +36,6 @@ public class UserEntity {
      * 订单(合同)号
      */
     @Column(name = "order_id")
-    @NotNull
     private String orderId;
 
     /**

@@ -15,7 +15,6 @@ public class NoteObserverable extends Observable {
     public void notifyObservers(Object arg) {
         System.out.println("通知："+arg);
         super.setChanged();
-        System.out.println("状态是否改变："+hasChanged());
         super.notifyObservers(arg);
     }
 }
