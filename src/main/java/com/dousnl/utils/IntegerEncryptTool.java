@@ -139,7 +139,7 @@ public class IntegerEncryptTool {
         List<List<Integer>> partition = Lists.partition(Lists.newArrayList(1, 2, 3, 4, 5, 6), 4);
         System.out.println(partition);
 
-        System.out.println("12312314324：" + decrypt("t7gwva5ywwh14thb"));
+        System.out.println("12312314324：" + decrypt("tksz7ybs05s99acx"));
         System.out.println(0x7fffffff);
         System.out.println(encrypt(209387966));
         System.out.println("a".concat("fsfsd"));

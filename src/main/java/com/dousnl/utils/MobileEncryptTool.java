@@ -171,12 +171,12 @@ public class MobileEncryptTool {
         if (!integers.contains(agg)) {
             System.out.println("不包含");
         }
-        System.out.println(MobileEncryptTool.encryptMobile("13162504001"));
-        System.out.println(MobileEncryptTool.encryptMobile("13606881726"));
+        System.out.println(MobileEncryptTool.encryptMobile("13123846768"));
+        System.out.println(MobileEncryptTool.encryptMobile("18980682000"));
         System.out.println(MobileEncryptTool.encryptMobile("13162505001"));
         System.out.println(MobileEncryptTool.encryptMobile("18321745555"));
         System.out.println(MobileEncryptTool.decryptMobile("swww59sigtpwaijis7e52rqec4lrcl7i"));
-        System.out.println(MobileEncryptTool.decryptMobile("s9x9z9txnkxksnwu7iu60dx26rl04gwr"));
+        System.out.println(MobileEncryptTool.decryptMobile("txtsk9nksk9t7znlfe25uzrr5aefrwys"));
 
         System.out.println(JSON.parseObject("{'date':'2099-06-30 23:59:59'}", User.class));
 

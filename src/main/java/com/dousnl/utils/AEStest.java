@@ -49,6 +49,8 @@ public class AEStest {
             System.out.println(1);
         }
         Date date = DateTime.now().millisOfDay().withMaximumValue().toDate();
+        Date dateS = DateTime.now().millisOfDay().withMinimumValue().toDate();
+        System.out.println("dates:"+DateUtil.dateToString(dateS));
         String name="str";
 
         caseName(name);

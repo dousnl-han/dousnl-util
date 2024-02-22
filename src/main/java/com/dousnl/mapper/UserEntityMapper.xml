@@ -24,4 +24,7 @@
             where id=#{id}
         </foreach>
     </update>
+    <select id="listUserEntity" resultMap="BaseResultMap">
+        select * from t_user where role_id=#{roleId} and del_flag=1
+    </select>
 </mapper>

@@ -3,6 +3,7 @@ package com.dousnl.service;
 import com.dousnl.domain.User;
 import com.dousnl.domain.entity.UserEntity;
 import java.util.List;
+import java.util.Map;
 
 public interface UserService {
 
@@ -10,7 +11,7 @@ public interface UserService {
 
      void addUser();
 
-     void updateUser();
+     void updateUser(Map<String, Integer> map);
 
      User getUser() throws InterruptedException;
 }

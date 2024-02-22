@@ -3,6 +3,7 @@ package com.dousnl.controller;
 import com.alibaba.fastjson.JSON;
 import com.dousnl.domain.Config;
 import com.dousnl.domain.entity.UserContentAudit;
+import com.dousnl.domain.entity.UserEntity;
 import com.dousnl.mapper.ConfigMapper;
 import com.dousnl.mapper.UserContentAuditMapper;
 import com.google.common.collect.Lists;
@@ -38,6 +39,8 @@ public class UserAuditController {
     private UserContentAuditMapper userContentAuditMapper;
     @Autowired
     private ConfigMapper configMapper;
+    @Autowired
+    private UserSizeController userSizeController;
 
     @GetMapping("/save")
     public String saveUserAudit(Integer num){
@@ -74,6 +77,9 @@ public class UserAuditController {
 
         final String traceId = TraceContext.traceId();
         System.out.println(traceId);
+
+        Integer id = null;
+        userSizeController.test(id);
 
         return select;
     }

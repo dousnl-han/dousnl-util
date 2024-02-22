@@ -152,6 +152,12 @@ public class AnnontionTypeTest {
         System.out.println(decimal);
 
         testLoopContinue();
+
+        final List<Integer> list1 = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+        final List<Integer> collect = list1.stream().filter(e -> e > 1).collect(Collectors.toList());
+        System.out.println(collect);
+        final List<Integer> collect1 = list1.parallelStream().filter(e -> e > 1).collect(Collectors.toList());
+        System.out.println(collect1);
     }
 
 

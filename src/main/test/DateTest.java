@@ -5,10 +5,13 @@ import com.google.common.collect.Lists;
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tk.mybatis.mapper.util.StringUtil;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -30,7 +33,7 @@ import java.util.Random;
 public class DateTest {
     private static Logger logger = LoggerFactory.getLogger(DateTest.class);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         Date d=new Date();
         Date c=d;
         Integer u=null;
@@ -158,8 +161,21 @@ public class DateTest {
             integers.remove(aa);
         }
         System.out.println(integers);
+        Date dateStartTime1 =
+                new DateTime(DateUtil.parse("2024-01-01 00:02:00 000")).minusMonths(1).dayOfMonth().withMinimumValue()
+                        .withTimeAtStartOfDay().millisOfDay().withMinimumValue().toDate();
+        Date dateEndtTime2 =
+                new DateTime(DateUtil.parse("2024-01-01 00:02:00 000")).minusMonths(1).dayOfMonth().withMaximumValue().withTimeAtStartOfDay()
+                        .millisOfDay().withMaximumValue().toDate();
 
+        Date dateStartTime = DateTime.now().minusMonths(1).dayOfMonth().withMinimumValue().withTimeAtStartOfDay().millisOfDay().withMinimumValue().toDate();
+        Date dateEndTime = DateTime.now().minusMonths(1).dayOfMonth().withMaximumValue().withTimeAtStartOfDay().millisOfDay().withMaximumValue().toDate();
 
+        System.out.println(DateUtil.dateToString(dateStartTime1,"yyyy-MM-dd HH:mm:ss"));
+        System.out.println(DateUtil.dateToString(dateEndtTime2,"yyyy-MM-dd HH:mm:ss"));
+
+        System.out.println(DateUtil.dateToString(dateStartTime,"yyyy-MM-dd HH:mm:ss"));
+        System.out.println(DateUtil.dateToString(dateEndTime,"yyyy-MM-dd HH:mm:ss"));
     }
 
     private static void screenList(Boolean i) {

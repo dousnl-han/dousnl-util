@@ -2,6 +2,7 @@ package com.dousnl.utils;
 
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 /**
@@ -44,5 +45,16 @@ public class ReduceTest {
         int result2 = stream.filter(i -> i % 2 == 0).reduce(1, (i, j) -> i * j);
 
         Optional.of(result2).ifPresent(System.out::println);
+
+
+        Integer ev = 86400000 * 5;
+        Integer ev1 = 86400000 * 26;
+        Long ev2 = 86400000 * 26L;
+        System.out.println(ev);
+        System.out.println(ev1);
+        System.out.println(ev2);
+        System.out.println(Integer.MAX_VALUE);
+
     }
+
 }

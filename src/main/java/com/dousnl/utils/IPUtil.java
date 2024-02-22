@@ -24,6 +24,7 @@ import java.net.URL;
 public class IPUtil {
     /**
      * 获取IP地址
+     *
      * @param request
      * @return
      */
@@ -52,6 +53,7 @@ public class IPUtil {
 
     /**
      * 根据IP地址获取城市
+     *
      * @param ip
      * @return
      */
@@ -72,8 +74,7 @@ public class IPUtil {
             DbConfig config = new DbConfig();
             DbSearcher searcher = new DbSearcher(config, file.getPath());
             Method method;
-            switch ( algorithm )
-            {
+            switch (algorithm) {
                 case DbSearcher.BTREE_ALGORITHM:
                     method = searcher.getClass().getMethod("btreeSearch", String.class);
                     break;
@@ -91,7 +92,7 @@ public class IPUtil {
                 System.out.println("Error: Invalid ip address");
                 return null;
             }
-            dataBlock  = (DataBlock) method.invoke(searcher, ip);
+            dataBlock = (DataBlock) method.invoke(searcher, ip);
             return dataBlock.getRegion();
         } catch (Exception e) {
             e.printStackTrace();
@@ -101,7 +102,12 @@ public class IPUtil {
 
 
     public static void main(String[] args) throws IOException {
-        String detail = getCityInfo("113.224.64.215");
+        String detail = getCityInfo("1.32.232.0");
         System.out.println(detail);
+        String[] split = detail.split("\\|");
+        String sheng = split[2].replace("省", "");
+        System.out.println(sheng);
+
+
     }
 }

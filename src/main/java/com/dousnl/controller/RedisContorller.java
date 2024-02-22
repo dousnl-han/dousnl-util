@@ -456,13 +456,29 @@ public class RedisContorller {
 //        }
     }
 
-    @PostMapping("/234")
-    public void get234(@RequestBody Integer pageNo) {
-        List<Integer> integers = JSON.parseArray(
-                "[400017862,400017695,400017631,163,162,161,157,155,153,150,147,144,92,91,84,76,72,65,55,18,19,20," +
-                        "22]", Integer.class);
-        for (Integer userId: integers) {
-            redisTemplate.opsForValue().set("dengkong:userId:"+userId, userId,180,TimeUnit.DAYS);
+    @PostMapping("/redisArrayList")
+    public List<User> get234(@RequestBody Integer pageNo) {
+        Object o = redisTemplate.opsForValue().get("arrayList");
+        if (o == null) {
+            final List<Object> objects = Collections.emptyList();
+            redisTemplate.opsForValue().set("arrayList", objects, 5, TimeUnit.MINUTES);
+            return null;
+        }
+        List<User> o1 = (List<User>) o;
+        System.out.println(o1);
+
+        final List<User> users = BeanCommonUtils.copyList(o1, User.class);
+        return o1;
+    }
+
+    public static void main(String[] args) {
+        final ArrayList<Integer> integers = Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
+        for (int i = 1; i <= integers.size(); i++) {
+            if (i > 10) {
+                break;
+            }
+            final Integer integer = integers.get(i - 1);
+            System.out.println(integer);
         }
     }
 
@@ -471,7 +487,6 @@ public class RedisContorller {
         redisTemplate.opsForValue().set("decrement", 1);
         //redisTemplate.opsForValue().decrement("decrement");
         //redisTemplate.opsForValue().decrement("decrement");
-
         System.out.println(redisTemplate.opsForValue().get("decrement"));
 
         redisTemplate.opsForValue().setBit("decrement-bit", 11, true);
@@ -608,9 +623,6 @@ public class RedisContorller {
         return list;
     }
 
-    public static void main(String[] args) {
-        System.out.println(3770/3600);
-    }
 
     @GetMapping("/v100/exportUserToekn")
     public Boolean exportUserToekn() {

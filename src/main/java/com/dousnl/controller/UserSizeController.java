@@ -12,6 +12,8 @@ import com.dousnl.utils.ObjectSize;
 import com.dousnl.utils.fdds.SoybeanRequestWrapper;
 import com.google.common.collect.Lists;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
+import lombok.NonNull;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.lucene.util.RamUsageEstimator;
 import org.openjdk.jol.info.ClassLayout;
@@ -27,6 +29,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -225,12 +228,13 @@ public class UserSizeController {
 
     @GetMapping("v100/adduser")
     public void adduser() {
-        userService.addUser();
+        //userService.addUser();
+        userService.listUserEntity();
     }
 
     @PostMapping("v100/updateUser")
-    public void updateUser() {
-        userService.updateUser();
+    public void updateUser(@RequestBody Map<String, Integer> map) {
+        userService.updateUser(map);
     }
 
     @PostMapping("v100/getuser")
@@ -249,5 +253,9 @@ public class UserSizeController {
     @ResponseBody
     public List<UserEntity> getUserById(Integer id) throws InterruptedException {
         return commonService.getUserById(id);
+    }
+
+    public void test(@NonNull Integer id) {
+        System.out.println("test:"+id);
     }
 }
