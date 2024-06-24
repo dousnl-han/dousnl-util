@@ -48,7 +48,7 @@ public class ReadFileSendPostRequestUtil {
         long start = System.currentTimeMillis();
         for (int i = 0; i < list.size(); i++) {
             FileUser user = list.get(i);
-            Map<String, String> params = new HashMap<>();
+            Map<String, Object> params = new HashMap<>();
             params.put("taskId", user.getTaskId());
             params.put("userId", user.getUserId());
             params.put("date", date);
