@@ -4,9 +4,9 @@ import com.alibaba.fastjson.JSON;
 import com.dousnl.domain.User;
 import com.dousnl.domain.entity.UserEntity;
 import com.dousnl.mapper.UserEntityMapper;
-import com.dousnl.service.CommonService;
-import com.dousnl.service.ContstructService;
-import com.dousnl.service.DusyService;
+//import com.dousnl.service.CommonService;
+//import com.dousnl.service.ContstructService;
+//import com.dousnl.service.DusyService;
 import com.dousnl.service.UserService;
 import com.dousnl.utils.ObjectSize;
 import com.dousnl.utils.fdds.SoybeanRequestWrapper;
@@ -51,15 +51,15 @@ public class UserSizeController {
     
     @Autowired
     private UserService userService;
-    @Autowired
-    private ContstructService contstructService;
-
-    //@Qualifier(value="dusyService")
-    @Autowired
-    private CommonService commonService;
-
-    @Autowired
-    private DusyService dusyService;
+//    @Autowired
+//    private ContstructService contstructService;
+//
+//    //@Qualifier(value="dusyService")
+//    @Autowired
+//    private CommonService commonService;
+//
+//    @Autowired
+//    private DusyService dusyService;
     @Autowired
     private UserEntityMapper userEntityMapper;
 
@@ -252,7 +252,8 @@ public class UserSizeController {
     @GetMapping("/v100/getUserById")
     @ResponseBody
     public List<UserEntity> getUserById(Integer id) throws InterruptedException {
-        return commonService.getUserById(id);
+//        return commonService.getUserById(id);
+        return null;
     }
 
     public void test(@NonNull Integer id) {

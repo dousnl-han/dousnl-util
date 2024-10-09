@@ -1,5 +1,6 @@
 package com.dousnl.domain.fdds;
 
+import com.dousnl.annotation.Enums;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -18,4 +19,7 @@ public class SourceInfoParamVO {
 
     @ApiModelProperty("加密后版本id")
     private String encryptId;
+
+    @Enums(integers = {1,2})
+    private Integer activityId;
 }

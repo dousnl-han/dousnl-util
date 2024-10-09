@@ -1,5 +1,6 @@
 package com.dousnl;
 
+import com.alibaba.fastjson.JSON;
 import com.dousnl.service.DusyService;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -40,6 +41,15 @@ public class DousnlUtilApplication {
     private DusyService busyService;
 
     public static void main(String[] args) {
+
+        if (args.length == 0) {
+            args = new String[] {"--server.port=8081"};
+        }
+        for (String arg : args){
+            System.out.println(arg);
+        }
+        final String property = System.getProperty("dubbo.config-center.address");
+        System.out.println(property);
         SpringApplication.run(DousnlUtilApplication.class, args);
     }
 
@@ -59,7 +69,7 @@ public class DousnlUtilApplication {
         CompletableFuture<String> jane = busyService.busyMethod("Jane");
         CompletableFuture<String> allen = busyService.busyMethod("Allen");
         CompletableFuture<String> james = busyService.busyMethod("James");
-        //CompletableFuture.allOf(jane,allen,james).join();
+        CompletableFuture.allOf(jane,allen,james).join();
         log.info(jane.get());
         log.info(allen.get());
         log.info(james.get());

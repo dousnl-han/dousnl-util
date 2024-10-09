@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -35,7 +36,7 @@ public class SourceEventController {
 
     @PostMapping("/v100/sourceInfo")
     @ApiOperation(value = "活动落地页信息", notes = "活动落地页信息")
-    public SourceEventInfoVO sourceInfo(@RequestBody SourceInfoParamVO vo) {
+    public SourceEventInfoVO sourceInfo(@RequestBody @Validated SourceInfoParamVO vo) {
         log.debug("=========活动落地页信息参数,vo={}", vo);
         Integer decryptActivityId = 0, decryptId = 0;
         try {

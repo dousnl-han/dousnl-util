@@ -22,9 +22,9 @@ public class AnnotationConfig {
         return new User();
     }
 
-    @Bean
-    public UserPoccessor userPoccessor(){
-        return new UserPoccessor();
-    }
+//    @Bean
+//    public UserPoccessor userPoccessor(){
+//        return new UserPoccessor();
+//    }
 
 }

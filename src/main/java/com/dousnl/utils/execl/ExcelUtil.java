@@ -1,6 +1,5 @@
 package com.dousnl.utils.execl;
 
-import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -14,6 +13,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
@@ -31,7 +32,7 @@ import java.util.List;
 *  
 */
 public class ExcelUtil {
-    private static final Logger logger = Logger.getLogger(ExcelUtil.class);
+    private static Logger logger = LoggerFactory.getLogger(ExcelUtil.class);
     
     /** 
     * @Title: createWorkbook 
@@ -124,12 +125,12 @@ public class ExcelUtil {
                 
             }
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage());
         }finally{
             try {
                 is.close();//关闭流
             } catch (Exception e2) {
-                logger.error(e2);
+                logger.error(e2.getMessage());
             }
         }
         return list;
@@ -159,7 +160,7 @@ public class ExcelUtil {
                     break;
                 }
             } catch (Exception e) {
-                logger.error(e);
+                logger.error(e.getMessage());
             }
             
         }
@@ -214,20 +215,20 @@ public class ExcelUtil {
                     
                 }
             } catch (Exception e) {
-                logger.error(e);
+                logger.error(e.getMessage());
             }
         }
         
         try {
             workbook.write(os);
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage());
         }finally{
             try {
                 os.flush();
                 os.close();
             } catch (IOException e) {
-                logger.error(e);
+                logger.error(e.getMessage());
             }
         }
         

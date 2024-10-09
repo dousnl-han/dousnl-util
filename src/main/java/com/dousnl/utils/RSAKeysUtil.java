@@ -20,7 +20,7 @@ import java.security.spec.RSAPublicKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
 /**
- * TODO
+ * 帆书-数据库-密码解密工具
  *
  * @author hanliang
  * @version 1.0
@@ -212,7 +212,7 @@ public class RSAKeysUtil {
 
 
     public static void main(String[] args) {
-        String str="NdochBwAilT88VKk/oNhHob85tsF2IDi3ydtSsLTVsgHy63HNk0SJrH+aXO6C7it0/PKd3mITRBv4PbD5SCUqkATX3+XwVPTdeu6M85qY6n6ESEdrHc6TVz0NSzAYsWKS1+gNJeWrlZ9zPI1c22JZbBSJU/eoOBws3Nd5yJPf44=";
+        String str="l5s/71n5li67q3uAZ5mPUCpUcP8CvESPZZ1tQWY7HM6pp6+Q0gd/t2N/Xv6XPHDyr45nf85C7AaOE7ptu+3hZR+Xp2lABoTo/QlCg6iseWKOvpFHGWpEjBCtpCVsDX/7C4GzY38kUTvlKgZ0P0ElSEmjgr7F7NXGwlRm7uHjZAg=";
         String decrypt = RSAKeysUtil.decrypt(str);
         System.out.println(decrypt);
         Integer type=1;

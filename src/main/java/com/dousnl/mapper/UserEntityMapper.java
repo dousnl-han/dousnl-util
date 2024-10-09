@@ -11,4 +11,6 @@ public interface UserEntityMapper extends Mapper<UserEntity> {
     int updateUser(@Param("ids") List<Integer> ids);
 
     List<UserEntity> listUserEntity(@Param("roleId") Integer roleId);
+
+    int updateUserById(@Param("id") Integer id);
 }

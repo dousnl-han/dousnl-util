@@ -19,6 +19,7 @@ public class DateUtil {
 
     private static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     public static  final String DATEFORMAT2 = "yyyy-MM-dd HH:mm:ss sss";
+    public static  final String DATEFORMAT3 = "YYYYMMDD'T'HHMMSS'Z'";
 
     public static final String EXPANDED_DATE_FORMAT = "yyyy-MM-dd";
 
@@ -115,6 +116,10 @@ public class DateUtil {
 
     public static String dateToString(Date date) {
         return dateToString(date,DATEFORMAT2);
+    }
+
+    public static String dateToString2(Date date) {
+        return dateToString(date,DATEFORMAT3);
     }
 
     public static String dateToString(Date date, String format) {

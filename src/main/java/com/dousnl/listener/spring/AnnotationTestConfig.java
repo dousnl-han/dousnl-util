@@ -17,14 +17,14 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan({"com.dousnl.listener.spring"})
 public class AnnotationTestConfig {
 
-    @Bean
-    public User user(){
-        return new User();
-    }
+//    @Bean
+//    public User user(){
+//        return new User();
+//    }
 
-    @Bean
-    public UserPoccessor userPoccessor(){
-        return new UserPoccessor();
-    }
+//    @Bean
+//    public UserPoccessor userPoccessor(){
+//        return new UserPoccessor();
+//    }
 
 }

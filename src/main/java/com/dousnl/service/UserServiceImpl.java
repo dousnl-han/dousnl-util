@@ -35,6 +35,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private RedisTemplate redisTemplate;
 
+    volatile static int i = 0;
+
     @Override
     public List<UserEntity> listUserEntity() {
         Example example = new Example(UserEntity.class);
@@ -79,6 +81,10 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateUser(Map<String, Integer> map) {
+
+        userEntityMapper.updateUserById(1);
+
+        i++;
         Integer id = map.get("id");
         UserEntity u = new UserEntity();
         u.setId(10);
@@ -87,10 +93,14 @@ public class UserServiceImpl implements UserService {
         System.out.println("当前线程：" + thread.getName());
         UserEntity userEntity = userEntityMapper.selectByPrimaryKey(10);
 
+        i++;
         userEntity.setOrderId((Integer.valueOf(userEntity.getOrderId()) + 1) + "");
         userEntityMapper.updateByPrimaryKeySelective(userEntity);
 
         System.out.println(userEntity);
+
+        System.out.println("i:"+i);
+        i=0;
     }
 
 

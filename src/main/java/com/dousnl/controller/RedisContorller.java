@@ -168,10 +168,21 @@ public class RedisContorller {
         List list = redisTemplate.opsForList().range("list11111", 0, -1);
         redisTemplate.delete("list");
         System.out.println(list.toString());
+        List<String> list5 = Lists.newArrayList("fsdfsfd","23523545","235235 ffdg");
+        List<String> list51 = Lists.newArrayList("fsdfsfd","23523545","235235 ffdg");
+        List<String> list52 = Lists.newArrayList("fsdfsfd","23523545","235235 ffdg");
 
-        redisTemplate.opsForList().rightPush("list-r","java");
-        redisTemplate.opsForList().rightPush("list-r","cc");
-        redisTemplate.opsForList().rightPush("list-r","pp");
+        redisTemplate.opsForList().rightPush("list-r",list5);
+        redisTemplate.opsForList().rightPush("list-r",list51);
+        redisTemplate.opsForList().rightPush("list-r",list52);
+
+        while (true) {
+            List<String> list53 = (List<String>) redisTemplate.opsForList().leftPop("list-r");
+            if (list53==null) {
+                break;
+            }
+            System.out.println(list53);
+        }
         List listr = redisTemplate.opsForList().range("list-r", 0, -1);
         System.out.println(listr.toString());
         String[]strs=new String[]{"java","num","ak"};
@@ -208,11 +219,11 @@ public class RedisContorller {
 
     @PostMapping("/hash")
     public void hash() throws Exception {
-        redisTemplate.opsForHash().put("user","name","zhangsan");
-        redisTemplate.opsForHash().put("user","age","21");
-        redisTemplate.opsForHash().put("user","sex","woman");
+        redisTemplate.opsForHash().put("user","id-1","[1,2,3,4]");
+        redisTemplate.opsForHash().put("user","id-2","[5,6,7]");
+        redisTemplate.opsForHash().put("user","id-3","[8,9,10]");
 
-        redisTemplate.opsForHash().delete("user","age");
+        redisTemplate.opsForHash().delete("user","id-4");
         Map user = redisTemplate.opsForHash().entries("user");
         System.out.println(user.toString());
         Map<String,Object> hashmap=new HashMap<>();
@@ -222,8 +233,16 @@ public class RedisContorller {
         redisTemplate.opsForHash().putAll("user2",hashmap);
         Map user2 = redisTemplate.opsForHash().entries("user2");
         System.out.println(user2.toString());
-        List user21 = redisTemplate.opsForHash().values("user2");
+        List<String> user21 = redisTemplate.opsForHash().values("user");
         System.out.println(user21.toString());
+        final ArrayList<Object> objects = Lists.newArrayList();
+        //user21.forEach(e ->objects.addAll(Lists.newArrayList(Arrays.stream(e.split(",")).map(Integer::valueOf).toArray())));
+        user21.forEach(e ->objects.addAll(JSON.parseArray(e,Integer.class)));
+        System.out.println(objects);
+
+        String user22 = (String) redisTemplate.opsForHash().get("user", "id-1");
+        final String[] split = user22.split(",");
+        System.out.println(split);
     }
 
     @PostMapping("/set")
@@ -240,8 +259,11 @@ public class RedisContorller {
         System.out.println(set);
         Object pop1 = redisTemplate.opsForSet().pop("set");
         Object pop2 = redisTemplate.opsForSet().pop("set");
-        Object pop3 = redisTemplate.opsForSet().pop("set");
-        System.out.println(pop1+" "+pop2+" "+pop3);
+
+        final List set1 = redisTemplate.opsForSet().pop("set", 3);
+        final List set11 = redisTemplate.opsForSet().pop("set", 3);
+
+        System.out.println(pop1+" "+pop2+" "+set1);
         redisTemplate.opsForSet().remove("set",new String[]{"11","wangwu"});
         Set setremove = redisTemplate.opsForSet().members("set");
         System.out.println(setremove);
@@ -250,6 +272,7 @@ public class RedisContorller {
         redisTemplate.opsForSet().move("set1","lisi","set2");
         Set set2 = redisTemplate.opsForSet().members("set2");
         System.out.println(set2);
+
     }
 
     @RequestMapping(value = "/mset",method = RequestMethod.GET)
@@ -356,19 +379,7 @@ public class RedisContorller {
             Object o1 = redisTemplate.opsForList().leftPush("lpush-userIds",i);
             System.out.println(o1);
             i++;
-            if (i>2000000) break;
         }
-        for (;;){
-            Object o1 = redisTemplate.opsForList().rightPop("lpush-userIds");
-            if (o1==null){
-                break;
-            }
-            System.out.println(o1);
-        }
-
-        List range = redisTemplate.opsForList().range("lpush-userIds", 0, -1);
-        System.out.println(range);
-        return null;
     }
 
 

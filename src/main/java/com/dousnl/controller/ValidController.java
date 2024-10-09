@@ -4,22 +4,17 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.dousnl.domain.*;
 import com.dousnl.utils.response.Resp;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -38,8 +33,8 @@ public class ValidController {
     private static final String TAG = "数据决策（大屏）";
     @Autowired
     RedisTemplate<String, String> redisTemplate;
-    @Autowired
-    Gson gson;
+//    @Autowired
+//    Gson gson;
 
     /**
      * 车主取消订单接口

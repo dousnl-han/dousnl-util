@@ -10,7 +10,6 @@ import org.redisson.config.Config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Description: TODO
@@ -21,7 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  * Modify     : 修改日期          修改人员        修改说明          JIRA编号
  * v1.0.0       2021/1/8       hanliangliang     新增              1001
  ********************************************************************/
-@RunWith(SpringRunner.class)
+//@RunWith(SpringRunner.class)
 @SpringBootTest(classes = DousnlUtilApplication.class)
 public class RedissonBloom {
 

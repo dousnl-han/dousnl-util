@@ -6,7 +6,6 @@ import lombok.Data;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.CollectionUtils;
 
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
@@ -27,7 +26,6 @@ public class User implements InitializingBean {
     private List list;
     private Boolean at=true;
     private Boolean own;
-    @NotNull
     private String uid;
     private Long num;
     private long longNum;

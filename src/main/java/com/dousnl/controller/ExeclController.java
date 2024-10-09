@@ -2,8 +2,7 @@ package com.dousnl.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.dousnl.domain.User;
-import com.dousnl.service.DusyService;
-import com.dousnl.service.ContstructService;
+//import com.dousnl.service.ContstructService;
 import com.dousnl.utils.enums.FileType;
 import com.dousnl.utils.execl.ExportUtils;
 import com.dousnl.utils.execl.ImportUtils;
@@ -11,7 +10,6 @@ import com.dousnl.utils.freemud.ExcelView;
 import com.dousnl.utils.response.Resp;
 import com.dousnl.vo.RankInfoFlowConfig;
 import com.google.common.collect.Lists;
-import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -25,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,21 +45,21 @@ public class ExeclController {
     @Value("${server.port}")
     private String port;
 
-    @Autowired
-    private ContstructService contstructService;
-    @Autowired
-    private DusyService busyService;
+//    @Autowired
+//    private ContstructService contstructService;
+//    @Autowired
+//    private DusyService busyService;
 
     @RequestMapping("/xp3")
     @ResponseBody
-    public String xp3(HttpServletRequest request,HttpServletResponse response) {
+    public String xp3(HttpServletRequest request, HttpServletResponse response) {
         return ">>>>>>"+port+"端口";
     }
 
     @RequestMapping("/xp22")
     public void xp1() throws Exception {
-        System.out.println(">>>>>>>>>>>>execl.contstructService.busyService>>>>>"+contstructService.getBusyService().toString());
-        System.out.println(">>>>>>>>>>>>execl.busyService>>>>>"+busyService.toString());
+//        System.out.println(">>>>>>>>>>>>execl.contstructService.busyService>>>>>"+contstructService.getBusyService().toString());
+//        System.out.println(">>>>>>>>>>>>execl.busyService>>>>>"+busyService.toString());
     }
 
     @RequestMapping("/xp")
