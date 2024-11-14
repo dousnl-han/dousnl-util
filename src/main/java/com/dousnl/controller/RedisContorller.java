@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.connection.BitFieldSubCommands;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.DefaultTypedTuple;
@@ -116,7 +117,6 @@ public class RedisContorller {
         }
 
         redisTemplate.opsForValue().set("user_id",new User(),2,TimeUnit.MINUTES);
-
 
 
         Object num = redisTemplate.opsForValue().get("num");
@@ -342,10 +342,13 @@ public class RedisContorller {
         privatePileData.setPile(privatePile);
         u.setPrivatePileData(privatePileData);
         list.add(u);
-        redisTemplate.opsForValue().set(cacheKey, list, 5, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set(cacheKey, list, 5, TimeUnit.HOURS);
 
         redisTemplate.opsForValue().set("openpage_cache_2", list);
         redisTemplate.expireAt("openpage_cache_2",DateUtil.addMillis(new Date(),10000));
+
+        List<User> users = (List<User>) redisTemplate.opsForValue().get(cacheKey);
+        System.out.println(users);
         return list;
     }
 
@@ -491,6 +494,12 @@ public class RedisContorller {
             final Integer integer = integers.get(i - 1);
             System.out.println(integer);
         }
+        String integers1="null";
+        integers1 = null;
+        if ("1".equals(integers1)){
+            System.out.println("1");
+        }
+        System.out.println(integers);
     }
 
     @PostMapping("/decrement")

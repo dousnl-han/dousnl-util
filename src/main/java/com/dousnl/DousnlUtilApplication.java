@@ -42,14 +42,14 @@ public class DousnlUtilApplication {
 
     public static void main(String[] args) {
 
-        if (args.length == 0) {
-            args = new String[] {"--server.port=8081"};
-        }
-        for (String arg : args){
-            System.out.println(arg);
-        }
-        final String property = System.getProperty("dubbo.config-center.address");
-        System.out.println(property);
+//        if (args.length == 0) {
+//            args = new String[] {"--server.port=8081"};
+//        }
+//        for (String arg : args){
+//            System.out.println(arg);
+//        }
+//        final String property = System.getProperty("dubbo.config-center.address");
+//        System.out.println(property);
         SpringApplication.run(DousnlUtilApplication.class, args);
     }
 

@@ -176,6 +176,10 @@ public class DateTest {
 
         System.out.println(DateUtil.dateToString(dateStartTime,"yyyy-MM-dd HH:mm:ss"));
         System.out.println(DateUtil.dateToString(dateEndTime,"yyyy-MM-dd HH:mm:ss"));
+
+
+        final Date date = DateTime.now().millisOfDay().withMaximumValue().toDate();
+        System.out.println(DateUtil.dateToString(date,"yyyy-MM-dd HH:mm:ss"));
     }
 
     private static void screenList(Boolean i) {

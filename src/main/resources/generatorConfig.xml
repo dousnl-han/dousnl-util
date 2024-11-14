@@ -16,9 +16,9 @@
     </plugin>
 
     <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                    connectionURL="jdbc:mysql://rds-d.dushu.io:3306/financial-business_prod-240823"
-                    userId="fddsh"
-                    password="iM7Gt8KX4yklBJIvFx">
+                    connectionURL="jdbc:mysql://localhost:3306/test3"
+                    userId="root"
+                    password="">
     </jdbcConnection>
 
     <javaModelGenerator targetPackage="com.dousnl.domain.entity" targetProject="target" />
@@ -27,7 +27,6 @@
 
     <javaClientGenerator targetPackage="com.dousnl.mapper" targetProject="target"  type="XMLMAPPER" />
 
-    <table tableName="t_issuing_receipt_detail_base_income_batch" domainObjectName="IssuingReceiptDetailBaseIncomeBatchDTO"></table>
-    <table tableName="t_issuing_receipt_detail_base_income_error" domainObjectName="IssuingReceiptDetailBaseIncomeErrorDTO"></table>
+    <table tableName="t_sparrow_backend_config" domainObjectName="SparrowBackendConfigDTO"></table>
   </context>
 </generatorConfiguration>
