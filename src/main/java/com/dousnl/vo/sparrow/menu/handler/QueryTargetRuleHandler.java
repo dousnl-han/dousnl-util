@@ -80,6 +80,7 @@ public class QueryTargetRuleHandler implements VariableHandler {
         if (queryConfig.isPagination()) {
             tableRuleDTO.setTablePage("pageDTO");
             outputType = 3;
+            tableRuleDTO.setTableTotalCount(2);
         }
         if (StringUtil.isNotEmpty(queryConfig.getSortField())) {
 
@@ -132,6 +133,7 @@ public class QueryTargetRuleHandler implements VariableHandler {
         if (queryConfig.isPagination()) {
             tableRuleDTO.setTablePage("pageDTO");
             outputType = 3;
+            tableRuleDTO.setTableTotalCount(2);
         }
         if (StringUtil.isNotEmpty(queryConfig.getSortField())) {
 
@@ -178,6 +180,6 @@ public class QueryTargetRuleHandler implements VariableHandler {
         private String tableField;
         private String tablePage;
         private String tableSort;
-        private Integer tableTotalCount = 2;
+        private Integer tableTotalCount;
     }
 }
