@@ -1,7 +1,6 @@
 package com.dousnl.utils.date;
 
 import com.google.common.collect.Lists;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
@@ -136,7 +135,6 @@ public class DateUtil {
     
     /**
      * 获取当年的第一天
-     * @param year
      * @return
      */
     public static Date getCurrYearFirst(){
@@ -445,6 +443,6 @@ public class DateUtil {
     }
 
     public static Date getCurrentDate() {
-        return (new DateTime()).toDate();
+        return new Date();
     }
 }

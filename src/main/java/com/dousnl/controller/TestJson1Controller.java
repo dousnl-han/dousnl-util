@@ -10,11 +10,11 @@ package com.dousnl.controller;
  * v1.0.0       2024/11/7       hll    新增              1001
  ********************************************************************/
 
-import com.dousnl.vo.sparrow.menu.ConfigFileReader;
 import com.dousnl.vo.sparrow.menu.controller.Test;
 import com.dousnl.vo.sparrow.menu.database.DatabaseMetaDataUtil;
 import com.dousnl.vo.sparrow.menu.dto.SparrowBackendConfigDTO;
 import com.dousnl.vo.sparrow.menu.mapper.SparrowBackendConfigMapper;
+import com.dousnl.vo.sparrow.menu.util.ConfigFileReader;
 import com.dousnl.vo.sparrow.menu.vo.ColumnVO;
 import com.dousnl.vo.sparrow.menu.vo.MenuConfig;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -64,7 +64,7 @@ public class OnlyOneCheckHandler implements VariableHandler {
             List<JSONObject> arrayList = Lists.newArrayList();
             for (String field : fields) {
                 String[] singleField = field.split(SparrowBackendConstant.SLASH_SEPARATOR);
-                if (singleField.length != 2) {
+                if (singleField.length != 2 && singleField.length != 3) {
                     throw new RuntimeException(field + "配置错误");
                 }
                 JSONObject jsonObject = new JSONObject();
@@ -73,15 +73,27 @@ public class OnlyOneCheckHandler implements VariableHandler {
                 if (StringUtil.isBlank(realTableField)) {
                     throw new IllegalArgumentException("字段:" + singleField[0] + "没有对应的数据库字段");
                 }
+                String rightTableField = realTableField;
+                String linker = singleField[1];
+                if (singleField.length == 3) {
+                    String rightTableFieldColumn = columnCommentMap.get(singleField[1]);
+                    if (StringUtil.isBlank(rightTableFieldColumn)) {
+                        rightTableField = singleField[1];
+                    } else {
+                        rightTableField = rightTableFieldColumn;
+                    }
+                    linker = singleField[2];
+                }
+
 
                 jsonObject.put("tableField", realTableField);
                 if (Objects.equals(sparrowBackendConfigDTO.getTemplateAlias(), TemplateAliasEnum.add.name())) {
-                    jsonObject.put("insertField", SnakeToCamelUtil.toCamelCase(realTableField));
+                    jsonObject.put("insertField", SnakeToCamelUtil.toCamelCase(rightTableField));
                 } else if (Objects.equals(sparrowBackendConfigDTO.getTemplateAlias(), TemplateAliasEnum.update.name())
                         || Objects.equals(sparrowBackendConfigDTO.getTemplateAlias(), TemplateAliasEnum.delete.name())) {
-                    jsonObject.put("updateField", SnakeToCamelUtil.toCamelCase(realTableField));
+                    jsonObject.put("updateField", SnakeToCamelUtil.toCamelCase(rightTableField));
                 }
-                jsonObject.put("linker", singleField[1]);
+                jsonObject.put("linker", linker);
                 arrayList.add(jsonObject);
             }
             onlyOneCheckDTO.setFields(arrayList);

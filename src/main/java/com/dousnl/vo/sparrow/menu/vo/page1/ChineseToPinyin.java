@@ -1,4 +1,4 @@
-package com.dousnl.vo.sparrow.menu.util;
+package com.dousnl.vo.sparrow.menu.vo.page1;
 
 /**
  * Description:
@@ -16,13 +16,16 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
 import org.apache.commons.lang3.StringUtils;
 
-public class ChineseToPinyinUtil {
+public class ChineseToPinyin {
     // 匹配中英文标点符号
     public static String regex = "[\\p{P}\\p{IsPunctuation}，。！？；：（）《》“”‘’]";
-    public static String toPinyin(String args) {
+    public static String pinYin(String args) {
         String toPinyin = convertToPinyin(args);
         if (!StringUtils.isBlank(toPinyin)){
             toPinyin = toPinyin.replaceAll(regex,"").replaceAll(" ","");
+            if (toPinyin.length() > 15){
+                toPinyin = toPinyin.substring(0,15);
+            }
         }
         return toPinyin;
     }
@@ -60,6 +63,11 @@ public class ChineseToPinyinUtil {
         return pinyinText.toString().trim();
     }
 
+    public static void main(String[] args) {
+        String chineseText = "你好，世界！";
+        String pinyin = pinYin(chineseText);
+        System.out.println("拼音转换结果: " + pinyin);
+    }
 
 }
 

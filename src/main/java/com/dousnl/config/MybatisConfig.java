@@ -14,5 +14,5 @@ import tk.mybatis.spring.annotation.MapperScan;
 @Configuration
 @MapperScan(basePackages="com.dousnl.**.mapper")
 @EnableTransactionManagement
-public class tkConfig {
+public class MybatisConfig {
 }

@@ -12,7 +12,7 @@ package com.dousnl.vo.sparrow.menu.util;
 public class SnakeToCamelUtil {
     public static String toCamelCase(String field) {
         // 将字段名转换为小写
-        field = field.toLowerCase();
+        //field = field.toLowerCase();
         field = field.replace(".", "_");
         // 使用正则表达式匹配下划线和下划线后的第一个字母，将其转换为大写字母
         StringBuilder camelCase = new StringBuilder();

@@ -54,17 +54,17 @@ public class QueryParamHandler implements VariableHandler {
         }
 
         Map<String, String> columnCommentMap = menuConfig.getColumnCommentMap();
-        if (queryConfig.getTable() != null &&  !Objects.equals(queryConfig.getTable(), menuConfig.getTable())) {
+        if (queryConfig.getTable() != null && !Objects.equals(queryConfig.getTable(), menuConfig.getTable())) {
             List<ColumnVO> coulumns = DatabaseMetaDataUtil.getCoulumns(queryConfig.getTable());
             columnCommentMap = coulumns.stream().collect(Collectors.toMap(ColumnVO::getComment, ColumnVO::getColumnName, (v1, v2) -> v1));
         }
 
         String[] conditionsArray = conditions.split(SparrowBackendConstant.COMMA_SEPARATOR);
 
-        List<TableQueryDTO> tableQueryDTOS =  Lists.newArrayList();
+        List<TableQueryDTO> tableQueryDTOS = Lists.newArrayList();
         for (String conditionName : conditionsArray) {
             String[] queryFields = conditionName.split(SparrowBackendConstant.SLASH_SEPARATOR);
-            if (queryFields.length != 2){
+            if (queryFields.length != 2 && queryFields.length != 3) {
                 throw new RuntimeException(queryFields + "配置错误");
             }
             String tableField = queryFields[0];
@@ -73,11 +73,21 @@ public class QueryParamHandler implements VariableHandler {
             if (StringUtil.isBlank(realTableField)) {
                 throw new IllegalArgumentException("字段:" + tableField + "没有对应的数据库字段");
             }
-
+            String rightTableField = realTableField;
             String linker = queryFields[1];
-            TableQueryDTO tableQueryDTO =  new TableQueryDTO();
+            if (queryFields.length == 3) {
+                String rightTableFieldColumn = columnCommentMap.get(queryFields[1]);
+                if (StringUtil.isBlank(rightTableFieldColumn)) {
+                    rightTableField = queryFields[1];
+                } else {
+                    rightTableField = rightTableFieldColumn;
+                }
+                linker = queryFields[2];
+            }
+
+            TableQueryDTO tableQueryDTO = new TableQueryDTO();
             tableQueryDTO.setTableField(realTableField);
-            tableQueryDTO.setQueryField(SnakeToCamelUtil.toCamelCase(realTableField));
+            tableQueryDTO.setQueryField(SnakeToCamelUtil.toCamelCase(rightTableField));
             tableQueryDTO.setLinker(linker);
             tableQueryDTOS.add(tableQueryDTO);
         }
@@ -103,10 +113,10 @@ public class QueryParamHandler implements VariableHandler {
 
         String[] conditionsArray = conditions.split(SparrowBackendConstant.COMMA_SEPARATOR);
 
-        List<TableQueryDTO> tableQueryDTOS =  Lists.newArrayList();
+        List<TableQueryDTO> tableQueryDTOS = Lists.newArrayList();
         for (String conditionName : conditionsArray) {
             String[] queryFields = conditionName.split(SparrowBackendConstant.SLASH_SEPARATOR);
-            if (queryFields.length != 2){
+            if (queryFields.length != 2) {
                 throw new RuntimeException(queryFields + "配置错误");
             }
             String tableField = queryFields[0];
@@ -114,7 +124,7 @@ public class QueryParamHandler implements VariableHandler {
             String realTableField = replaceColumnsWithComments(tableField, columnCommentMap);
 
             String linker = queryFields[1];
-            TableQueryDTO tableQueryDTO =  new TableQueryDTO();
+            TableQueryDTO tableQueryDTO = new TableQueryDTO();
             tableQueryDTO.setTableField(realTableField);
             tableQueryDTO.setQueryField(SnakeToCamelUtil.toCamelCase(realTableField));
             tableQueryDTO.setLinker(linker);
