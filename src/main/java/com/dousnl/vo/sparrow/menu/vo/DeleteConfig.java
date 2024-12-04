@@ -1,5 +1,7 @@
 package com.dousnl.vo.sparrow.menu.vo;
 
+import cn.hutool.core.bean.BeanUtil;
+import com.alibaba.fastjson.JSON;
 import lombok.Data;
 
 
@@ -21,4 +23,23 @@ public class DeleteConfig extends BackConfig {
     private String name;
 
     private String tableName;
+
+
+    public static void main(String[] args) {
+        DeleteConfig deleteConfig = new DeleteConfig();
+        deleteConfig.setName("id");
+        deleteConfig.setUpdateFields("id1");
+
+        System.out.println(JSON.toJSONString(deleteConfig));
+
+        Test anchorBasicImportBO = BeanUtil.copyProperties(deleteConfig, Test.class);
+
+        System.out.println(JSON.toJSONString(anchorBasicImportBO));
+    }
+}
+
+@Data
+class Test{
+    private String updateFields;
+    private String conditions;
 }

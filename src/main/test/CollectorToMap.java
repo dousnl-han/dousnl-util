@@ -3,6 +3,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -63,12 +64,34 @@ public class CollectorToMap {
         System.out.println(a);
         Integer pageSize=15;
         double size = Math.ceil((double) pageSize / 2);
+        Integer key = null;
         System.out.println(size);
         long ll=pageSize;
         int pa= (int) ll;
         System.out.println(ll);
         System.out.println(pa);
 
+        final ArrayList<String> list1 = Lists.newArrayList("speaker_1", "speaker_2");
+        List<Integer> speakerIds = list1.stream().map(s -> Integer.valueOf(s.replaceAll("speaker_", "")))
+                .collect(Collectors.toList());
+        System.out.println(speakerIds);
+
+
+    }
+
+    public static Integer processList(List<Object> data) {
+        int listSize = data.size();
+        int threadCount;
+
+        // 动态设置线程数
+        if (listSize < 100) {
+            threadCount = 0;
+        } else if (listSize < 1000) {
+            threadCount = listSize / 10;
+        } else {
+            threadCount = listSize / 100;
+        }
+        return threadCount;
     }
 
     private static Date getDate() {

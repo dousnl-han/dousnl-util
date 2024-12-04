@@ -11,7 +11,7 @@ import com.dousnl.vo.sparrow.menu.vo.ColumnVO;
 import com.dousnl.vo.sparrow.menu.vo.DeleteConfig;
 import com.dousnl.vo.sparrow.menu.vo.MenuConfig;
 import com.dousnl.vo.sparrow.menu.vo.UpdateConfig;
-import com.dousnl.vo.sparrow.page1.BackendVariablesVO;
+import com.dousnl.vo.sparrow.menu.vo.BackendVariablesVO;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.Data;

@@ -1,9 +1,9 @@
 package com.dousnl.vo.sparrow.menu.handler;
 
 import com.dousnl.vo.sparrow.menu.vo.BackConfig;
+import com.dousnl.vo.sparrow.menu.vo.BackendVariablesVO;
 import com.dousnl.vo.sparrow.menu.vo.MenuConfig;
 import com.dousnl.vo.sparrow.menu.dto.SparrowBackendConfigDTO;
-import com.dousnl.vo.sparrow.page1.BackendVariablesVO;
 
 /**
  * Description:

@@ -13,7 +13,7 @@ import com.dousnl.vo.sparrow.menu.vo.BackConfig;
 import com.dousnl.vo.sparrow.menu.vo.ColumnVO;
 import com.dousnl.vo.sparrow.menu.vo.MenuConfig;
 import com.dousnl.vo.sparrow.menu.vo.QueryConfig;
-import com.dousnl.vo.sparrow.page1.BackendVariablesVO;
+import com.dousnl.vo.sparrow.menu.vo.BackendVariablesVO;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 

@@ -158,6 +158,7 @@ public class AnnontionTypeTest {
         System.out.println(collect);
         final List<Integer> collect1 = list1.parallelStream().filter(e -> e > 1).collect(Collectors.toList());
         System.out.println(collect1);
+
     }
 
 

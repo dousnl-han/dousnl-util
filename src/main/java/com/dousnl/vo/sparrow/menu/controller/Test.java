@@ -11,10 +11,10 @@ import com.dousnl.vo.sparrow.menu.dto.SparrowBackendConfigDTO;
 import com.dousnl.vo.sparrow.menu.util.ChineseToPinyinUtil;
 import com.dousnl.vo.sparrow.menu.vo.QueryConfig;
 import com.dousnl.vo.sparrow.menu.vo.UpdateConfig;
-import com.dousnl.vo.sparrow.page1.BackendEndpointVO;
-import com.dousnl.vo.sparrow.page1.BackendVO;
-import com.dousnl.vo.sparrow.page1.BackendVariablesVO;
-import com.dousnl.vo.sparrow.page1.SparrowVO;
+import com.dousnl.vo.sparrow.menu.vo.BackendEndpointVO;
+import com.dousnl.vo.sparrow.menu.vo.BackendVO;
+import com.dousnl.vo.sparrow.menu.vo.BackendVariablesVO;
+import com.dousnl.vo.sparrow.menu.vo.SparrowVO;
 import com.google.common.collect.Lists;
 
 import java.util.HashMap;
@@ -120,7 +120,8 @@ public class Test {
             endpointVO.setMethod("POST");
             endpointVO.setPath(TEMPLATE_CODE_PREFIX + "/" + backendVO.getTemplateAlias() + "/" + DateUtil.dateToString(DateUtil.getCurrentDate(),
                     "yyyyMMddHH"));
-            endpointVO.setName(insertConfig.getName());
+            endpointVO.setName(insertConfig.getName() + DateUtil.dateToString(DateUtil.getCurrentDate(),
+                    "yyyyMMddHH"));
             endpointVO.setAppId("10000324");
             backendVO.setEndpoint(endpointVO);
             List<BackendVariablesVO> variablesVOS = Lists.newArrayList();
@@ -152,7 +153,8 @@ public class Test {
             endpointVO.setMethod("POST");
             endpointVO.setPath(TEMPLATE_CODE_PREFIX + "/" + backendVO.getTemplateAlias() + "/" + DateUtil.dateToString(DateUtil.getCurrentDate(),
                     "yyyyMMddHH"));
-            endpointVO.setName(insertConfig.getName());
+            endpointVO.setName(insertConfig.getName() + DateUtil.dateToString(DateUtil.getCurrentDate(),
+                    "yyyyMMddHH"));
             endpointVO.setAppId("10000324");
             backendVO.setEndpoint(endpointVO);
             List<BackendVariablesVO> variablesVOS = Lists.newArrayList();
@@ -185,7 +187,8 @@ public class Test {
             endpointVO.setPath(TEMPLATE_CODE_PREFIX + "/" + backendVO.getTemplateAlias()
                     + "/" + DateUtil.dateToString(DateUtil.getCurrentDate(),
                     "yyyyMMddHH"));
-            endpointVO.setName(insertConfig.getName());
+            endpointVO.setName(insertConfig.getName() + DateUtil.dateToString(DateUtil.getCurrentDate(),
+                    "yyyyMMddHH"));
             endpointVO.setAppId("10000324");
             backendVO.setEndpoint(endpointVO);
             List<BackendVariablesVO> variablesVOS = Lists.newArrayList();
@@ -217,7 +220,8 @@ public class Test {
             endpointVO.setMethod("POST");
             endpointVO.setPath(TEMPLATE_CODE_PREFIX + "/" + backendVO.getTemplateAlias()
                     + "/" + DateUtil.dateToString(DateUtil.getCurrentDate(), "yyyyMMddHH"));
-            endpointVO.setName(insertConfig.getName());
+            endpointVO.setName(insertConfig.getName() + DateUtil.dateToString(DateUtil.getCurrentDate(),
+                    "yyyyMMddHH"));
             endpointVO.setAppId("10000324");
             backendVO.setEndpoint(endpointVO);
             List<BackendVariablesVO> variablesVOS = Lists.newArrayList();

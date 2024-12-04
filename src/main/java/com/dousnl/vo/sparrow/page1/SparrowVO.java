@@ -1,5 +1,6 @@
 package com.dousnl.vo.sparrow.page1;
 
+import com.dousnl.vo.sparrow.menu.vo.BackendVO;
 import lombok.Data;
 
 import java.util.List;
@@ -20,5 +21,5 @@ public class SparrowVO {
 
     private List<BackendVO> backend;
 
-    private FrontendVO frontend;
+    //private FrontendVO frontend;
 }

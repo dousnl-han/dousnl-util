@@ -12,7 +12,7 @@ import com.dousnl.vo.sparrow.menu.vo.DeleteConfig;
 import com.dousnl.vo.sparrow.menu.vo.InsertConfig;
 import com.dousnl.vo.sparrow.menu.vo.MenuConfig;
 import com.dousnl.vo.sparrow.menu.vo.UpdateConfig;
-import com.dousnl.vo.sparrow.page1.BackendVariablesVO;
+import com.dousnl.vo.sparrow.menu.vo.BackendVariablesVO;
 import com.google.common.collect.Lists;
 import lombok.Data;
 import org.springframework.stereotype.Component;

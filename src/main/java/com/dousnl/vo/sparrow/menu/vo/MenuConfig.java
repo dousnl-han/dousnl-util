@@ -28,6 +28,10 @@ public class MenuConfig {
     private List<DeleteConfig> deleteConfigs = new ArrayList<>();
     private List<QueryConfig> queryConfigs = new ArrayList<>();
 
+    private List<CreateTableConfig> createTables = new ArrayList<>();
+
+    private List<InsertTableColumnsConfig> insertTableColumns = new ArrayList<>();
+
     private List<ColumnVO> coulumns;
 
     private Map<String, String> columnCommentMap = new HashMap<>();

@@ -11,8 +11,10 @@ package com.dousnl.vo.sparrow.menu.util;
  ********************************************************************/
 
 import cn.hutool.core.io.FileUtil;
+import com.dousnl.vo.sparrow.menu.vo.CreateTableConfig;
 import com.dousnl.vo.sparrow.menu.vo.DeleteConfig;
 import com.dousnl.vo.sparrow.menu.vo.InsertConfig;
+import com.dousnl.vo.sparrow.menu.vo.InsertTableColumnsConfig;
 import com.dousnl.vo.sparrow.menu.vo.MenuConfig;
 import com.dousnl.vo.sparrow.menu.vo.QueryConfig;
 import com.dousnl.vo.sparrow.menu.vo.UpdateConfig;
@@ -54,6 +56,8 @@ public class ConfigFileReader {
                 } else if (line.startsWith("表=")) {
                     config.setTable(line.split("=")[1]);
                 } else if (line.startsWith("表字段=")) {
+                    config.setTableFields(parseList(line.split("=")[1]));
+                } else if (line.startsWith("新建表=")) {
                     config.setTableFields(parseList(line.split("=")[1]));
                 }
                 // 解析带索引的配置
@@ -108,7 +112,29 @@ public class ConfigFileReader {
             case "查询":
                 handleQueryConfig(config, index, configField, line);
                 break;
+            case "新建表":
+                handleCreateTableConfig(config, index, configField, line);
+                break;
+            case "新增字段":
+                handleInsertTableColumnConfig(config, index, configField, line);
+                break;
         }
+    }
+
+    private void handleInsertTableColumnConfig(MenuConfig config, int index, String field, String line) {
+        ensureConfigSize(config, config.getInsertTableColumns(), index);
+        InsertTableColumnsConfig insertTableColumnsConfig =  config.getInsertTableColumns().get(index);
+        String[] split = field.split("=");
+        insertTableColumnsConfig.setTableName(split[0]);
+        insertTableColumnsConfig.setColumnField(split[1]);
+    }
+
+    private void handleCreateTableConfig(MenuConfig config, int index, String field, String line) {
+        ensureConfigSize(config, config.getCreateTables(), index);
+        CreateTableConfig createTableConfig =  config.getCreateTables().get(index);
+        String[] split = field.split("=");
+        createTableConfig.setTableName(split[0]);
+        createTableConfig.setTableField(split[1]);
     }
 
     private void handleInsertConfig(MenuConfig config, int index, String field, String line) {
@@ -222,6 +248,9 @@ public class ConfigFileReader {
                 break;
             case "多表连接查询数据表":
                 queryConfig.setMultiTables(value);
+                break;
+            case "rpc方法调用":
+                queryConfig.addRpcList(value);
                 break;
         }
     }

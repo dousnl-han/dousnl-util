@@ -1,7 +1,7 @@
 package com.dousnl.vo.sparrow.menu.vo;
 
-import com.dousnl.vo.sparrow.page1.BackendEndpointVO;
-import com.dousnl.vo.sparrow.page1.BackendVariablesVO;
+import com.dousnl.vo.sparrow.menu.vo.BackendEndpointVO;
+import com.dousnl.vo.sparrow.menu.vo.BackendVariablesVO;
 import lombok.Data;
 
 import java.util.List;

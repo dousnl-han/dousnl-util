@@ -10,7 +10,7 @@ import com.dousnl.vo.sparrow.menu.enums.RuleTypeEnum;
 import com.dousnl.vo.sparrow.menu.enums.ValueTypeEnum;
 import com.dousnl.vo.sparrow.menu.vo.BackConfig;
 import com.dousnl.vo.sparrow.menu.vo.MenuConfig;
-import com.dousnl.vo.sparrow.page1.BackendVariablesVO;
+import com.dousnl.vo.sparrow.menu.vo.BackendVariablesVO;
 import com.google.common.collect.Lists;
 import lombok.Data;
 import org.apache.commons.lang3.math.NumberUtils;
