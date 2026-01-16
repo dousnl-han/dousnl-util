@@ -19,6 +19,7 @@ public class YamlListParser {
 
     public static void main(String[] args) {
         Yaml yaml = new Yaml();
+        System.out.println("测试v2提交");
         try (InputStream inputStream = new FileInputStream("E:\\my-workspace\\dousnl-util\\src\\main\\java\\com\\dousnl\\yaml\\格式.yaml")) {
             // 解析为 Map
             Map<String, Object> config = yaml.load(inputStream);
